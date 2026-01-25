@@ -24,6 +24,7 @@ class Setting extends Model
         'menu_text_color',
         'footer_text_color',
         'page_bg_color',
+        'page_bg_color_dark',
         'header_gradient_start',
         'header_gradient_end',
         'header_gradient_direction',

@@ -6,7 +6,20 @@
     <title>{{ $title ?? 'Bowls Club' }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="text-gray-900 font-sans antialiased dark:text-gray-100" style="background-color: {{ $settings?->page_bg_color ?? '#f9fafb' }}" x-data="{ mobileMenuOpen: false }">
+<body class="text-gray-900 font-sans antialiased dark:text-gray-100"
+      style="
+        --page-bg: {{ $settings?->page_bg_color ?? '#f9fafb' }};
+        --page-bg-dark: {{ $settings?->page_bg_color_dark ?? '#111827' }};
+        background-color: var(--page-bg);
+      "
+      x-data="{ mobileMenuOpen: false }">
+    <style>
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: var(--page-bg-dark) !important;
+            }
+        }
+    </style>
     <header class="sticky top-0 z-50 shadow-sm border-b border-gray-200 dark:border-gray-700"
             style="
                 @if($settings?->header_gradient_start && $settings?->header_gradient_end)

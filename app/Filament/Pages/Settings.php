@@ -104,7 +104,9 @@ class Settings extends Page implements HasForms
                     ->schema([
                         ColorPicker::make('page_bg_color')
                             ->label('Page Background Color'),
-                    ]),
+                        ColorPicker::make('page_bg_color_dark')
+                            ->label('Page Background Color (Dark Mode)'),
+                    ])->columns(2),
             ])
             ->statePath('data');
     }
