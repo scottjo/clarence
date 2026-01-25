@@ -13,6 +13,7 @@ class IntroBlock extends Model
     protected $fillable = [
         'page_identifier',
         'content',
+        'font_color',
         'left_image',
         'right_image',
         'is_active',

@@ -11,7 +11,7 @@
                 @endif
 
                 <div class="flex-1">
-                    <div class="intro-block-content dark:text-gray-100">
+                    <div class="intro-block-content dark:text-gray-100" @if($intro->font_color) style="color: {{ $intro->font_color }};" @endif>
                         {!! $intro->content !!}
                     </div>
                 </div>

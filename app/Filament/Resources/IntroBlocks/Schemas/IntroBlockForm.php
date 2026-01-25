@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\IntroBlocks\Schemas;
 
+use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
@@ -46,6 +47,9 @@ class IntroBlockForm
                         RichEditor::make('content')
                             ->required()
                             ->columnSpanFull(),
+                        ColorPicker::make('font_color')
+                            ->label('Font Colour')
+                            ->helperText('Select a custom colour for the text. If left empty, the default will be used.'),
                     ])
                     ->columnSpanFull(),
 
