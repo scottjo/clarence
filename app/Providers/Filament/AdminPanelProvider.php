@@ -27,7 +27,7 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('admin')
-            ->path('admin')
+            ->path(config('filament.admin_path', 'admin'))
             ->brandName('Clarence Bowling Club')
             ->login()
             ->colors([

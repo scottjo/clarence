@@ -22,11 +22,20 @@ class HealthCheckTest extends TestCase
 
     public function test_health_page_is_accessible_to_admin(): void
     {
-        $user = User::factory()->create();
+        $user = User::factory()->create(['is_admin' => true]);
 
         $this->actingAs($user)
             ->get('/admin/health-check-results')
             ->assertStatus(200);
+    }
+
+    public function test_health_page_is_denied_to_non_admin(): void
+    {
+        $user = User::factory()->create(['is_admin' => false]);
+
+        $this->actingAs($user)
+            ->get('/admin/health-check-results')
+            ->assertStatus(403);
     }
 
     public function test_health_page_is_protected(): void
