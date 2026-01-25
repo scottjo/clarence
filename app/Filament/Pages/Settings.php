@@ -1,0 +1,132 @@
+<?php
+
+namespace App\Filament\Pages;
+
+use App\Enums\GradientDirection;
+use App\Models\Setting;
+use BackedEnum;
+use Filament\Actions\Action;
+use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Notifications\Notification;
+use Filament\Pages\Page;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
+
+class Settings extends Page implements HasForms
+{
+    use InteractsWithForms;
+
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCog6Tooth;
+
+    protected string $view = 'filament.pages.settings';
+
+    public ?array $data = [];
+
+    public function mount(): void
+    {
+        $settings = Setting::first();
+
+        if ($settings) {
+            $this->form->fill($settings->toArray());
+        }
+    }
+
+    public function form(Schema $schema): Schema
+    {
+        return $schema
+            ->components([
+                Section::make('Club Information')
+                    ->schema([
+                        TextInput::make('club_name')
+                            ->required(),
+                        Textarea::make('address')
+                            ->rows(3),
+                        TextInput::make('phone')
+                            ->tel(),
+                        TextInput::make('email')
+                            ->email(),
+                    ])->columns(2),
+
+                Section::make('Header Appearance')
+                    ->schema([
+                        FileUpload::make('header_logo')
+                            ->image()
+                            ->directory('logos')
+                            ->helperText('The logo displayed in the top navigation bar.'),
+                        ColorPicker::make('menu_color')
+                            ->label('Background Color')
+                            ->helperText('Used if no gradient is set.'),
+                        ColorPicker::make('menu_text_color')
+                            ->label('Text Color'),
+                        ColorPicker::make('header_gradient_start')
+                            ->label('Gradient Start'),
+                        ColorPicker::make('header_gradient_end')
+                            ->label('Gradient End'),
+                        Select::make('header_gradient_direction')
+                            ->label('Gradient Direction')
+                            ->options(GradientDirection::class)
+                            ->default(GradientDirection::LeftToRight),
+                    ])->columns(3),
+
+                Section::make('Footer Appearance')
+                    ->schema([
+                        FileUpload::make('footer_logo_left')
+                            ->image()
+                            ->directory('logos')
+                            ->helperText('Optional logo for the left side of the footer.'),
+                        FileUpload::make('footer_logo_right')
+                            ->image()
+                            ->directory('logos')
+                            ->helperText('Optional logo for the right side of the footer.'),
+                        ColorPicker::make('footer_color')
+                            ->label('Background Color')
+                            ->helperText('Used if no gradient is set.'),
+                        ColorPicker::make('footer_text_color')
+                            ->label('Text Color'),
+                        ColorPicker::make('footer_gradient_start')
+                            ->label('Gradient Start'),
+                        ColorPicker::make('footer_gradient_end')
+                            ->label('Gradient End'),
+                        Select::make('footer_gradient_direction')
+                            ->label('Gradient Direction')
+                            ->options(GradientDirection::class)
+                            ->default(GradientDirection::LeftToRight),
+                    ])->columns(3),
+
+                Section::make('General Appearance')
+                    ->schema([
+                        ColorPicker::make('page_bg_color')
+                            ->label('Page Background Color'),
+                    ]),
+            ])
+            ->statePath('data');
+    }
+
+    protected function getFormActions(): array
+    {
+        return [
+            Action::make('save')
+                ->label(__('filament-panels::resources/pages/edit-record.form.actions.save.label'))
+                ->submit('save'),
+        ];
+    }
+
+    public function save(): void
+    {
+        $data = $this->form->getState();
+
+        Setting::first()->update($data);
+
+        Notification::make()
+            ->title('Settings saved successfully.')
+            ->success()
+            ->send();
+    }
+}

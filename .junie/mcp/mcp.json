@@ -1,0 +1,20 @@
+{
+    "mcpServers": {
+        "laravel-boost": {
+            "command": "/Users/jon/Library/Application Support/Herd/bin/php84",
+            "args": [
+                "/Users/jon/Herd/clarence/artisan",
+                "boost:mcp"
+            ]
+        },
+        "herd": {
+            "command": "/Users/jon/Library/Application Support/Herd/bin/php84",
+            "args": [
+                "/Applications/Herd.app/Contents/Resources/herd-mcp.phar"
+            ],
+            "env": {
+                "SITE_PATH": "/Users/jon/Herd/clarence"
+            }
+        }
+    }
+}
