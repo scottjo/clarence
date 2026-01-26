@@ -5,23 +5,19 @@
             <h2 class="text-2xl font-bold mb-4">Join Clarence Bowls Club</h2>
             <p class="text-lg mb-6">We welcome new members of all ages and abilities, whether you're an experienced bowler or a complete beginner.</p>
 
-            <h3 class="text-xl font-bold mb-4">Membership Types (2026 Season)</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div class="border dark:border-gray-700 rounded-lg p-6 text-center">
-                    <h4 class="font-bold text-xl mb-2">Full Member</h4>
-                    <p class="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-4">£120</p>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">Unlimited use of the green and entry to all club competitions.</p>
-                </div>
-                <div class="border dark:border-gray-700 rounded-lg p-6 text-center">
-                    <h4 class="font-bold text-xl mb-2">Junior Member</h4>
-                    <p class="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-4">£30</p>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">For those under 18 years of age. Includes coaching and games.</p>
-                </div>
-                <div class="border dark:border-gray-700 rounded-lg p-6 text-center">
-                    <h4 class="font-bold text-xl mb-2">Social Member</h4>
-                    <p class="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-4">£20</p>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">Enjoy use of the clubhouse and social events, without bowling rights.</p>
-                </div>
+            <h3 class="text-xl font-bold mb-4">Membership Types ({{ date('Y') }} Season)</h3>
+            <div @class([
+                'grid gap-6 mb-8',
+                'grid-cols-1 md:grid-cols-3' => $levels->count() <= 3,
+                'grid-cols-1 md:grid-cols-2 lg:grid-cols-4' => $levels->count() >= 4,
+            ])>
+                @foreach($levels as $level)
+                    <div class="border dark:border-gray-700 rounded-lg p-6 text-center" wire:key="membership-level-{{ $level->id }}">
+                        <h4 class="font-bold text-xl mb-2">{{ $level->name }}</h4>
+                        <p class="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-4">£{{ number_format($level->cost, 0) }}</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">{{ $level->benefits }}</p>
+                    </div>
+                @endforeach
             </div>
 
             <div class="bg-gray-50 dark:bg-gray-900/50 p-6 rounded-lg">

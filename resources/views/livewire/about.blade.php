@@ -4,7 +4,7 @@
 
         <div class="prose prose-lg dark:prose-invert mx-auto">
             <p class="text-xl text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
-                Founded in [Year], Clarence Bowls Club has been a cornerstone of our local community for decades.
+                Founded in 1907, Clarence Bowls Club has been a cornerstone of our local community for decades.
                 Our club is more than just a place to play bowls; it's a vibrant hub for social interaction,
                 personal growth, and healthy competition.
             </p>
@@ -27,7 +27,7 @@
                 <h3 class="text-xl font-bold mb-2">Want to join us?</h3>
                 <p>
                     We're always looking for new members! Whether you're a pro or have never held a bowl
-                    in your life, you'll find a warm welcome at Clarence.
+                    in your life, you'll find a warm welcome at Clarence Bowls Club.
                 </p>
                 <div class="mt-4">
                     <a href="{{ route('contact') }}" class="text-blue-600 font-bold hover:underline">Contact us today to find out more &rarr;</a>
@@ -37,9 +37,15 @@
             <h2 class="text-2xl font-bold mt-12 mb-4">Location</h2>
             <p>
                 You can find us at: <br>
-                [Full Address Here] <br>
-                [City, Postcode]
             </p>
+            @if($settings?->address)
+                <p class="whitespace-pre-line">{{ $settings->address }}</p>
+            @else
+                <p>Clarence Park</p>
+                <p>Clarence Road South</p>
+                <p>Weston Super Mare</p>
+                <p>BS23 4BN</p>
+            @endif
         </div>
     </div>
 </div>
