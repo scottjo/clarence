@@ -38,7 +38,8 @@ class OfficerForm
                             ->image()
                             ->directory('officers')
                             ->avatar()
-                            ->imageEditor(),
+                            ->imageEditor()
+                            ->circleCropper(),
                     ]),
             ]);
     }
