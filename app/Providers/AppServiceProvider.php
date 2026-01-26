@@ -39,7 +39,6 @@ class AppServiceProvider extends ServiceProvider
             DatabaseCheck::new(),
             UsedDiskSpaceCheck::new(),
             CacheCheck::new(),
-            DatabaseCheck::new(),
             DatabaseConnectionCountCheck::new()
                 ->failWhenMoreConnectionsThan(100),
             DatabaseSizeCheck::new()
