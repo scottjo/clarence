@@ -33,6 +33,9 @@ class Setting extends Model
         'footer_gradient_start',
         'footer_gradient_end',
         'footer_gradient_direction',
+        'pinstripe_color',
+        'pinstripe_width',
+        'pinstripe_style',
     ];
 
     protected function casts(): array

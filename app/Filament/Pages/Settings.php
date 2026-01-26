@@ -117,6 +117,27 @@ class Settings extends Page implements HasForms
                         ColorPicker::make('page_bg_color_dark')
                             ->label('Page Background Color (Dark Mode)'),
                     ])->columns(2),
+
+                Section::make('Pinstripe Appearance')
+                    ->schema([
+                        ColorPicker::make('pinstripe_color')
+                            ->label('Color'),
+                        Select::make('pinstripe_width')
+                            ->label('Width')
+                            ->options([
+                                'thin' => 'Thin',
+                                'medium' => 'Medium',
+                                'thick' => 'Thick',
+                            ])
+                            ->default('medium'),
+                        Select::make('pinstripe_style')
+                            ->label('Style')
+                            ->options([
+                                'single' => 'Single Line',
+                                'double' => 'Two Thin Lines',
+                            ])
+                            ->default('single'),
+                    ])->columns(3),
             ])
             ->statePath('data');
     }

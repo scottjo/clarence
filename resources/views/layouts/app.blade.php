@@ -202,6 +202,20 @@
                 </div>
             </div>
         </nav>
+        @if($settings?->pinstripe_color)
+            <div class="w-full"
+                 style="
+                    background-color: {{ $settings->pinstripe_color }};
+                    height: {{ match($settings->pinstripe_width) { 'thin' => '1px', 'thick' => '4px', default => '2px' } }};
+                    @if($settings->pinstripe_style === 'double')
+                        border-bottom: 1px solid {{ $settings->pinstripe_color }};
+                        padding-bottom: 2px;
+                        background-clip: content-box;
+                        height: 5px;
+                    @endif
+                 ">
+            </div>
+        @endif
     </header>
 
     <main>
@@ -215,15 +229,34 @@
         {{ $slot }}
     </main>
 
-    <footer class="border-t border-gray-200 dark:border-gray-700 mt-12 py-12"
+    <footer class="mt-12 py-12 relative"
             style="
                 @if($settings?->footer_gradient_start && $settings?->footer_gradient_end)
                     background: linear-gradient({{ $settings->footer_gradient_direction ?? 'to right' }}, {{ $settings->footer_gradient_start }}, {{ $settings->footer_gradient_end }});
                 @else
                     background-color: {{ $settings?->footer_color ?? '#ffffff' }};
                 @endif
-                color: {{ $settings?->footer_text_color ?? 'inherit' }}
+                color: {{ $settings?->footer_text_color ?? 'inherit' }};
+                @if($settings?->pinstripe_color)
+                    border-top: 1px solid {{ $settings->pinstripe_color }};
+                @else
+                    border-top: 1px solid rgb(229 231 235);
+                @endif
             ">
+        @if($settings?->pinstripe_color)
+            <div class="absolute top-0 left-0 w-full"
+                 style="
+                    background-color: {{ $settings->pinstripe_color }};
+                    height: {{ match($settings->pinstripe_width) { 'thin' => '1px', 'thick' => '4px', default => '2px' } }};
+                    @if($settings->pinstripe_style === 'double')
+                        border-top: 1px solid {{ $settings->pinstripe_color }};
+                        padding-top: 2px;
+                        background-clip: content-box;
+                        height: 5px;
+                    @endif
+                 ">
+            </div>
+        @endif
         <div class="container mx-auto px-4">
             <div class="grid md:grid-cols-3 items-center gap-8 mb-8">
                 <div class="flex justify-center md:justify-start h-24">
@@ -246,7 +279,14 @@
                     @endif
                 </div>
             </div>
-            <div class="text-center pt-8 border-t border-gray-100 dark:border-gray-700">
+            <div class="text-center pt-8 border-t"
+                 style="
+                    @if($settings?->pinstripe_color)
+                        border-color: {{ $settings->pinstripe_color }};
+                    @else
+                        border-color: rgb(243 244 246);
+                    @endif
+                 ">
                 <p class="text-sm opacity-75">&copy; {{ date('Y') }} {{ $settings?->club_name ?? 'Clarence Bowls Club' }}. All rights reserved.</p>
             </div>
         </div>
