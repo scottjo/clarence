@@ -33,7 +33,8 @@ class SocialMediaLinkForm
                             ->label('Active')
                             ->default(true)
                             ->required(),
-                    ])->columns(2),
+                    ])
+                    ->columnSpanFull(),
             ]);
     }
 }
