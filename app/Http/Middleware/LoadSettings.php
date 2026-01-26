@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Models\Hero;
 use App\Models\IntroBlock;
 use App\Models\Setting;
+use App\Models\SocialMediaLink;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +23,11 @@ class LoadSettings
     {
         $settings = Setting::first();
         View::share('settings', $settings);
+
+        $socialLinks = SocialMediaLink::where('is_active', true)
+            ->orderBy('sort_order')
+            ->get();
+        View::share('socialLinks', $socialLinks);
 
         $routeName = $request->route() ? $request->route()->getName() : Route::currentRouteName();
 

@@ -279,6 +279,23 @@
                     @endif
                 </div>
             </div>
+
+            @if(isset($socialLinks) && $socialLinks->count() > 0)
+                <div class="flex justify-center gap-6 mb-8">
+                    @foreach($socialLinks as $link)
+                        <a href="{{ $link->url }}" target="_blank" rel="noopener noreferrer" class="hover:opacity-75 transition-opacity" title="{{ $link->platform }}">
+                            @if(str_contains($link->icon, '<svg'))
+                                <div class="w-6 h-6 fill-current">
+                                    {!! $link->icon !!}
+                                </div>
+                            @else
+                                <x-icon name="{{ $link->icon }}" class="w-6 h-6" />
+                            @endif
+                        </a>
+                    @endforeach
+                </div>
+            @endif
+
             <div class="text-center pt-8 border-t"
                  style="
                     @if($settings?->pinstripe_color)
