@@ -50,14 +50,29 @@
             <div class="space-y-12">
                 <section>
                     <h2 class="text-2xl font-bold mb-6">Our Location</h2>
-                    <div class="bg-gray-100 dark:bg-gray-800 h-64 rounded-3xl mb-4 flex items-center justify-center text-gray-400">
-                        <span class="font-bold uppercase tracking-widest">[ Map Placeholder ]</span>
+                    <div class="aspect-video bg-gray-100 dark:bg-gray-800 rounded-3xl mb-4 overflow-hidden shadow-inner flex items-center justify-center text-gray-400">
+                        @if($settings?->latitude && $settings?->longitude)
+                            <iframe
+                                width="100%"
+                                height="100%"
+                                src="https://www.openstreetmap.org/export/embed.html?bbox={{ $settings->longitude - 0.005 }}%2C{{ $settings->latitude - 0.002 }}%2C{{ $settings->longitude + 0.005 }}%2C{{ $settings->latitude + 0.002 }}&amp;layer=mapnik&amp;marker={{ $settings->latitude }}%2C{{ $settings->longitude }}"
+                                style="border: 0"
+                            ></iframe>
+                        @else
+                            <span class="font-bold uppercase tracking-widest">[ Map Placeholder ]</span>
+                        @endif
                     </div>
-                    <p class="text-gray-600 dark:text-gray-400">
-                        Clarence Bowls Club <br>
-                        [Full Address Here] <br>
-                        [City, Postcode]
-                    </p>
+                    <div class="text-gray-600 dark:text-gray-400">
+                        <p class="font-bold">{{ $settings?->club_name ?? 'Clarence Bowls Club' }}</p>
+                        @if($settings?->address)
+                            <p class="whitespace-pre-line">{{ $settings->address }}</p>
+                        @else
+                            <p>Clarence Park</p>
+                            <p>Clarence Road South</p>
+                            <p>Weston Super Mare</p>
+                            <p>BS23 4BN</p>
+                        @endif
+                    </div>
                 </section>
 
                 <section>
@@ -67,13 +82,13 @@
                             <div class="text-blue-600">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                             </div>
-                            <span class="font-bold">info@clarencebowls.com</span>
+                            <span class="font-bold">{{ $settings?->email ?? 'info@clarencebowls.com' }}</span>
                         </div>
                         <div class="flex items-center gap-4">
                             <div class="text-blue-600">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                             </div>
-                            <span class="font-bold">+44 (0) 1234 567890</span>
+                            <span class="font-bold">{{ $settings?->phone ?? '+44 (0) 1234 567890' }}</span>
                         </div>
                     </div>
                 </section>
