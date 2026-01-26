@@ -14,6 +14,8 @@ class Setting extends Model
     protected $fillable = [
         'club_name',
         'address',
+        'latitude',
+        'longitude',
         'phone',
         'email',
         'header_logo',

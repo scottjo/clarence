@@ -54,6 +54,16 @@ class Settings extends Page implements HasForms
                             ->email(),
                     ])->columns(2),
 
+                Section::make('Map Location')
+                    ->schema([
+                        TextInput::make('latitude')
+                            ->numeric()
+                            ->step(0.00000001),
+                        TextInput::make('longitude')
+                            ->numeric()
+                            ->step(0.00000001),
+                    ])->columns(2),
+
                 Section::make('Header Appearance')
                     ->schema([
                         FileUpload::make('header_logo')
