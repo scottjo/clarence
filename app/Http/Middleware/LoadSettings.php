@@ -21,34 +21,47 @@ class LoadSettings
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $settings = Setting::first();
-        View::share('settings', $settings);
-
-        $socialLinks = SocialMediaLink::where('is_active', true)
-            ->orderBy('sort_order')
-            ->get();
-        View::share('socialLinks', $socialLinks);
-
-        $routeName = $request->route() ? $request->route()->getName() : Route::currentRouteName();
-
-        if (! $routeName && ($request->is('/') || $request->path() === '/')) {
-            $routeName = 'home';
+        try {
+            $settings = Setting::first();
+            View::share('settings', $settings);
+        } catch (\Exception $e) {
+            View::share('settings', null);
         }
 
-        if ($routeName) {
-            $hero = Hero::where('page_identifier', $routeName)->first();
-            View::share('hero', $hero);
+        try {
+            $socialLinks = SocialMediaLink::where('is_active', true)
+                ->orderBy('sort_order')
+                ->get();
+            View::share('socialLinks', $socialLinks);
+        } catch (\Exception $e) {
+            View::share('socialLinks', collect());
+        }
 
-            $intro = IntroBlock::where('page_identifier', $routeName)->first();
-            View::share('intro', $intro);
-        } else {
-            // Fallback for pages without route names (if any)
-            $path = $request->path();
-            $hero = Hero::where('page_identifier', $path)->first();
-            View::share('hero', $hero);
+        try {
+            $routeName = $request->route() ? $request->route()->getName() : Route::currentRouteName();
 
-            $intro = IntroBlock::where('page_identifier', $path)->first();
-            View::share('intro', $intro);
+            if (! $routeName && ($request->is('/') || $request->path() === '/')) {
+                $routeName = 'home';
+            }
+
+            if ($routeName) {
+                $hero = Hero::where('page_identifier', $routeName)->first();
+                View::share('hero', $hero);
+
+                $intro = IntroBlock::where('page_identifier', $routeName)->first();
+                View::share('intro', $intro);
+            } else {
+                // Fallback for pages without route names (if any)
+                $path = $request->path();
+                $hero = Hero::where('page_identifier', $path)->first();
+                View::share('hero', $hero);
+
+                $intro = IntroBlock::where('page_identifier', $path)->first();
+                View::share('intro', $intro);
+            }
+        } catch (\Exception $e) {
+            View::share('hero', null);
+            View::share('intro', null);
         }
 
         return $next($request);
