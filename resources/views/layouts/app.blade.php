@@ -44,14 +44,22 @@
                 <div class="hidden md:flex gap-6 items-center">
                     <a href="{{ route('home') }}" class="hover:opacity-75 transition">Home</a>
 
-                    <div class="relative group">
-                        <button class="flex items-center gap-1 hover:opacity-75 transition focus:outline-none">
+                    <div class="relative" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
+                        <button @click="open = !open" class="flex items-center gap-1 hover:opacity-75 transition focus:outline-none">
                             About Us
                             <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
                                 <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
                             </svg>
                         </button>
-                        <div class="absolute left-0 mt-0 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-2 z-50 hidden group-hover:block border border-gray-100 dark:border-gray-700">
+                        <div x-show="open"
+                             x-transition:enter="transition ease-out duration-100"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-75"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             class="absolute left-0 mt-0 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-2 z-50 border border-gray-100 dark:border-gray-700"
+                             style="display: none;">
                             <a href="{{ route('about') }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">General Info</a>
                             <a href="{{ route('about.location') }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Location</a>
                             <a href="{{ route('about.officers') }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Club Officers</a>
@@ -63,14 +71,22 @@
                         </div>
                     </div>
 
-                    <div class="relative group">
-                        <button class="flex items-center gap-1 hover:opacity-75 transition focus:outline-none">
+                    <div class="relative" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
+                        <button @click="open = !open" class="flex items-center gap-1 hover:opacity-75 transition focus:outline-none">
                             Fixtures
                             <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
                                 <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
                             </svg>
                         </button>
-                        <div class="absolute left-0 mt-0 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-2 z-50 hidden group-hover:block border border-gray-100 dark:border-gray-700">
+                        <div x-show="open"
+                             x-transition:enter="transition ease-out duration-100"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-75"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             class="absolute left-0 mt-0 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-2 z-50 border border-gray-100 dark:border-gray-700"
+                             style="display: none;">
                             <a href="{{ route('fixtures.info') }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Fixture Information</a>
                             <hr class="my-1 border-gray-100 dark:border-gray-700">
                             <a href="{{ route('fixtures', ['type' => 'Clarence Men']) }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Clarence Men</a>
@@ -78,14 +94,22 @@
                             <a href="{{ route('fixtures', ['type' => 'Competitions']) }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Competitions</a>
                         </div>
                     </div>
-                    <div class="relative group">
-                        <button class="flex items-center gap-1 hover:opacity-75 transition focus:outline-none">
+                    <div class="relative" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
+                        <button @click="open = !open" class="flex items-center gap-1 hover:opacity-75 transition focus:outline-none">
                             Results
                             <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
                                 <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
                             </svg>
                         </button>
-                        <div class="absolute left-0 mt-0 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-2 z-50 hidden group-hover:block border border-gray-100 dark:border-gray-700">
+                        <div x-show="open"
+                             x-transition:enter="transition ease-out duration-100"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-75"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             class="absolute left-0 mt-0 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-2 z-50 border border-gray-100 dark:border-gray-700"
+                             style="display: none;">
                             <a href="{{ route('results') }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">All Results</a>
                             <hr class="my-1 border-gray-100 dark:border-gray-700">
                             <a href="{{ route('results', ['type' => 'County League']) }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">County League</a>
