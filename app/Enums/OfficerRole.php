@@ -27,6 +27,7 @@ enum OfficerRole: string implements HasLabel
     case CountyLeagueRep = 'County League Rep';
     case CateringOfficer = 'Catering Officer';
     case Over55sLeagueRep = 'Over 55s League Rep';
+    case ITOfficer = 'IT Officer';
 
     public function getLabel(): ?string
     {
