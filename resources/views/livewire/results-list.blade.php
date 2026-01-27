@@ -14,7 +14,7 @@
 
     <div class="max-w-4xl mx-auto space-y-6">
         @forelse($results as $result)
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-100 dark:border-gray-700 overflow-hidden">
+            <div id="result-{{ $result->id }}" class="bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-100 dark:border-gray-700 overflow-hidden scroll-mt-24">
                 <div class="bg-gray-50 dark:bg-gray-700/50 px-6 py-3 flex justify-between items-center border-b border-gray-100 dark:border-gray-700">
                     <span class="text-sm font-semibold text-gray-500 uppercase">{{ $result->fixture->competition ?? 'Friendly' }}</span>
                     <span class="text-sm text-gray-500">{{ $result->fixture->date->format('D d M, Y') }}</span>

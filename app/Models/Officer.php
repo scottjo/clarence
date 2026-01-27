@@ -17,6 +17,7 @@ class Officer extends Model
         'avatar',
         'sort_order',
         'is_active',
+        'classification_id',
     ];
 
     protected function casts(): array
@@ -26,5 +27,10 @@ class Officer extends Model
             'is_active' => 'boolean',
             'sort_order' => 'integer',
         ];
+    }
+
+    public function classification(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(OfficerClassification::class, 'classification_id');
     }
 }

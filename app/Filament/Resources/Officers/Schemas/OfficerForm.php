@@ -24,6 +24,9 @@ class OfficerForm
                         Select::make('role')
                             ->options(OfficerRole::class)
                             ->required(),
+                        Select::make('classification_id')
+                            ->relationship('classification', 'name')
+                            ->nullable(),
                         TextInput::make('sort_order')
                             ->numeric()
                             ->default(0),

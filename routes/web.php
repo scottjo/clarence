@@ -20,3 +20,5 @@ Route::get('/news/{newsArticle:slug}', \App\Livewire\NewsShow::class)->name('new
 Route::get('/events', \App\Livewire\EventsList::class)->name('events');
 Route::get('/events/{event:slug}', \App\Livewire\EventShow::class)->name('events.show');
 Route::get('/contact', \App\Livewire\Contact::class)->name('contact');
+
+Route::get('/search', \App\Livewire\SearchResults::class)->name('search');
