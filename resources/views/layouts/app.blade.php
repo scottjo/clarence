@@ -121,7 +121,22 @@
                     <a href="{{ route('events') }}" class="hover:opacity-75 transition">Events</a>
                     <a href="{{ route('contact') }}" class="hover:opacity-75 transition">Contact</a>
                     <livewire:search-header />
-                </div>
+                    @if($settings?->member_login_url)
+                        <a href="{{ $settings->member_login_url }}" target="_blank" rel="noopener noreferrer"
+                           class="px-4 py-2 rounded-md transition text-sm font-semibold hover:opacity-100"
+                           style="
+                                background-color: @if($settings?->header_gradient_start && $settings?->header_gradient_end)
+                                                    {{ $settings->header_gradient_start }}
+                                                 @else
+                                                    {{ $settings?->menu_color ?? '#ffffff' }}
+                                                 @endif;
+                                filter: brightness(0.9);
+                                color: color-mix(in srgb, {{ $settings?->menu_text_color ?? '#000000' }}, black 40%);
+                            ">
+                             Member Login
+                         </a>
+                     @endif
+                 </div>
 
                 <!-- Mobile Menu Toggle -->
                 <div class="md:hidden">
@@ -210,6 +225,23 @@
                             </button>
                         </form>
                     </div>
+                    @if($settings?->member_login_url)
+                        <div class="px-2 py-2">
+                            <a href="{{ $settings->member_login_url }}" target="_blank" rel="noopener noreferrer"
+                               class="block w-full text-center px-4 py-2 rounded-md transition text-sm font-semibold hover:opacity-100"
+                               style="
+                                    background-color: @if($settings?->header_gradient_start && $settings?->header_gradient_end)
+                                                        {{ $settings->header_gradient_start }}
+                                                     @else
+                                                        {{ $settings?->menu_color ?? '#ffffff' }}
+                                                     @endif;
+                                    filter: brightness(0.9);
+                                    color: color-mix(in srgb, {{ $settings?->menu_text_color ?? '#000000' }}, black 40%);
+                               ">
+                                Member Login
+                            </a>
+                        </div>
+                    @endif
                 </div>
             </div>
         </nav>

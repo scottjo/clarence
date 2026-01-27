@@ -52,6 +52,10 @@ class Settings extends Page implements HasForms
                             ->tel(),
                         TextInput::make('email')
                             ->email(),
+                        TextInput::make('member_login_url')
+                            ->label('Member Login URL')
+                            ->url()
+                            ->helperText('The URL for the Member Login button in the menu bar.'),
                     ])->columns(2),
 
                 Section::make('Map Location')

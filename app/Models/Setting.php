@@ -36,6 +36,7 @@ class Setting extends Model
         'pinstripe_color',
         'pinstripe_width',
         'pinstripe_style',
+        'member_login_url',
     ];
 
     protected function casts(): array
