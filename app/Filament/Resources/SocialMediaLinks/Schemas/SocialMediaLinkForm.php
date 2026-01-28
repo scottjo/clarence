@@ -2,9 +2,12 @@
 
 namespace App\Filament\Resources\SocialMediaLinks\Schemas;
 
+use App\Enums\SocialPlatform;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 
 class SocialMediaLinkForm
@@ -15,15 +18,18 @@ class SocialMediaLinkForm
             ->components([
                 Section::make('Link Details')
                     ->schema([
-                        TextInput::make('platform')
-                            ->placeholder('e.g. Facebook, Twitter, Instagram')
+                        Select::make('platform')
+                            ->options(SocialPlatform::class)
+                            ->live()
+                            ->afterStateUpdated(fn (SocialPlatform $state, Set $set) => $set('icon', $state->getIcon()))
                             ->required(),
                         TextInput::make('url')
                             ->label('URL')
                             ->url()
                             ->required(),
-                        TextInput::make('icon')
-                            ->helperText('SVG path or class. We recommend using SVG for the best compatibility.')
+                        Select::make('icon')
+                            ->options(collect(SocialPlatform::cases())->mapWithKeys(fn ($platform) => [$platform->getIcon() => $platform->getLabel()]))
+                            ->allowHtml()
                             ->required(),
                         TextInput::make('sort_order')
                             ->required()

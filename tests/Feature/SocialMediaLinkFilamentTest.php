@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Enums\SocialPlatform;
 use App\Filament\Resources\SocialMediaLinks\Pages\CreateSocialMediaLink;
 use App\Filament\Resources\SocialMediaLinks\Pages\ListSocialMediaLinks;
 use App\Models\User;
@@ -27,9 +28,9 @@ class SocialMediaLinkFilamentTest extends TestCase
 
         Livewire::test(CreateSocialMediaLink::class)
             ->fillForm([
-                'platform' => 'Facebook',
+                'platform' => SocialPlatform::Facebook->value,
                 'url' => 'https://facebook.com',
-                'icon' => '<svg>...</svg>',
+                'icon' => SocialPlatform::Facebook->getIcon(),
                 'sort_order' => 1,
                 'is_active' => true,
             ])
@@ -37,7 +38,8 @@ class SocialMediaLinkFilamentTest extends TestCase
             ->assertHasNoFormErrors();
 
         $this->assertDatabaseHas('social_media_links', [
-            'platform' => 'Facebook',
+            'platform' => SocialPlatform::Facebook->value,
+            'icon' => SocialPlatform::Facebook->getIcon(),
         ]);
     }
 }
