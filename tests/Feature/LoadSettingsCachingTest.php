@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Enums\SocialPlatform;
 use App\Models\Hero;
 use App\Models\IntroBlock;
 use App\Models\Setting;
@@ -28,7 +29,7 @@ class LoadSettingsCachingTest extends TestCase
     {
         Setting::create(['club_name' => 'Test Club']);
         SocialMediaLink::create([
-            'platform' => 'Facebook',
+            'platform' => SocialPlatform::Facebook,
             'url' => 'https://facebook.com/test',
             'icon' => '<svg></svg>',
             'sort_order' => 1,
@@ -40,7 +41,7 @@ class LoadSettingsCachingTest extends TestCase
         $cached = Cache::get('social_links');
         $this->assertNotNull($cached);
         $this->assertCount(1, $cached);
-        $this->assertEquals('Facebook', $cached->first()->platform);
+        $this->assertEquals(SocialPlatform::Facebook, $cached->first()->platform);
     }
 
     public function test_hero_is_cached_per_route(): void
@@ -102,7 +103,7 @@ class LoadSettingsCachingTest extends TestCase
     {
         Setting::create(['club_name' => 'Test Club']);
         $link = SocialMediaLink::create([
-            'platform' => 'Facebook',
+            'platform' => SocialPlatform::Facebook,
             'url' => 'https://facebook.com/test',
             'icon' => '<svg></svg>',
             'sort_order' => 1,
@@ -112,7 +113,7 @@ class LoadSettingsCachingTest extends TestCase
         $this->get(route('home'));
         $this->assertNotNull(Cache::get('social_links'));
 
-        $link->update(['platform' => 'Twitter']);
+        $link->update(['platform' => SocialPlatform::Twitter]);
 
         $this->assertNull(Cache::get('social_links'));
     }
@@ -121,7 +122,7 @@ class LoadSettingsCachingTest extends TestCase
     {
         Setting::create(['club_name' => 'Test Club']);
         $link = SocialMediaLink::create([
-            'platform' => 'Facebook',
+            'platform' => SocialPlatform::Facebook,
             'url' => 'https://facebook.com/test',
             'icon' => '<svg></svg>',
             'sort_order' => 1,
