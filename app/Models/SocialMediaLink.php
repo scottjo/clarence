@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\SocialPlatform;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
@@ -28,6 +29,7 @@ class SocialMediaLink extends Model
     protected function casts(): array
     {
         return [
+            'platform' => SocialPlatform::class,
             'is_active' => 'boolean',
             'sort_order' => 'integer',
         ];
