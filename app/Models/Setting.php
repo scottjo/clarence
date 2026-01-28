@@ -49,6 +49,8 @@ class Setting extends Model
         'sponsor_panel_pinstripe_color',
         'sponsor_panel_pinstripe_width',
         'sponsor_panel_pinstripe_style',
+        'sponsor_panel_show_on_all_pages',
+        'sponsor_panel_pages',
     ];
 
     protected function casts(): array
@@ -56,6 +58,8 @@ class Setting extends Model
         return [
             'header_gradient_direction' => GradientDirection::class,
             'footer_gradient_direction' => GradientDirection::class,
+            'sponsor_panel_show_on_all_pages' => 'boolean',
+            'sponsor_panel_pages' => 'array',
         ];
     }
 }

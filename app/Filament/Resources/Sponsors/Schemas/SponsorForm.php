@@ -3,16 +3,13 @@
 namespace App\Filament\Resources\Sponsors\Schemas;
 
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
-use Illuminate\Support\Facades\Route;
 
 class SponsorForm
 {
@@ -45,26 +42,6 @@ class SponsorForm
 
                 Section::make('Visibility')
                     ->schema([
-                        Toggle::make('show_on_all_pages')
-                            ->label('Show on all pages')
-                            ->default(true)
-                            ->live(),
-                        Select::make('pages')
-                            ->multiple()
-                            ->options(function () {
-                                $routes = Route::getRoutes()->getRoutesByName();
-                                $options = [];
-                                foreach ($routes as $name => $route) {
-                                    if (in_array('GET', $route->methods()) && ! str_starts_with($name, 'filament.') && ! str_starts_with($name, 'horizon.') && ! str_starts_with($name, 'livewire.')) {
-                                        $options[$name] = $name.' ('.$route->uri().')';
-                                    }
-                                }
-                                asort($options);
-
-                                return $options;
-                            })
-                            ->visible(fn (Get $get) => ! $get('show_on_all_pages'))
-                            ->searchable(),
                         TextInput::make('sort_order')
                             ->numeric()
                             ->default(0),

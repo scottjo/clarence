@@ -12,15 +12,21 @@ new class extends Component
     public function sponsors()
     {
         $currentRoute = Route::currentRouteName();
+        $settings = $this->settings;
+
+        if (! $settings) {
+            return collect();
+        }
+
+        $isVisible = $settings->sponsor_panel_show_on_all_pages ||
+            ($currentRoute && in_array($currentRoute, $settings->sponsor_panel_pages ?? []));
+
+        if (! $isVisible) {
+            return collect();
+        }
 
         return Sponsor::query()
             ->where('is_active', true)
-            ->where(function ($query) use ($currentRoute) {
-                $query->where('show_on_all_pages', true)
-                    ->when($currentRoute, function ($q) use ($currentRoute) {
-                        $q->orWhereJsonContains('pages', $currentRoute);
-                    });
-            })
             ->orderBy('sort_order')
             ->get();
     }
@@ -28,7 +34,9 @@ new class extends Component
     #[Computed]
     public function settings()
     {
-        return Setting::first();
+        return Cache::rememberForever('settings', function () {
+            return Setting::first();
+        });
     }
 };
 ?>

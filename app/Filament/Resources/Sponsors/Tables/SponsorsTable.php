@@ -24,7 +24,6 @@ class SponsorsTable
                     ->searchable(),
                 TextColumn::make('website')
                     ->searchable(),
-                ToggleColumn::make('show_on_all_pages'),
                 ToggleColumn::make('is_active'),
                 TextColumn::make('sort_order')
                     ->numeric()

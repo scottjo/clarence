@@ -44,7 +44,7 @@
                 @endforeach
             </div>
             <div class="mt-8">
-                <a href="{{ route('events') }}" class="inline-block px-6 py-3 border-2 border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition">View All Events</a>
+                <a href="{{ route('events') }}" class="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">View All Events</a>
             </div>
         </section>
     </div>

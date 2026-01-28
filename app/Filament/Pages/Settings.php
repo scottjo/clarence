@@ -11,13 +11,17 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Facades\Route;
 
 class Settings extends Page implements HasForms
 {
@@ -145,28 +149,55 @@ class Settings extends Page implements HasForms
 
                 Section::make('Sponsor Panel Appearance')
                     ->schema([
-                        ColorPicker::make('sponsor_panel_bg_color')
-                            ->label('Background Color'),
-                        ColorPicker::make('sponsor_panel_bg_color_dark')
-                            ->label('Background Color (Dark Mode)'),
-                        ColorPicker::make('sponsor_panel_pinstripe_color')
-                            ->label('Border Color'),
-                        Select::make('sponsor_panel_pinstripe_width')
-                            ->label('Border Width')
-                            ->options([
-                                'thin' => 'Thin',
-                                'medium' => 'Medium',
-                                'thick' => 'Thick',
-                            ])
-                            ->default('medium'),
-                        Select::make('sponsor_panel_pinstripe_style')
-                            ->label('Border Style')
-                            ->options([
-                                'single' => 'Single Line',
-                                'double' => 'Two Thin Lines',
-                            ])
-                            ->default('single'),
-                    ])->columns(3),
+                        Grid::make(3)
+                            ->schema([
+                                ColorPicker::make('sponsor_panel_bg_color')
+                                    ->label('Background Color'),
+                                ColorPicker::make('sponsor_panel_bg_color_dark')
+                                    ->label('Background Color (Dark Mode)'),
+                                ColorPicker::make('sponsor_panel_pinstripe_color')
+                                    ->label('Border Color'),
+                                Select::make('sponsor_panel_pinstripe_width')
+                                    ->label('Border Width')
+                                    ->options([
+                                        'thin' => 'Thin',
+                                        'medium' => 'Medium',
+                                        'thick' => 'Thick',
+                                    ])
+                                    ->default('medium'),
+                                Select::make('sponsor_panel_pinstripe_style')
+                                    ->label('Border Style')
+                                    ->options([
+                                        'single' => 'Single Line',
+                                        'double' => 'Two Thin Lines',
+                                    ])
+                                    ->default('single'),
+                            ]),
+                        Section::make('Visibility')
+                            ->schema([
+                                Toggle::make('sponsor_panel_show_on_all_pages')
+                                    ->label('Show on all pages')
+                                    ->default(true)
+                                    ->live(),
+                                Select::make('sponsor_panel_pages')
+                                    ->label('Show on specific pages')
+                                    ->multiple()
+                                    ->options(function () {
+                                        $routes = Route::getRoutes()->getRoutesByName();
+                                        $options = [];
+                                        foreach ($routes as $name => $route) {
+                                            if (in_array('GET', $route->methods()) && ! str_starts_with($name, 'filament.') && ! str_starts_with($name, 'horizon.') && ! str_starts_with($name, 'livewire.')) {
+                                                $options[$name] = $name.' ('.$route->uri().')';
+                                            }
+                                        }
+                                        asort($options);
+
+                                        return $options;
+                                    })
+                                    ->visible(fn (Get $get) => ! $get('sponsor_panel_show_on_all_pages'))
+                                    ->searchable(),
+                            ])->compact(),
+                    ])->columns(1),
             ])
             ->statePath('data');
     }
