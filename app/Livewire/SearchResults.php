@@ -4,15 +4,21 @@ namespace App\Livewire;
 
 use App\Models\Event;
 use App\Models\NewsArticle;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 
 class SearchResults extends Component
 {
     #[Url(as: 'q')]
-    public $search = '';
+    public string $search = '';
 
-    public function render()
+    public function mount(): void
+    {
+        $this->search = Str::limit($this->search, 100, '');
+    }
+
+    public function render(): \Illuminate\View\View
     {
         $newsResults = collect();
         $eventResults = collect();

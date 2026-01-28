@@ -11,17 +11,16 @@ class Officers extends Component
     {
         $officers = Officer::query()
             ->with('classification')
-            ->leftJoin('officer_classifications', 'officers.classification_id', '=', 'officer_classifications.id')
-            ->where('officers.is_active', true)
-            ->orderByRaw('COALESCE(officer_classifications.sort_order, 9999) ASC')
-            ->orderBy('officer_classifications.name', 'ASC')
-            ->orderBy('officers.sort_order', 'ASC')
-            ->select('officers.*')
+            ->where('is_active', true)
             ->get();
 
-        $groups = $officers->groupBy(function ($officer) {
-            return $officer->classification_id ?? 0;
-        });
+        $groups = $officers
+            ->sortBy([
+                fn ($a, $b) => ($a->classification?->sort_order ?? 9999) <=> ($b->classification?->sort_order ?? 9999),
+                fn ($a, $b) => ($a->classification?->name ?? '') <=> ($b->classification?->name ?? ''),
+                fn ($a, $b) => ($a->sort_order ?? 0) <=> ($b->sort_order ?? 0),
+            ])
+            ->groupBy(fn ($officer) => $officer->classification_id ?? 0);
 
         return view('livewire.about.officers', [
             'groups' => $groups,

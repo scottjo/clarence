@@ -10,6 +10,14 @@ class MembershipLevel extends Model
     /** @use HasFactory<\Database\Factories\MembershipLevelFactory> */
     use HasFactory;
 
+    protected function casts(): array
+    {
+        return [
+            'cost' => 'decimal:2',
+            'sort_order' => 'integer',
+        ];
+    }
+
     protected $fillable = [
         'name',
         'cost',

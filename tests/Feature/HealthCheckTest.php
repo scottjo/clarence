@@ -17,7 +17,7 @@ class HealthCheckTest extends TestCase
             ->assertExitCode(0);
 
         // Check for any result in the database
-        $this->assertDatabaseCount('health_check_result_history_items', 5);
+        $this->assertDatabaseCount('health_check_result_history_items', 12);
     }
 
     public function test_health_page_is_accessible_to_admin(): void

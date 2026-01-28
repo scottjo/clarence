@@ -5,11 +5,18 @@ namespace App\Models;
 use App\Enums\GradientDirection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class Setting extends Model
 {
     /** @use HasFactory<\Database\Factories\SettingFactory> */
     use HasFactory;
+
+    protected static function booted(): void
+    {
+        static::saved(fn () => Cache::forget('settings'));
+        static::deleted(fn () => Cache::forget('settings'));
+    }
 
     protected $fillable = [
         'club_name',

@@ -175,4 +175,22 @@ class SearchTest extends TestCase
             ->assertStatus(200)
             ->assertSee('Test Query');
     }
+
+    public function test_search_truncates_input_over_100_characters(): void
+    {
+        $longSearch = str_repeat('a', 150);
+
+        $component = Livewire::test(\App\Livewire\SearchResults::class, ['search' => $longSearch]);
+
+        $this->assertEquals(100, mb_strlen($component->get('search')));
+    }
+
+    public function test_search_preserves_input_at_100_characters(): void
+    {
+        $search = str_repeat('b', 100);
+
+        $component = Livewire::test(\App\Livewire\SearchResults::class, ['search' => $search]);
+
+        $this->assertEquals($search, $component->get('search'));
+    }
 }
