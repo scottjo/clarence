@@ -272,7 +272,9 @@
         {{ $slot }}
     </main>
 
-    <footer class="mt-12 py-12 relative"
+    <livewire:sponsors-panel />
+
+    <footer class="py-12 relative"
             style="
                 @if($settings?->footer_gradient_start && $settings?->footer_gradient_end)
                     background: linear-gradient({{ $settings->footer_gradient_direction ?? 'to right' }}, {{ $settings->footer_gradient_start }}, {{ $settings->footer_gradient_end }});

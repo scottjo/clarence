@@ -142,6 +142,31 @@ class Settings extends Page implements HasForms
                             ])
                             ->default('single'),
                     ])->columns(3),
+
+                Section::make('Sponsor Panel Appearance')
+                    ->schema([
+                        ColorPicker::make('sponsor_panel_bg_color')
+                            ->label('Background Color'),
+                        ColorPicker::make('sponsor_panel_bg_color_dark')
+                            ->label('Background Color (Dark Mode)'),
+                        ColorPicker::make('sponsor_panel_pinstripe_color')
+                            ->label('Border Color'),
+                        Select::make('sponsor_panel_pinstripe_width')
+                            ->label('Border Width')
+                            ->options([
+                                'thin' => 'Thin',
+                                'medium' => 'Medium',
+                                'thick' => 'Thick',
+                            ])
+                            ->default('medium'),
+                        Select::make('sponsor_panel_pinstripe_style')
+                            ->label('Border Style')
+                            ->options([
+                                'single' => 'Single Line',
+                                'double' => 'Two Thin Lines',
+                            ])
+                            ->default('single'),
+                    ])->columns(3),
             ])
             ->statePath('data');
     }
@@ -159,7 +184,7 @@ class Settings extends Page implements HasForms
     {
         $data = $this->form->getState();
 
-        Setting::first()->update($data);
+        Setting::updateOrCreate([], $data);
 
         Notification::make()
             ->title('Settings saved successfully.')

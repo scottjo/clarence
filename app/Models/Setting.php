@@ -44,6 +44,11 @@ class Setting extends Model
         'pinstripe_width',
         'pinstripe_style',
         'member_login_url',
+        'sponsor_panel_bg_color',
+        'sponsor_panel_bg_color_dark',
+        'sponsor_panel_pinstripe_color',
+        'sponsor_panel_pinstripe_width',
+        'sponsor_panel_pinstripe_style',
     ];
 
     protected function casts(): array
