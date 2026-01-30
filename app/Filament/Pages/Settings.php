@@ -150,6 +150,14 @@ class Settings extends Page implements HasForms
                             ->default('single'),
                     ])->columns(3),
 
+                Section::make('Feature Flags')
+                    ->schema([
+                        Toggle::make('show_fixtures_results')
+                            ->label('Show Fixtures and Results')
+                            ->helperText('When disabled, Fixtures and Results will be hidden from the website.')
+                            ->default(true),
+                    ]),
+
                 Section::make('Sponsor Panel Appearance')
                     ->schema([
                         Grid::make(3)

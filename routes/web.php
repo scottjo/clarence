@@ -11,10 +11,22 @@ Route::get('/about/play-learn', \App\Livewire\About\PlayLearn::class)->name('abo
 Route::get('/about/membership', \App\Livewire\About\Membership::class)->name('about.membership');
 Route::get('/about/history', \App\Livewire\About\History::class)->name('about.history');
 Route::get('/about/competition', \App\Livewire\About\Competition::class)->name('about.competition');
-Route::get('/fixtures', \App\Livewire\FixturesList::class)->name('fixtures');
-Route::get('/fixtures/info', \App\Livewire\FixturesInfo::class)->name('fixtures.info');
-Route::get('/fixtures/{fixture}', \App\Livewire\FixtureShow::class)->name('fixtures.show');
-Route::get('/results', \App\Livewire\ResultsList::class)->name('results');
+Route::middleware(['web'])->group(function () {
+    Route::group(['middleware' => [function ($request, $next) {
+        $settings = \App\Models\Setting::first();
+        if ($settings && ! ($settings->show_fixtures_results ?? true)) {
+            abort(404);
+        }
+
+        return $next($request);
+    }]], function () {
+        Route::get('/fixtures', \App\Livewire\FixturesList::class)->name('fixtures');
+        Route::get('/fixtures/info', \App\Livewire\FixturesInfo::class)->name('fixtures.info');
+        Route::get('/fixtures/{fixture}', \App\Livewire\FixtureShow::class)->name('fixtures.show');
+        Route::get('/results', \App\Livewire\ResultsList::class)->name('results');
+    });
+});
+
 Route::get('/news', \App\Livewire\NewsList::class)->name('news');
 Route::get('/news/{newsArticle:slug}', \App\Livewire\NewsShow::class)->name('news.show');
 Route::get('/events', \App\Livewire\EventsList::class)->name('events');
