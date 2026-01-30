@@ -19,12 +19,15 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class FacilityResource extends Resource
 {
     protected static ?string $model = Facility::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedHomeModern;
+
+    protected static string|UnitEnum|null $navigationGroup = 'Configuration';
 
     public static function form(Schema $schema): Schema
     {

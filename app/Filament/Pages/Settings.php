@@ -22,12 +22,15 @@ use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Route;
+use UnitEnum;
 
 class Settings extends Page implements HasForms
 {
     use InteractsWithForms;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCog6Tooth;
+
+    protected static string|UnitEnum|null $navigationGroup = 'Configuration';
 
     protected string $view = 'filament.pages.settings';
 
