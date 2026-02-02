@@ -22,9 +22,9 @@ class MembershipLevelResource extends Resource
 {
     protected static ?string $model = MembershipLevel::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedTicket;
+    protected static BackedEnum|null|string $navigationIcon = Heroicon::OutlinedTicket;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Configuration';
+    protected static null|string|UnitEnum $navigationGroup = 'Configuration';
 
     public static function form(Schema $schema): Schema
     {

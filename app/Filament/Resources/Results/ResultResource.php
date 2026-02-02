@@ -19,9 +19,9 @@ class ResultResource extends Resource
 {
     protected static ?string $model = Result::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static BackedEnum|null|string $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Content';
+    protected static null|string|UnitEnum $navigationGroup = 'Content';
 
     public static function form(Schema $schema): Schema
     {

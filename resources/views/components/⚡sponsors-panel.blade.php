@@ -49,11 +49,7 @@ new class extends Component
                         --sponsor-panel-bg: {{ $this->settings?->sponsor_panel_bg_color ?? '#f3f4f6' }};
                         --sponsor-panel-bg-dark: {{ $this->settings?->sponsor_panel_bg_color_dark ?? $this->settings?->sponsor_panel_bg_color ?? '#1f2937' }};
                         background-color: var(--sponsor-panel-bg);
-                        @if($this->settings?->sponsor_panel_pinstripe_color)
-                            border-color: {{ $this->settings->sponsor_panel_pinstripe_color }};
-                        @else
-                            border-color: rgb(229 231 235);
-                        @endif
+                        border-color: {{ $this->settings?->sponsor_panel_pinstripe_color ? $this->settings->sponsor_panel_pinstripe_color : 'rgb(229 231 235)' }};
                      ">
                 <style>
                     #sponsor-panel {
@@ -124,7 +120,7 @@ new class extends Component
                                     }
                                 </style>
                                 <div class="h-24 w-full flex items-center justify-center mb-4">
-                                    <img src="{{ Storage::url($sponsor->logo) }}" alt="{{ $sponsor->name }}" class="h-full w-auto object-contain grayscale @if($hasWebsite) group-hover:grayscale-0 @endif transition-all duration-300">
+                                    <img src="{{ Storage::url($sponsor->logo) }}" alt="{{ $sponsor->name }}" class="h-full w-auto object-contain grayscale {{ $hasWebsite ? 'group-hover:grayscale-0' : '' }} transition-all duration-300">
                                 </div>
 
                                 <h3 class="font-bold text-lg mb-2 text-center">{{ $sponsor->name }}</h3>

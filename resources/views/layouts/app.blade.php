@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{{ $title ? "$title | " : '' }}{{ $settings?->club_name ?? 'Clarence Bowls Club' }}</title>
+    <title>@isset($title){{ $title }} | @endisset{{ $settings?->club_name ?? 'Clarence Bowls Club' }}</title>
     <meta name="description" content="{{ $metaDescription ?? ($settings?->description ?? 'Clarence Bowls Club is a friendly lawn bowls club located in Clarence Park, Weston-super-Mare. Join us for competitive and social bowling.') }}">
     <link rel="canonical" href="{{ url()->current() }}">
 
@@ -29,27 +29,19 @@
     <!-- Structured Data -->
     <script type="application/ld+json">
     {
-        "@context": "https://schema.org",
-        "@type": "SportsOrganization",
+        "@@context": "https://schema.org",
+        "@@type": "SportsOrganization",
         "name": "{{ $settings?->club_name ?? 'Clarence Bowls Club' }}",
         "url": "{{ config('app.url') }}",
-        @if($settings?->header_logo)
-        "logo": "{{ Storage::url($settings->header_logo) }}",
-        @endif
+        {!! $settings?->header_logo ? '"logo": "' . Storage::url($settings->header_logo) . '",' : '' !!}
         "address": {
-            "@type": "PostalAddress",
+            "@@type": "PostalAddress",
             "streetAddress": "Clarence Park",
             "addressLocality": "Weston-super-Mare",
             "postalCode": "BS23 4BN",
             "addressCountry": "GB"
         }
-        @if($settings?->latitude && $settings?->longitude)
-        ,"geo": {
-            "@type": "GeoCoordinates",
-            "latitude": "{{ $settings->latitude }}",
-            "longitude": "{{ $settings->longitude }}"
-        }
-        @endif
+        {!! ($settings?->latitude && $settings?->longitude) ? ',"geo": { "@@type": "GeoCoordinates", "latitude": "' . $settings->latitude . '", "longitude": "' . $settings->longitude . '" }' : '' !!}
     }
     </script>
 
@@ -71,11 +63,7 @@
     </style>
     <header class="sticky top-0 z-50 shadow-sm border-b border-gray-200 dark:border-gray-700"
             style="
-                @if($settings?->header_gradient_start && $settings?->header_gradient_end)
-                    background: linear-gradient({{ $settings->header_gradient_direction ?? 'to right' }}, {{ $settings->header_gradient_start }}, {{ $settings->header_gradient_end }});
-                @else
-                    background-color: {{ $settings?->menu_color ?? '#ffffff' }};
-                @endif
+                background: {{ ($settings?->header_gradient_start && $settings?->header_gradient_end) ? 'linear-gradient(' . ($settings->header_gradient_direction ?? 'to right') . ', ' . $settings->header_gradient_start . ', ' . $settings->header_gradient_end . ')' : ($settings?->menu_color ?? '#ffffff') }};
                 color: {{ $settings?->menu_text_color ?? 'inherit' }}
             ">
         <nav class="container mx-auto px-4 py-4">
@@ -176,11 +164,7 @@
                         <a href="{{ $settings->member_login_url }}" target="_blank" rel="noopener noreferrer"
                            class="px-4 py-2 rounded-md transition text-sm font-semibold hover:opacity-100"
                            style="
-                                background-color: @if($settings?->header_gradient_start && $settings?->header_gradient_end)
-                                                    {{ $settings->header_gradient_start }}
-                                                 @else
-                                                    {{ $settings?->menu_color ?? '#ffffff' }}
-                                                 @endif;
+                                background-color: {{ ($settings?->header_gradient_start && $settings?->header_gradient_end) ? $settings->header_gradient_start : ($settings?->menu_color ?? '#ffffff') }};
                                 filter: brightness(0.9);
                                 color: color-mix(in srgb, {{ $settings?->menu_text_color ?? '#000000' }}, black 40%);
                             ">
@@ -270,7 +254,7 @@
                     <a href="{{ route('contact') }}" class="px-2 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 rounded transition">Contact</a>
                     <div class="px-2 py-2">
                         <form action="{{ route('search') }}" method="GET" class="relative">
-                            <input type="text" name="q" placeholder="Search..." maxlength="100" class="w-full pl-4 pr-10 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <input type="text" name="q" placeholder="Search..." maxlength="100" class="w-full pl-4 pr-10 py-2 border border-gray-300 dark:bg-gray-700 dark:border-gray-600 rounded-md bg-gray-50 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <button type="submit" class="absolute right-2 top-1/2 -translate-y-1/2 hover:text-blue-500" style="color: {{ $settings?->menu_text_color ?? 'inherit' }}">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
@@ -283,11 +267,7 @@
                             <a href="{{ $settings->member_login_url }}" target="_blank" rel="noopener noreferrer"
                                class="block w-full text-center px-4 py-2 rounded-md transition text-sm font-semibold hover:opacity-100"
                                style="
-                                    background-color: @if($settings?->header_gradient_start && $settings?->header_gradient_end)
-                                                        {{ $settings->header_gradient_start }}
-                                                     @else
-                                                        {{ $settings?->menu_color ?? '#ffffff' }}
-                                                     @endif;
+                                    background-color: {{ ($settings?->header_gradient_start && $settings?->header_gradient_end) ? $settings->header_gradient_start : ($settings?->menu_color ?? '#ffffff') }};
                                     filter: brightness(0.9);
                                     color: color-mix(in srgb, {{ $settings?->menu_text_color ?? '#000000' }}, black 40%);
                                ">
@@ -302,13 +282,8 @@
             <div class="w-full"
                  style="
                     background-color: {{ $settings->pinstripe_color }};
-                    height: {{ match($settings->pinstripe_width) { 'thin' => '1px', 'thick' => '4px', default => '2px' } }};
-                    @if($settings->pinstripe_style === 'double')
-                        border-bottom: 1px solid {{ $settings->pinstripe_color }};
-                        padding-bottom: 2px;
-                        background-clip: content-box;
-                        height: 5px;
-                    @endif
+                    height: {{ $settings->pinstripe_style === 'double' ? '5px' : (match($settings->pinstripe_width) { 'thin' => '1px', 'thick' => '4px', default => '2px' }) }};
+                    {{ $settings->pinstripe_style === 'double' ? 'border-bottom: 1px solid ' . $settings->pinstripe_color . '; padding-bottom: 2px; background-clip: content-box;' : '' }}
                  ">
             </div>
         @endif
@@ -329,29 +304,16 @@
 
     <footer class="py-12 relative"
             style="
-                @if($settings?->footer_gradient_start && $settings?->footer_gradient_end)
-                    background: linear-gradient({{ $settings->footer_gradient_direction ?? 'to right' }}, {{ $settings->footer_gradient_start }}, {{ $settings->footer_gradient_end }});
-                @else
-                    background-color: {{ $settings?->footer_color ?? '#ffffff' }};
-                @endif
+                background: {{ ($settings?->footer_gradient_start && $settings?->footer_gradient_end) ? 'linear-gradient(' . ($settings->footer_gradient_direction ?? 'to right') . ', ' . $settings->footer_gradient_start . ', ' . $settings->footer_gradient_end . ')' : ($settings?->footer_color ?? '#ffffff') }};
                 color: {{ $settings?->footer_text_color ?? 'inherit' }};
-                @if($settings?->pinstripe_color)
-                    border-top: 1px solid {{ $settings->pinstripe_color }};
-                @else
-                    border-top: 1px solid rgb(229 231 235);
-                @endif
+                border-top: 1px solid {{ $settings?->pinstripe_color ? $settings->pinstripe_color : 'rgb(229 231 235)' }};
             ">
         @if($settings?->pinstripe_color)
             <div class="absolute top-0 left-0 w-full"
                  style="
                     background-color: {{ $settings->pinstripe_color }};
-                    height: {{ match($settings->pinstripe_width) { 'thin' => '1px', 'thick' => '4px', default => '2px' } }};
-                    @if($settings->pinstripe_style === 'double')
-                        border-top: 1px solid {{ $settings->pinstripe_color }};
-                        padding-top: 2px;
-                        background-clip: content-box;
-                        height: 5px;
-                    @endif
+                    height: {{ $settings->pinstripe_style === 'double' ? '5px' : (match($settings->pinstripe_width) { 'thin' => '1px', 'thick' => '4px', default => '2px' }) }};
+                    {{ $settings->pinstripe_style === 'double' ? 'border-top: 1px solid ' . $settings->pinstripe_color . '; padding-top: 2px; background-clip: content-box;' : '' }}
                  ">
             </div>
         @endif
@@ -378,7 +340,7 @@
                 </div>
             </div>
 
-            @if(isset($socialLinks) && $socialLinks->count() > 0)
+            @if(isset($socialLinks) && count($socialLinks) > 0)
                 <div class="flex justify-center gap-6 mb-8">
                     @foreach($socialLinks as $link)
                         <a href="{{ $link->url }}" target="_blank" rel="noopener noreferrer" class="hover:opacity-75 transition-opacity" title="{{ $link->platform }}">
@@ -395,13 +357,7 @@
             @endif
 
             <div class="text-center pt-8 border-t"
-                 style="
-                    @if($settings?->pinstripe_color)
-                        border-color: {{ $settings->pinstripe_color }};
-                    @else
-                        border-color: rgb(243 244 246);
-                    @endif
-                 ">
+                 style="border-color: {{ $settings?->pinstripe_color ? $settings->pinstripe_color : 'rgb(243 244 246)' }}">
                 <p class="text-sm opacity-75">&copy; {{ date('Y') }} {{ $settings?->club_name ?? 'Clarence Bowls Club' }}. All rights reserved.</p>
             </div>
         </div>

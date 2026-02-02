@@ -28,9 +28,9 @@ class Settings extends Page implements HasForms
 {
     use InteractsWithForms;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCog6Tooth;
+    protected static BackedEnum|null|string $navigationIcon = Heroicon::OutlinedCog6Tooth;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Configuration';
+    protected static null|string|UnitEnum $navigationGroup = 'Configuration';
 
     protected string $view = 'filament.pages.settings';
 

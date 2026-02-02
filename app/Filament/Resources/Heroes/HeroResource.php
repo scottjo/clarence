@@ -19,9 +19,9 @@ class HeroResource extends Resource
 {
     protected static ?string $model = Hero::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static BackedEnum|null|string $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Configuration';
+    protected static null|string|UnitEnum $navigationGroup = 'Configuration';
 
     public static function form(Schema $schema): Schema
     {
