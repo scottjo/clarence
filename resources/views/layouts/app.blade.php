@@ -3,7 +3,56 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $title ?? 'Bowls Club' }}</title>
+
+    <title>{{ $title ? "$title | " : '' }}{{ $settings?->club_name ?? 'Clarence Bowls Club' }}</title>
+    <meta name="description" content="{{ $metaDescription ?? ($settings?->description ?? 'Clarence Bowls Club is a friendly lawn bowls club located in Clarence Park, Weston-super-Mare. Join us for competitive and social bowling.') }}">
+    <link rel="canonical" href="{{ url()->current() }}">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="{{ $title ?? ($settings?->club_name ?? 'Clarence Bowls Club') }}">
+    <meta property="og:description" content="{{ $metaDescription ?? ($settings?->description ?? 'Join Clarence Bowls Club in Weston-super-Mare.') }}">
+    @if($settings?->header_logo)
+        <meta property="og:image" content="{{ Storage::url($settings->header_logo) }}">
+    @endif
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ url()->current() }}">
+    <meta property="twitter:title" content="{{ $title ?? ($settings?->club_name ?? 'Clarence Bowls Club') }}">
+    <meta property="twitter:description" content="{{ $metaDescription ?? ($settings?->description ?? 'Join Clarence Bowls Club in Weston-super-Mare.') }}">
+    @if($settings?->header_logo)
+        <meta property="twitter:image" content="{{ Storage::url($settings->header_logo) }}">
+    @endif
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SportsOrganization",
+        "name": "{{ $settings?->club_name ?? 'Clarence Bowls Club' }}",
+        "url": "{{ config('app.url') }}",
+        @if($settings?->header_logo)
+        "logo": "{{ Storage::url($settings->header_logo) }}",
+        @endif
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Clarence Park",
+            "addressLocality": "Weston-super-Mare",
+            "postalCode": "BS23 4BN",
+            "addressCountry": "GB"
+        }
+        @if($settings?->latitude && $settings?->longitude)
+        ,"geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "{{ $settings->latitude }}",
+            "longitude": "{{ $settings->longitude }}"
+        }
+        @endif
+    }
+    </script>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="text-gray-900 font-sans antialiased dark:text-gray-100"

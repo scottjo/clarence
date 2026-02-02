@@ -11,6 +11,9 @@ class Membership extends Component
     {
         return view('livewire.about.membership', [
             'levels' => MembershipLevel::orderBy('sort_order')->get(),
-        ])->layout('layouts.app');
+        ])->layout('layouts.app', [
+            'title' => 'Membership',
+            'metaDescription' => 'Join Clarence Bowls Club in Weston-super-Mare. Explore our membership types and benefits for the '.date('Y').' season.',
+        ]);
     }
 }

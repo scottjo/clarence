@@ -19,6 +19,9 @@ class NewsShow extends Component
 
     public function render()
     {
-        return view('livewire.news-show')->layout('layouts.app', ['title' => $this->newsArticle->title]);
+        return view('livewire.news-show')->layout('layouts.app', [
+            'title' => $this->newsArticle->title,
+            'metaDescription' => str(strip_tags($this->newsArticle->content))->limit(160),
+        ]);
     }
 }

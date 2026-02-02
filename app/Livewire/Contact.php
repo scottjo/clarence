@@ -2,7 +2,8 @@
 
 namespace App\Livewire;
 
-use Livewire\Attributes\RateLimit;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Livewire\Component;
 
 class Contact extends Component
@@ -24,8 +25,7 @@ class Contact extends Component
         'message' => 'required|min:10',
     ];
 
-    #[RateLimit(5, 60)]
-    public function submit()
+    public function submit(): void
     {
         $this->validate();
 
@@ -36,8 +36,11 @@ class Contact extends Component
         $this->success = true;
     }
 
-    public function render()
+    public function render(): Factory|View|\Illuminate\View\View
     {
-        return view('livewire.contact')->layout('layouts.app');
+        return view('livewire.contact')->layout('layouts.app', [
+            'title' => 'Contact Us',
+            'metaDescription' => 'Get in touch with Clarence Bowls Club. Contact us for membership inquiries, facility bookings, or any other questions.',
+        ]);
     }
 }

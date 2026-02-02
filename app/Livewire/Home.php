@@ -21,6 +21,8 @@ class Home extends Component
                 ->orderBy('start_time')
                 ->take(3)
                 ->get(),
-        ])->layout('layouts.app');
+        ])->layout('layouts.app', [
+            'title' => 'Home',
+        ]);
     }
 }
