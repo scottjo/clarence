@@ -63,7 +63,7 @@
     </style>
     <header class="sticky top-0 z-50 shadow-sm border-b border-gray-200 dark:border-gray-700"
             style="
-                background: {{ ($settings?->header_gradient_start && $settings?->header_gradient_end) ? 'linear-gradient(' . ($settings->header_gradient_direction ?? 'to right') . ', ' . $settings->header_gradient_start . ', ' . $settings->header_gradient_end . ')' : ($settings?->menu_color ?? '#ffffff') }};
+                background: {{ ($settings?->header_gradient_start && $settings?->header_gradient_end) ? 'linear-gradient(' . ($settings->header_gradient_direction?->value ?? 'to right') . ', ' . $settings->header_gradient_start . ', ' . $settings->header_gradient_end . ')' : ($settings?->menu_color ?? '#ffffff') }};
                 color: {{ $settings?->menu_text_color ?? 'inherit' }}
             ">
         <nav class="container mx-auto px-4 py-4">
@@ -304,7 +304,7 @@
 
     <footer class="py-12 relative"
             style="
-                background: {{ ($settings?->footer_gradient_start && $settings?->footer_gradient_end) ? 'linear-gradient(' . ($settings->footer_gradient_direction ?? 'to right') . ', ' . $settings->footer_gradient_start . ', ' . $settings->footer_gradient_end . ')' : ($settings?->footer_color ?? '#ffffff') }};
+                background: {{ ($settings?->footer_gradient_start && $settings?->footer_gradient_end) ? 'linear-gradient(' . ($settings->footer_gradient_direction?->value ?? 'to right') . ', ' . $settings->footer_gradient_start . ', ' . $settings->footer_gradient_end . ')' : ($settings?->footer_color ?? '#ffffff') }};
                 color: {{ $settings?->footer_text_color ?? 'inherit' }};
                 border-top: 1px solid {{ $settings?->pinstripe_color ? $settings->pinstripe_color : 'rgb(229 231 235)' }};
             ">
