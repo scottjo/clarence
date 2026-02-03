@@ -18,21 +18,37 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8"
+         style="
+            --winner-bg: {{ $settings?->winner_col_bg ?? '#ffffff' }};
+            --winner-bg-dark: {{ $settings?->winner_col_bg_dark ?? '#1f2937' }};
+            --winner-stripe: color-mix(in srgb, var(--winner-bg), black 5%);
+            --winner-stripe-dark: color-mix(in srgb, var(--winner-bg-dark), white 5%);
+         ">
+        <style>
+            .winner-table tr:nth-child(even) {
+                background-color: var(--winner-stripe);
+            }
+            @media (prefers-color-scheme: dark) {
+                .winner-table tr:nth-child(even) {
+                    background-color: var(--winner-stripe-dark) !important;
+                }
+            }
+        </style>
         {{-- Men's Competition --}}
         <div>
             <h2 class="text-2xl font-bold mb-4 text-center">Men</h2>
             <div class="overflow-hidden rounded-lg shadow border border-gray-200 dark:border-gray-700"
-                 style="background-color: {{ $settings?->winner_col_bg ?? '#ffffff' }};">
+                 style="background-color: var(--winner-bg);">
                  <style>
                     @media (prefers-color-scheme: dark) {
                         .men-container {
-                            background-color: {{ $settings?->winner_col_bg_dark ?? '#1f2937' }} !important;
+                            background-color: var(--winner-bg-dark) !important;
                         }
                     }
                  </style>
                  <div class="men-container h-full">
-                    <table class="w-full text-left border-collapse">
+                    <table class="w-full text-left border-collapse winner-table">
                         <thead>
                             <tr class="border-b border-gray-200 dark:border-gray-700">
                                 <th class="px-6 py-3 font-bold uppercase tracking-wider text-sm"
@@ -98,16 +114,16 @@
         <div>
             <h2 class="text-2xl font-bold mb-4 text-center">Ladies</h2>
             <div class="overflow-hidden rounded-lg shadow border border-gray-200 dark:border-gray-700"
-                 style="background-color: {{ $settings?->winner_col_bg ?? '#ffffff' }};">
+                 style="background-color: var(--winner-bg);">
                  <div class="ladies-container h-full">
                     <style>
                         @media (prefers-color-scheme: dark) {
                             .ladies-container {
-                                background-color: {{ $settings?->winner_col_bg_dark ?? '#1f2937' }} !important;
+                                background-color: var(--winner-bg-dark) !important;
                             }
                         }
                     </style>
-                    <table class="w-full text-left border-collapse">
+                    <table class="w-full text-left border-collapse winner-table">
                         <thead>
                             <tr class="border-b border-gray-200 dark:border-gray-700">
                                 <th class="px-6 py-3 font-bold uppercase tracking-wider text-sm"
