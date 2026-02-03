@@ -28,8 +28,8 @@ class CompetitionWinnerForm
                         'Men' => 'Men',
                         'Ladies' => 'Ladies',
                     ])
-                    ->required(fn (callable $get) => \App\Models\Competition::find($get('competition_id'))?->category === 'Both')
-                    ->visible(fn (callable $get) => \App\Models\Competition::find($get('competition_id'))?->category === 'Both'),
+                    ->required()
+                    ->default(fn (callable $get) => \App\Models\Competition::find($get('competition_id'))?->category === 'Both' ? null : \App\Models\Competition::find($get('competition_id'))?->category),
                 Toggle::make('no_competition')
                     ->label('No Competition')
                     ->live(),
