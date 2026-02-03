@@ -118,9 +118,37 @@
                     </div>
                 @endif
             </section>
+
+            <!-- Competition Winners -->
+            <section>
+                <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-4 border-b pb-2">Competition Winners</h2>
+                @if($winnerResults->isEmpty())
+                    <p class="text-gray-600 dark:text-gray-400">No competition winners found.</p>
+                @else
+                    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                        @foreach($winnerResults as $winner)
+                            <a href="{{ route('about.competition-winners', ['year' => $winner->year]) }}" class="block p-6 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-md transition">
+                                <h3 class="text-xl font-bold text-amber-600 dark:text-amber-400 mb-2">
+                                    {{ $winner->year }} {{ $winner->competition->name }}
+                                </h3>
+                                <p class="text-gray-600 dark:text-gray-400">
+                                    @if($winner->no_competition)
+                                        <span class="italic">No Competition</span>
+                                    @else
+                                        {{ collect($winner->names)->pluck('name')->implode(', ') }}
+                                    @endif
+                                </p>
+                                <div class="mt-2 text-sm text-gray-500 dark:text-gray-500">
+                                    {{ $winner->category ?: $winner->competition->category }}
+                                </div>
+                            </a>
+                        @endforeach
+                    </div>
+                @endif
+            </section>
         </div>
 
-        @if($newsResults->isEmpty() && $eventResults->isEmpty() && $officerResults->isEmpty() && $fixtureResults->isEmpty() && $resultResults->isEmpty())
+        @if($newsResults->isEmpty() && $eventResults->isEmpty() && $officerResults->isEmpty() && $fixtureResults->isEmpty() && $resultResults->isEmpty() && $winnerResults->isEmpty())
             <div class="text-center py-12">
                 <p class="text-xl text-gray-600 dark:text-gray-400">Sorry, we couldn't find anything matching your search.</p>
                 <div class="mt-6">

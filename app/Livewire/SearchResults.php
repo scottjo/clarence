@@ -25,6 +25,7 @@ class SearchResults extends Component
         $officerResults = collect();
         $fixtureResults = collect();
         $resultResults = collect();
+        $winnerResults = collect();
 
         if (! empty($this->search)) {
             $newsResults = NewsArticle::where('is_active', true)
@@ -65,6 +66,14 @@ class SearchResults extends Component
                 ->with('fixture')
                 ->latest()
                 ->get();
+
+            $winnerResults = \App\Models\CompetitionWinner::whereHas('competition', function ($query) {
+                $query->where('name', 'like', "%{$this->search}%");
+            })
+                ->orWhere('names', 'like', "%{$this->search}%")
+                ->with('competition')
+                ->orderBy('year', 'desc')
+                ->get();
         }
 
         return view('livewire.search-results', [
@@ -73,6 +82,7 @@ class SearchResults extends Component
             'officerResults' => $officerResults,
             'fixtureResults' => $fixtureResults,
             'resultResults' => $resultResults,
+            'winnerResults' => $winnerResults,
         ])->layout('layouts.app', ['title' => 'Search Results']);
     }
 }
