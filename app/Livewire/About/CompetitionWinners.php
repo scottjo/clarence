@@ -2,7 +2,7 @@
 
 namespace App\Livewire\About;
 
-use App\Models\CompetitionWinner;
+use App\Models\CompetitionResult;
 use App\Models\Setting;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
@@ -24,7 +24,7 @@ class CompetitionWinners extends Component
     #[Computed]
     public function availableYears()
     {
-        return CompetitionWinner::query()
+        return CompetitionResult::query()
             ->select('year')
             ->distinct()
             ->orderByDesc('year')
@@ -45,7 +45,7 @@ class CompetitionWinners extends Component
 
     protected function getWinnersByCategory(string $category)
     {
-        return CompetitionWinner::query()
+        return CompetitionResult::query()
             ->where('year', $this->year)
             ->whereHas('competition', function ($query) use ($category) {
                 $query->where(function ($q) use ($category) {
@@ -59,6 +59,17 @@ class CompetitionWinners extends Component
             })
             ->with('competition')
             ->get()
+            ->groupBy('competition_id')
+            ->map(function ($results) {
+                $first = $results->first();
+
+                return (object) [
+                    'id' => $first->competition_id, // Use competition_id as key
+                    'competition' => $first->competition,
+                    'no_competition' => $first->no_competition,
+                    'winner_names' => $results->pluck('winner_name')->filter()->implode(', '),
+                ];
+            })
             ->sortBy(fn ($winner) => $winner->competition->sort_order);
     }
 

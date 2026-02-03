@@ -25,15 +25,10 @@ class CompetitionWinnersTable
                 IconColumn::make('no_competition')
                     ->boolean()
                     ->sortable(),
-                TextColumn::make('names_list')
-                    ->label('Names')
-                    ->state(function (\App\Models\CompetitionWinner $record) {
-                        if (is_array($record->names)) {
-                            return collect($record->names)->pluck('name')->implode(', ');
-                        }
-
-                        return '';
-                    }),
+                TextColumn::make('winner_name')
+                    ->label('Winner')
+                    ->searchable()
+                    ->sortable(),
             ])
             ->filters([
                 //

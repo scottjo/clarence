@@ -7,7 +7,7 @@ use App\Filament\Resources\CompetitionWinners\Pages\EditCompetitionWinner;
 use App\Filament\Resources\CompetitionWinners\Pages\ListCompetitionWinners;
 use App\Filament\Resources\CompetitionWinners\Schemas\CompetitionWinnerForm;
 use App\Filament\Resources\CompetitionWinners\Tables\CompetitionWinnersTable;
-use App\Models\CompetitionWinner;
+use App\Models\CompetitionResult;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -17,7 +17,11 @@ use UnitEnum;
 
 class CompetitionWinnerResource extends Resource
 {
-    protected static ?string $model = CompetitionWinner::class;
+    protected static ?string $model = CompetitionResult::class;
+
+    protected static ?string $slug = 'competition-winners';
+
+    protected static ?string $modelLabel = 'Competition Winner';
 
     protected static BackedEnum|null|string $navigationIcon = Heroicon::OutlinedTrophy;
 

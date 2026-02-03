@@ -4,20 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CompetitionWinner extends Model
+class CompetitionResult extends Model
 {
     protected $fillable = [
         'competition_id',
         'year',
         'category',
-        'names',
+        'winner_name',
         'no_competition',
     ];
 
     protected function casts(): array
     {
         return [
-            'names' => 'array',
             'no_competition' => 'boolean',
         ];
     }

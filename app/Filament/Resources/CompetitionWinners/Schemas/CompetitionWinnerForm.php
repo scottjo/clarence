@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\CompetitionWinners\Schemas;
 
-use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -34,12 +33,9 @@ class CompetitionWinnerForm
                 Toggle::make('no_competition')
                     ->label('No Competition')
                     ->live(),
-                Repeater::make('names')
-                    ->schema([
-                        TextInput::make('name')
-                            ->required(),
-                    ])
-                    ->maxItems(4)
+                TextInput::make('winner_name')
+                    ->label('Winner Name')
+                    ->required(fn (callable $get) => ! $get('no_competition'))
                     ->hidden(fn (callable $get) => $get('no_competition')),
             ]);
     }

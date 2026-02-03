@@ -135,7 +135,7 @@
                                     @if($winner->no_competition)
                                         <span class="italic">No Competition</span>
                                     @else
-                                        {{ collect($winner->names)->pluck('name')->implode(', ') }}
+                                        {{ $winner->winner_names }}
                                     @endif
                                 </p>
                                 <div class="mt-2 text-sm text-gray-500 dark:text-gray-500">

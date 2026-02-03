@@ -78,23 +78,23 @@
                                         style="color: {{ $settings?->winner_comp_text_color ?? 'inherit' }};">
                                         <style>
                                             @media (prefers-color-scheme: dark) {
-                                                .winner-row-{{ $winner->id }}-comp { color: {{ $settings?->winner_comp_text_color_dark ?? 'inherit' }} !important; }
+                                                .winner-row-men-{{ $winner->id }}-comp { color: {{ $settings?->winner_comp_text_color_dark ?? 'inherit' }} !important; }
                                             }
                                         </style>
-                                        <span class="winner-row-{{ $winner->id }}-comp">{{ $winner->competition->name }}</span>
+                                        <span class="winner-row-men-{{ $winner->id }}-comp">{{ $winner->competition->name }}</span>
                                     </td>
                                     <td class="px-6 py-4 @if($winner->competition->is_important) text-lg font-bold @else text-sm @endif"
                                         style="color: {{ $settings?->winner_name_text_color ?? 'inherit' }};">
                                         <style>
                                             @media (prefers-color-scheme: dark) {
-                                                .winner-row-{{ $winner->id }}-name { color: {{ $settings?->winner_name_text_color_dark ?? 'inherit' }} !important; }
+                                                .winner-row-men-{{ $winner->id }}-name { color: {{ $settings?->winner_name_text_color_dark ?? 'inherit' }} !important; }
                                             }
                                         </style>
-                                        <span class="winner-row-{{ $winner->id }}-name">
+                                        <span class="winner-row-men-{{ $winner->id }}-name">
                                             @if($winner->no_competition)
                                                 <span class="italic opacity-75">No Competition</span>
                                             @else
-                                                {{ collect($winner->names)->pluck('name')->implode(', ') }}
+                                                {{ $winner->winner_names }}
                                             @endif
                                         </span>
                                     </td>
@@ -143,23 +143,23 @@
                                         style="color: {{ $settings?->winner_comp_text_color ?? 'inherit' }};">
                                         <style>
                                             @media (prefers-color-scheme: dark) {
-                                                .winner-row-{{ $winner->id }}-comp { color: {{ $settings?->winner_comp_text_color_dark ?? 'inherit' }} !important; }
+                                                .winner-row-ladies-{{ $winner->id }}-comp { color: {{ $settings?->winner_comp_text_color_dark ?? 'inherit' }} !important; }
                                             }
                                         </style>
-                                        <span class="winner-row-{{ $winner->id }}-comp">{{ $winner->competition->name }}</span>
+                                        <span class="winner-row-ladies-{{ $winner->id }}-comp">{{ $winner->competition->name }}</span>
                                     </td>
                                     <td class="px-6 py-4 @if($winner->competition->is_important) text-lg font-bold @else text-sm @endif"
                                         style="color: {{ $settings?->winner_name_text_color ?? 'inherit' }};">
                                         <style>
                                             @media (prefers-color-scheme: dark) {
-                                                .winner-row-{{ $winner->id }}-name { color: {{ $settings?->winner_name_text_color_dark ?? 'inherit' }} !important; }
+                                                .winner-row-ladies-{{ $winner->id }}-name { color: {{ $settings?->winner_name_text_color_dark ?? 'inherit' }} !important; }
                                             }
                                         </style>
-                                        <span class="winner-row-{{ $winner->id }}-name">
+                                        <span class="winner-row-ladies-{{ $winner->id }}-name">
                                             @if($winner->no_competition)
                                                 <span class="italic opacity-75">No Competition</span>
                                             @else
-                                                {{ collect($winner->names)->pluck('name')->implode(', ') }}
+                                                {{ $winner->winner_names }}
                                             @endif
                                         </span>
                                     </td>

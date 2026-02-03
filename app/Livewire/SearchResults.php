@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\CompetitionResult;
 use App\Models\Event;
 use App\Models\NewsArticle;
 use Illuminate\Support\Str;
@@ -67,13 +68,27 @@ class SearchResults extends Component
                 ->latest()
                 ->get();
 
-            $winnerResults = \App\Models\CompetitionWinner::whereHas('competition', function ($query) {
-                $query->where('name', 'like', "%{$this->search}%");
+            $winnerResults = CompetitionResult::where(function ($query) {
+                $query->whereHas('competition', function ($q) {
+                    $q->where('name', 'like', "%{$this->search}%");
+                })
+                    ->orWhere('winner_name', 'like', "%{$this->search}%");
             })
-                ->orWhere('names', 'like', "%{$this->search}%")
                 ->with('competition')
                 ->orderBy('year', 'desc')
-                ->get();
+                ->get()
+                ->groupBy(fn ($result) => $result->year.'-'.$result->competition_id.'-'.$result->category)
+                ->map(function ($results) {
+                    $first = $results->first();
+
+                    return (object) [
+                        'year' => $first->year,
+                        'competition' => $first->competition,
+                        'category' => $first->category,
+                        'no_competition' => $first->no_competition,
+                        'winner_names' => $results->pluck('winner_name')->filter()->implode(', '),
+                    ];
+                });
         }
 
         return view('livewire.search-results', [
