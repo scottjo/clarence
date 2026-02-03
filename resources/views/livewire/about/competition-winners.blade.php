@@ -26,11 +26,11 @@
             --winner-stripe-dark: color-mix(in srgb, var(--winner-bg-dark), white 5%);
          ">
         <style>
-            .winner-table tr:nth-child(even) {
+            .winner-table tr:nth-child(odd) {
                 background-color: var(--winner-stripe);
             }
             @media (prefers-color-scheme: dark) {
-                .winner-table tr:nth-child(even) {
+                .winner-table tr:nth-child(odd) {
                     background-color: var(--winner-stripe-dark) !important;
                 }
             }
