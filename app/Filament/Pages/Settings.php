@@ -150,6 +150,25 @@ class Settings extends Page implements HasForms
                             ->default('single'),
                     ])->columns(3),
 
+                Section::make('Club Competition Winners Appearance')
+                    ->schema([
+                        Grid::make(2)
+                            ->schema([
+                                ColorPicker::make('winner_col_bg')
+                                    ->label('Column Background Color'),
+                                ColorPicker::make('winner_col_bg_dark')
+                                    ->label('Column Background Color (Dark Mode)'),
+                                ColorPicker::make('winner_comp_text_color')
+                                    ->label('Competition Text Color'),
+                                ColorPicker::make('winner_comp_text_color_dark')
+                                    ->label('Competition Text Color (Dark Mode)'),
+                                ColorPicker::make('winner_name_text_color')
+                                    ->label('Name Column Text Color'),
+                                ColorPicker::make('winner_name_text_color_dark')
+                                    ->label('Name Column Text Color (Dark Mode)'),
+                            ]),
+                    ]),
+
                 Section::make('Feature Flags')
                     ->schema([
                         Toggle::make('show_fixtures_results')

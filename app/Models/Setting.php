@@ -52,6 +52,12 @@ class Setting extends Model
         'sponsor_panel_show_on_all_pages',
         'sponsor_panel_pages',
         'show_fixtures_results',
+        'winner_col_bg',
+        'winner_col_bg_dark',
+        'winner_comp_text_color',
+        'winner_comp_text_color_dark',
+        'winner_name_text_color',
+        'winner_name_text_color_dark',
     ];
 
     protected function casts(): array

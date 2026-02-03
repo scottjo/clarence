@@ -105,6 +105,7 @@
                             <a href="{{ route('about.membership') }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Membership</a>
                             <a href="{{ route('about.history') }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Club History</a>
                             <a href="{{ route('about.competition') }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Club Competition</a>
+                            <a href="{{ route('about.competition-winners') }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Club Competition Winners</a>
                         </div>
                     </div>
 
@@ -215,6 +216,7 @@
                             <a href="{{ route('about.membership') }}" class="px-2 py-1.5 hover:text-blue-600 transition">Membership</a>
                             <a href="{{ route('about.history') }}" class="px-2 py-1.5 hover:text-blue-600 transition">Club History</a>
                             <a href="{{ route('about.competition') }}" class="px-2 py-1.5 hover:text-blue-600 transition">Club Competition</a>
+                            <a href="{{ route('about.competition-winners') }}" class="px-2 py-1.5 hover:text-blue-600 transition">Club Competition Winners</a>
                         </div>
                     </div>
 

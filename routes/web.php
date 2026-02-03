@@ -3,6 +3,7 @@
 use App\Http\Middleware\CheckFixturesEnabled;
 use App\Livewire\About;
 use App\Livewire\About\Competition;
+use App\Livewire\About\CompetitionWinners;
 use App\Livewire\About\Facilities;
 use App\Livewire\About\History;
 use App\Livewire\About\Location;
@@ -31,6 +32,7 @@ Route::get('/about/play-learn', PlayLearn::class)->name('about.play-learn');
 Route::get('/about/membership', Membership::class)->name('about.membership');
 Route::get('/about/history', History::class)->name('about.history');
 Route::get('/about/competition', Competition::class)->name('about.competition');
+Route::get('/about/competition-winners', CompetitionWinners::class)->name('about.competition-winners');
 Route::middleware(['web'])->group(function () {
     Route::middleware([CheckFixturesEnabled::class])->group(function () {
         Route::get('/fixtures', FixturesList::class)->name('fixtures');
