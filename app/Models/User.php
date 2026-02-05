@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\UserRole;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -24,6 +25,7 @@ class User extends Authenticatable implements FilamentUser
         'email',
         'password',
         'is_admin',
+        'roles',
     ];
 
     /**
@@ -47,7 +49,33 @@ class User extends Authenticatable implements FilamentUser
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_admin' => 'boolean',
+            'roles' => 'array',
         ];
+    }
+
+    public function hasRole(UserRole $role): bool
+    {
+        return in_array($role->value, $this->roles ?? []);
+    }
+
+    public function isSuperUser(): bool
+    {
+        return $this->hasRole(UserRole::SuperUser) || $this->email === config('app.super_user_email');
+    }
+
+    public function isAdministrator(): bool
+    {
+        return $this->hasRole(UserRole::Administrator) || $this->isSuperUser();
+    }
+
+    public function isContentMaintainer(): bool
+    {
+        return $this->hasRole(UserRole::ContentMaintainer) || $this->isAdministrator();
+    }
+
+    public function isMediaUser(): bool
+    {
+        return $this->hasRole(UserRole::MediaUser);
     }
 
     /**
@@ -55,6 +83,6 @@ class User extends Authenticatable implements FilamentUser
      */
     public function canAccessPanel(Panel $panel): bool
     {
-        return (bool) $this->is_admin;
+        return $this->is_admin || ! empty($this->roles) || $this->isSuperUser();
     }
 }

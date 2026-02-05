@@ -42,7 +42,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
                 FilamentSpatieLaravelHealthPlugin::make()
-                    ->authorize(fn () => true)
+                    ->authorize(fn () => auth()->user()?->isSuperUser())
                     ->navigationGroup('Monitoring'),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')

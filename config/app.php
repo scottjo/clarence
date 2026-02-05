@@ -98,6 +98,7 @@ return [
     'cipher' => 'AES-256-CBC',
 
     'key' => env('APP_KEY'),
+    'super_user_email' => env('SUPER_USER_EMAIL'),
 
     'previous_keys' => [
         ...array_filter(
