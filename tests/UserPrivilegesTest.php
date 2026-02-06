@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests;
+
 use App\Enums\UserRole;
 use App\Filament\Pages\Settings;
 use App\Models\Competition;
@@ -7,7 +9,6 @@ use App\Models\Event;
 use App\Models\Sponsor;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 
 class UserPrivilegesTest extends TestCase
 {
@@ -107,6 +108,30 @@ class UserPrivilegesTest extends TestCase
         $this->actingAs($admin);
 
         $this->assertTrue(Settings::canAccess());
+    }
+
+    public function test_media_user_can_access_media_resource(): void
+    {
+        $mediaUser = User::factory()->create([
+            'is_admin' => false,
+            'roles' => [UserRole::MediaUser->value],
+        ]);
+
+        $this->actingAs($mediaUser);
+
+        $this->assertTrue($mediaUser->can('viewAny', \App\Models\Media::class));
+    }
+
+    public function test_content_maintainer_cannot_access_media_resource(): void
+    {
+        $contentUser = User::factory()->create([
+            'is_admin' => false,
+            'roles' => [UserRole::ContentMaintainer->value],
+        ]);
+
+        $this->actingAs($contentUser);
+
+        $this->assertFalse($contentUser->can('viewAny', \App\Models\Media::class));
     }
 
     public function test_emergency_email_acts_as_super_user(): void

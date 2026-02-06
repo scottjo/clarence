@@ -11,14 +11,18 @@ use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\AccountWidget;
 use Filament\Widgets\FilamentInfoWidget;
+use Filament\Navigation\NavigationItem;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use RalphJSmit\Filament\MediaLibrary\FilamentMediaLibrary;
+use RalphJSmit\Filament\MediaLibrary\Filament\Pages\MediaLibrary as MediaLibraryPage;
 use ShuvroRoy\FilamentSpatieLaravelHealth\FilamentSpatieLaravelHealthPlugin;
 
 class AdminPanelProvider extends PanelProvider
@@ -28,10 +32,13 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('admin')
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ->path(config('filament.admin_path', 'admin'))
             ->brandName('Clarence Bowling Club')
             ->login()
             ->navigationGroups([
+                NavigationGroup::make()
+                    ->label('Media'),
                 NavigationGroup::make()
                     ->label('Content'),
                 NavigationGroup::make()
@@ -44,6 +51,33 @@ class AdminPanelProvider extends PanelProvider
                 FilamentSpatieLaravelHealthPlugin::make()
                     ->authorize(fn () => auth()->user()?->isSuperUser())
                     ->navigationGroup('Monitoring'),
+            ])
+            ->plugins([
+                FilamentMediaLibrary::make()
+                    ->registerNavigation(false)
+                    ->acceptImage(false)
+                    ->additionalAcceptedFileTypes([
+                        'image/jpeg',
+                        'image/png',
+                        'image/webp',
+                        'image/svg+xml',
+                        'image/gif',
+                    ])
+                    ->acceptPdf()
+                    ->acceptAudio()
+                    ->acceptZip()
+                    ->acceptMicrosoftWord()
+                    ->acceptMicrosoftExcel()
+                    ->acceptMicrosoftPowerpoint()
+                    ->acceptCsv()
+                    ->conversions(),
+            ])
+            ->navigationItems([
+                NavigationItem::make('Media Library')
+                    ->group('Media')
+                    ->icon(Heroicon::Photo)
+                    ->visible(fn (): bool => auth()->user()?->isMediaUser() ?? false)
+                    ->url(fn (): string => MediaLibraryPage::getUrl()),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')

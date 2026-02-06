@@ -11,8 +11,11 @@
         "laravel/framework": "^12.0",
         "laravel/horizon": "^5.43",
         "laravel/tinker": "^2.10.1",
+        "league/flysystem-aws-s3-v3": "^3.31",
+        "ralphjsmit/laravel-filament-media-library": "^4.0",
         "shuvroroy/filament-spatie-laravel-health": "^3.2",
-        "spatie/laravel-health": "^1.34"
+        "spatie/laravel-health": "^1.34",
+        "spatie/laravel-medialibrary": "^11.17"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -84,9 +87,16 @@
         "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true,
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "ralphjsmit/packages": true
         }
     },
-    "minimum-stability": "stable",
-    "prefer-stable": true
+    "minimum-stability": "beta",
+    "prefer-stable": true,
+    "repositories": {
+        "ralphjsmit/*": {
+            "type": "composer",
+            "url": "https://satis.ralphjsmit.com"
+        }
+    }
 }
