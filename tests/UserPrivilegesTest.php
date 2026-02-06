@@ -9,6 +9,7 @@ use App\Models\Event;
 use App\Models\Sponsor;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Gate;
 
 class UserPrivilegesTest extends TestCase
 {
@@ -146,5 +147,34 @@ class UserPrivilegesTest extends TestCase
 
         $this->assertTrue($user->isSuperUser());
         $this->assertTrue($user->can('viewAny', User::class));
+    }
+
+    public function test_super_user_can_access_horizon(): void
+    {
+        $superUser = User::factory()->create([
+            'roles' => [UserRole::SuperUser->value],
+        ]);
+
+        $this->assertTrue(Gate::forUser($superUser)->allows('viewHorizon'));
+    }
+
+    public function test_emergency_email_can_access_horizon(): void
+    {
+        config(['app.super_user_email' => 'emergency@example.com']);
+
+        $user = User::factory()->create([
+            'email' => 'emergency@example.com',
+        ]);
+
+        $this->assertTrue(Gate::forUser($user)->allows('viewHorizon'));
+    }
+
+    public function test_regular_user_cannot_access_horizon(): void
+    {
+        $user = User::factory()->create([
+            'roles' => [UserRole::ContentMaintainer->value],
+        ]);
+
+        $this->assertFalse(Gate::forUser($user)->allows('viewHorizon'));
     }
 }
