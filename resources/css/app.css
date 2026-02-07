@@ -46,3 +46,10 @@
 [x-cloak] {
     display: none !important;
 }
+
+header button,
+header a,
+footer a,
+button[type="submit"] {
+    cursor: pointer;
+}
