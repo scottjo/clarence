@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Enums\SocialPlatform;
+use App\Enums\UserRole;
 use App\Filament\Resources\SocialMediaLinks\Pages\CreateSocialMediaLink;
 use App\Filament\Resources\SocialMediaLinks\Pages\EditSocialMediaLink;
 use App\Filament\Resources\SocialMediaLinks\Pages\ListSocialMediaLinks;
@@ -18,7 +19,10 @@ class SocialMediaLinkFilamentTest extends TestCase
 
     public function test_can_render_list_page(): void
     {
-        $this->actingAs(User::factory()->create());
+        $this->actingAs(User::factory()->create([
+            'is_admin' => true,
+            'roles' => [UserRole::SuperUser->value],
+        ]));
 
         Livewire::test(ListSocialMediaLinks::class)
             ->assertStatus(200);
@@ -26,7 +30,10 @@ class SocialMediaLinkFilamentTest extends TestCase
 
     public function test_can_create_social_media_link(): void
     {
-        $this->actingAs(User::factory()->create());
+        $this->actingAs(User::factory()->create([
+            'is_admin' => true,
+            'roles' => [UserRole::SuperUser->value],
+        ]));
 
         Livewire::test(CreateSocialMediaLink::class)
             ->fillForm([
@@ -51,7 +58,10 @@ class SocialMediaLinkFilamentTest extends TestCase
 
     public function test_can_edit_social_media_link(): void
     {
-        $this->actingAs(User::factory()->create());
+        $this->actingAs(User::factory()->create([
+            'is_admin' => true,
+            'roles' => [UserRole::SuperUser->value],
+        ]));
 
         $link = SocialMediaLink::create([
             'platform' => SocialPlatform::Facebook,

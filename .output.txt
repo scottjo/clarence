@@ -1,1 +1,401 @@
-    "output": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n\n    <title>Test Club<\/title>\n    <meta name=\"description\" content=\"Clarence Bowls Club is a friendly lawn bowls club located in Clarence Park, Weston-super-Mare. Join us for competitive and social bowling.\">\n    <link rel=\"canonical\" href=\"https:\/\/clarence.test\">\n\n    <!-- Open Graph \/ Facebook -->\n    <meta property=\"og:type\" content=\"website\">\n    <meta property=\"og:url\" content=\"https:\/\/clarence.test\">\n    <meta property=\"og:title\" content=\"Test Club\">\n    <meta property=\"og:description\" content=\"Join Clarence Bowls Club in Weston-super-Mare.\">\n    \n    <!-- Twitter -->\n    <meta property=\"twitter:card\" content=\"summary_large_image\">\n    <meta property=\"twitter:url\" content=\"https:\/\/clarence.test\">\n    <meta property=\"twitter:title\" content=\"Test Club\">\n    <meta property=\"twitter:description\" content=\"Join Clarence Bowls Club in Weston-super-Mare.\">\n    \n    <!-- Structured Data -->\n    <script type=\"application\/ld+json\">\n    {\n        \"@context\": \"https:\/\/schema.org\",\n        \"@type\": \"SportsOrganization\",\n        \"name\": \"Test Club\",\n        \"url\": \"https:\/\/clarence.test\",\n        \n        \"address\": {\n            \"@type\": \"PostalAddress\",\n            \"streetAddress\": \"Clarence Park\",\n            \"addressLocality\": \"Weston-super-Mare\",\n            \"postalCode\": \"BS23 4BN\",\n            \"addressCountry\": \"GB\"\n        }\n        \n    }\n    <\/script>\n\n    <link rel=\"preload\" as=\"style\" href=\"https:\/\/clarence.test\/build\/assets\/app-CD9qy9u1.css\" \/><link rel=\"modulepreload\" as=\"script\" href=\"https:\/\/clarence.test\/build\/assets\/app-CAiCLEjY.js\" \/><link rel=\"stylesheet\" href=\"https:\/\/clarence.test\/build\/assets\/app-CD9qy9u1.css\" data-navigate-track=\"reload\" \/><script type=\"module\" src=\"https:\/\/clarence.test\/build\/assets\/app-CAiCLEjY.js\" data-navigate-track=\"reload\"><\/script><\/head>\n<body class=\"text-gray-900 font-sans antialiased dark:text-gray-100\"\n      style=\"\n        --page-bg: #c0ccd9;\n        --page-bg-dark: #111827;\n        background-color: var(--page-bg);\n      \"\n      x-data=\"{ mobileMenuOpen: false }\">\n    <style>\n        @media (prefers-color-scheme: dark) {\n            body {\n                background-color: var(--page-bg-dark) !important;\n            }\n        }\n    <\/style>\n    <header class=\"sticky top-0 z-50 shadow-sm border-b border-gray-200 dark:border-gray-700\"\n            style=\"\n                background: linear-gradient(to bottom, #ff0000, #00ff00);\n                color: #2563eb\n            \">\n        <nav class=\"container mx-auto px-4 py-4\">\n            <div class=\"flex items-center justify-between\">\n                <a href=\"https:\/\/clarence.test\" class=\"flex items-center gap-3 text-2xl font-bold\" style=\"color: #2563eb\">\n                                            <img src=\"https:\/\/clarence.test\/images\/logo.png\" alt=\"Clarence Bowls Club Logo\" class=\"h-10 w-auto object-contain\">\n                                        <span>Test Club<\/span>\n                <\/a>\n\n                <!-- Desktop Menu -->\n                <div class=\"hidden md:flex gap-6 items-center\">\n                    <a href=\"https:\/\/clarence.test\" class=\"hover:opacity-75 transition\">Home<\/a>\n\n                    <div class=\"relative\" x-data=\"{ open: false }\" @mouseenter=\"open = true\" @mouseleave=\"open = false\">\n                        <button @click=\"open = !open\" class=\"flex items-center gap-1 hover:opacity-75 transition focus:outline-none\">\n                            About Us\n                            <svg class=\"w-4 h-4 fill-current\" viewBox=\"0 0 20 20\">\n                                <path d=\"M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z\"\/>\n                            <\/svg>\n                        <\/button>\n                        <div x-show=\"open\"\n                             x-transition:enter=\"transition ease-out duration-100\"\n                             x-transition:enter-start=\"opacity-0 scale-95\"\n                             x-transition:enter-end=\"opacity-100 scale-100\"\n                             x-transition:leave=\"transition ease-in duration-75\"\n                             x-transition:leave-start=\"opacity-100 scale-100\"\n                             x-transition:leave-end=\"opacity-0 scale-95\"\n                             class=\"absolute left-0 mt-0 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-2 z-50 border border-gray-100 dark:border-gray-700\"\n                             style=\"display: none;\">\n                            <a href=\"https:\/\/clarence.test\/about\" class=\"block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900\/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100\">General Info<\/a>\n                            <a href=\"https:\/\/clarence.test\/about\/location\" class=\"block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900\/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100\">Location<\/a>\n                            <a href=\"https:\/\/clarence.test\/about\/officers\" class=\"block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900\/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100\">Club Officers<\/a>\n                            <a href=\"https:\/\/clarence.test\/about\/facilities\" class=\"block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900\/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100\">Facilities<\/a>\n                            <a href=\"https:\/\/clarence.test\/about\/play-learn\" class=\"block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900\/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100\">Play & Learn<\/a>\n                            <a href=\"https:\/\/clarence.test\/about\/membership\" class=\"block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900\/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100\">Membership<\/a>\n                            <a href=\"https:\/\/clarence.test\/about\/history\" class=\"block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900\/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100\">Club History<\/a>\n                            <a href=\"https:\/\/clarence.test\/about\/competition\" class=\"block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900\/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100\">Club Competition<\/a>\n                        <\/div>\n                    <\/div>\n\n                                        <a href=\"https:\/\/clarence.test\/news\" class=\"hover:opacity-75 transition\">News<\/a>\n                    <a href=\"https:\/\/clarence.test\/events\" class=\"hover:opacity-75 transition\">Events<\/a>\n                    <a href=\"https:\/\/clarence.test\/contact\" class=\"hover:opacity-75 transition\">Contact<\/a>\n                    <div wire:key=\"lw-1399433920-0\" wire:snapshot=\"{&quot;data&quot;:[],&quot;memo&quot;:{&quot;id&quot;:&quot;iZtBtokQSggfMc400a3o&quot;,&quot;name&quot;:&quot;search-header&quot;,&quot;path&quot;:&quot;\\\/&quot;,&quot;method&quot;:&quot;GET&quot;,&quot;release&quot;:&quot;a-a-a&quot;,&quot;children&quot;:[],&quot;scripts&quot;:[],&quot;assets&quot;:[],&quot;errors&quot;:[],&quot;locale&quot;:&quot;en&quot;,&quot;islands&quot;:[]},&quot;checksum&quot;:&quot;1957c804fb7b3928175269c9164e6d9a3ff2aff5597522362fa8434eef87fb9a&quot;}\" wire:effects=\"{&quot;partials&quot;:[]}\" wire:id=\"iZtBtokQSggfMc400a3o\" wire:name=\"search-header\" class=\"relative\" x-data=\"{ open: false }\">\n    <button @click=\"open = !open; if(open) { $nextTick(() => { $refs.searchInput.focus() }) }\"\n            class=\"p-2 transition\"\n            style=\"color: inherit\"\n            aria-label=\"Search\">\n        <svg class=\"w-6 h-6\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\">\n            <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z\"><\/path>\n        <\/svg>\n    <\/button>\n\n    <div x-show=\"open\"\n         @click.away=\"open = false\"\n         x-transition:enter=\"transition ease-out duration-200\"\n         x-transition:enter-start=\"opacity-0 translate-y-1\"\n         x-transition:enter-end=\"opacity-100 translate-y-0\"\n         x-transition:leave=\"transition ease-in duration-150\"\n         x-transition:leave-start=\"opacity-100 translate-y-0\"\n         x-transition:leave-end=\"opacity-0 translate-y-1\"\n         class=\"absolute right-0 mt-2 w-72 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 p-4 z-50\"\n         style=\"display: none;\">\n        <form action=\"https:\/\/clarence.test\/search\" method=\"GET\" class=\"relative\">\n            <input type=\"text\"\n                   name=\"q\"\n                   x-ref=\"searchInput\"\n                   placeholder=\"Search news, events...\"\n                   maxlength=\"100\"\n                   class=\"w-full pl-4 pr-10 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500\">\n            <button type=\"submit\" class=\"absolute right-2 top-1\/2 -translate-y-1\/2 text-gray-400 hover:text-blue-500\">\n                <svg class=\"w-5 h-5\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\">\n                    <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z\"><\/path>\n                <\/svg>\n            <\/button>\n        <\/form>\n    <\/div>\n<\/div>\n                                     <\/div>\n\n                <!-- Mobile Menu Toggle -->\n                <div class=\"md:hidden\">\n                    <button @click=\"mobileMenuOpen = !mobileMenuOpen\" class=\"hover:opacity-75 focus:outline-none p-2\" style=\"color: #2563eb\">\n                        <svg class=\"w-6 h-6\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\" x-show=\"!mobileMenuOpen\">\n                            <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M4 6h16M4 12h16M4 18h16\"><\/path>\n                        <\/svg>\n                        <svg class=\"w-6 h-6\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\" x-show=\"mobileMenuOpen\" style=\"display: none;\">\n                            <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M6 18L18 6M6 6l12 12\"><\/path>\n                        <\/svg>\n                    <\/button>\n                <\/div>\n            <\/div>\n\n            <!-- Mobile Menu -->\n            <div x-show=\"mobileMenuOpen\"\n                 x-transition:enter=\"transition ease-out duration-200\"\n                 x-transition:enter-start=\"opacity-0 -translate-y-2\"\n                 x-transition:enter-end=\"opacity-100 translate-y-0\"\n                 x-transition:leave=\"transition ease-in duration-150\"\n                 x-transition:leave-start=\"opacity-100 translate-y-0\"\n                 x-transition:leave-end=\"opacity-0 -translate-y-2\"\n                 class=\"md:hidden pt-4 pb-2 border-t border-gray-100 dark:border-gray-700\"\n                 style=\"display: none;\">\n                <div class=\"flex flex-col gap-2\">\n                    <a href=\"https:\/\/clarence.test\" class=\"px-2 py-2 hover:bg-blue-50 dark:hover:bg-blue-900\/30 hover:text-blue-600 rounded transition\">Home<\/a>\n\n                    <div x-data=\"{ open: false }\">\n                        <button @click=\"open = !open\" class=\"w-full flex items-center justify-between px-2 py-2 hover:bg-blue-50 dark:hover:bg-blue-900\/30 hover:text-blue-600 rounded transition\">\n                            <span>About Us<\/span>\n                            <svg class=\"w-4 h-4 transition-transform\" :class=\"{ 'rotate-180': open }\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\">\n                                <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M19 9l-7 7-7-7\"><\/path>\n                            <\/svg>\n                        <\/button>\n                        <div x-show=\"open\" class=\"pl-4 mt-1 flex flex-col gap-1 border-l-2 border-gray-100 dark:border-gray-700 ml-2\">\n                            <a href=\"https:\/\/clarence.test\/about\" class=\"px-2 py-1.5 hover:text-blue-600 transition\">General Info<\/a>\n                            <a href=\"https:\/\/clarence.test\/about\/location\" class=\"px-2 py-1.5 hover:text-blue-600 transition\">Location<\/a>\n                            <a href=\"https:\/\/clarence.test\/about\/officers\" class=\"px-2 py-1.5 hover:text-blue-600 transition\">Club Officers<\/a>\n                            <a href=\"https:\/\/clarence.test\/about\/facilities\" class=\"px-2 py-1.5 hover:text-blue-600 transition\">Facilities<\/a>\n                            <a href=\"https:\/\/clarence.test\/about\/play-learn\" class=\"px-2 py-1.5 hover:text-blue-600 transition\">Play & Learn<\/a>\n                            <a href=\"https:\/\/clarence.test\/about\/membership\" class=\"px-2 py-1.5 hover:text-blue-600 transition\">Membership<\/a>\n                            <a href=\"https:\/\/clarence.test\/about\/history\" class=\"px-2 py-1.5 hover:text-blue-600 transition\">Club History<\/a>\n                            <a href=\"https:\/\/clarence.test\/about\/competition\" class=\"px-2 py-1.5 hover:text-blue-600 transition\">Club Competition<\/a>\n                        <\/div>\n                    <\/div>\n\n                                        <a href=\"https:\/\/clarence.test\/news\" class=\"px-2 py-2 hover:bg-blue-50 dark:hover:bg-blue-900\/30 hover:text-blue-600 rounded transition\">News<\/a>\n                    <a href=\"https:\/\/clarence.test\/events\" class=\"px-2 py-2 hover:bg-blue-50 dark:hover:bg-blue-900\/30 hover:text-blue-600 rounded transition\">Events<\/a>\n                    <a href=\"https:\/\/clarence.test\/contact\" class=\"px-2 py-2 hover:bg-blue-50 dark:hover:bg-blue-900\/30 hover:text-blue-600 rounded transition\">Contact<\/a>\n                    <div class=\"px-2 py-2\">\n                        <form action=\"https:\/\/clarence.test\/search\" method=\"GET\" class=\"relative\">\n                            <input type=\"text\" name=\"q\" placeholder=\"Search...\" maxlength=\"100\" class=\"w-full pl-4 pr-10 py-2 border border-gray-300 dark:bg-gray-700 dark:border-gray-600 rounded-md bg-gray-50 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500\">\n                            <button type=\"submit\" class=\"absolute right-2 top-1\/2 -translate-y-1\/2 hover:text-blue-500\" style=\"color: #2563eb\">\n                                <svg class=\"w-5 h-5\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\">\n                                    <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z\"><\/path>\n                                <\/svg>\n                            <\/button>\n                        <\/form>\n                    <\/div>\n                                    <\/div>\n            <\/div>\n        <\/nav>\n                    <div class=\"w-full\"\n                 style=\"\n                    background-color: #2123de;\n                    height: 2px;\n                    \n                 \">\n            <\/div>\n            <\/header>\n\n    <main>\n        \n                test\n    <\/main>\n\n    <div wire:key=\"lw-1399433920-1\" wire:snapshot=\"{&quot;data&quot;:[],&quot;memo&quot;:{&quot;id&quot;:&quot;ALai2K67dNojJAXBpZVk&quot;,&quot;name&quot;:&quot;sponsors-panel&quot;,&quot;path&quot;:&quot;\\\/&quot;,&quot;method&quot;:&quot;GET&quot;,&quot;release&quot;:&quot;a-a-a&quot;,&quot;children&quot;:[],&quot;scripts&quot;:[],&quot;assets&quot;:[],&quot;errors&quot;:[],&quot;locale&quot;:&quot;en&quot;,&quot;islands&quot;:[]},&quot;checksum&quot;:&quot;61d4a9095723df11f4896ddc39b9d39e29f35c547d930bd354190efcb4cc6324&quot;}\" wire:effects=\"{&quot;partials&quot;:[],&quot;styleModule&quot;:1784173844}\" wire:id=\"ALai2K67dNojJAXBpZVk\" wire:name=\"sponsors-panel\">\n    <!--[if BLOCK]><![endif]-->        <div class=\"hidden\"><\/div>\n    <!--[if ENDBLOCK]><![endif]--><\/div>\n    <footer class=\"py-12 relative\"\n            style=\"\n                background: #ffffff;\n                color: #6b7280;\n                border-top: 1px solid #2123de;\n            \">\n                    <div class=\"absolute top-0 left-0 w-full\"\n                 style=\"\n                    background-color: #2123de;\n                    height: 2px;\n                    \n                 \">\n            <\/div>\n                <div class=\"container mx-auto px-4\">\n            <div class=\"grid md:grid-cols-3 items-center gap-8 mb-8\">\n                <div class=\"flex justify-center md:justify-start h-24\">\n                                    <\/div>\n                <div class=\"text-center\">\n                    <h3 class=\"text-xl font-bold mb-4\">Test Club<\/h3>\n                                                        <\/div>\n                <div class=\"flex justify-center md:justify-end h-24\">\n                                    <\/div>\n            <\/div>\n\n            \n            <div class=\"text-center pt-8 border-t\"\n                 style=\"border-color: #2123de\">\n                <p class=\"text-sm opacity-75\">&copy; 2026 Test Club. All rights reserved.<\/p>\n            <\/div>\n        <\/div>\n    <\/footer>\n<\/body>\n<\/html>\n",
+diff --git a/resources/css/app.css b/resources/css/app.css
+index edc34cb..e512b8d 100644
+--- a/resources/css/app.css
++++ b/resources/css/app.css
+@@ -1,6 +1,8 @@
+ @import 'tailwindcss';
+
+ @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
++@source '../../vendor/livewire/flux/stubs/resources/views/**/*.blade.php';
++@source '../../vendor/livewire/flux-pro/stubs/resources/views/**/*.blade.php';
+ @source '../../storage/framework/views/*.php';
+ @source '../**/*.blade.php';
+ @source '../**/*.js';
+diff --git a/resources/views/layouts/app.blade.php b/resources/views/layouts/app.blade.php
+index a568ab0..ba214ac 100644
+--- a/resources/views/layouts/app.blade.php
++++ b/resources/views/layouts/app.blade.php
+@@ -46,14 +46,14 @@
+     </script>
+
+     @vite(['resources/css/app.css', 'resources/js/app.js'])
++    @fluxAppearance
+ </head>
+-<body class="text-gray-900 font-sans antialiased dark:text-gray-100"
++<body class="text-gray-900 font-sans antialiased dark:text-gray-100 min-h-screen bg-white dark:bg-gray-900"
+       style="
+         --page-bg: {{ $settings?->page_bg_color ?? '#f9fafb' }};
+         --page-bg-dark: {{ $settings?->page_bg_color_dark ?? '#111827' }};
+         background-color: var(--page-bg);
+-      "
+-      x-data="{ mobileMenuOpen: false }">
++      ">
+     <style>
+         @media (prefers-color-scheme: dark) {
+             body {
+@@ -61,225 +61,84 @@
+             }
+         }
+     </style>
+-    <header class="sticky top-0 z-50 shadow-sm border-b border-gray-200 dark:border-gray-700"
+-            style="
+-                background: {{ ($settings?->header_gradient_start && $settings?->header_gradient_end) ? 'linear-gradient(' . ($settings->header_gradient_direction?->value ?? 'to right') . ', ' . $settings->header_gradient_start . ', ' . $settings->header_gradient_end . ')' : ($settings?->menu_color ?? '#ffffff') }};
+-                color: {{ $settings?->menu_text_color ?? 'inherit' }}
+-            ">
+-        <nav class="container mx-auto px-4 py-4">
+-            <div class="flex items-center justify-between">
+-                <a href="{{ route('home') }}" class="flex items-center gap-3 text-2xl font-bold" style="color: {{ $settings?->menu_text_color ?? '#2563eb' }}">
+-                    @if($settings?->header_logo)
+-                        <img src="{{ Storage::url($settings->header_logo) }}" alt="{{ $settings->club_name }} Logo" class="h-10 w-auto object-contain">
+-                    @else
+-                        <img src="{{ asset('images/logo.png') }}" alt="Clarence Bowls Club Logo" class="h-10 w-auto object-contain">
+-                    @endif
+-                    <span>{{ $settings?->club_name ?? 'Clarence Bowls Club' }}</span>
+-                </a>
++    <flux:header container sticky class="shadow-sm border-b border-gray-200 dark:border-gray-700"
++                 style="
++                    background: {{ ($settings?->header_gradient_start && $settings?->header_gradient_end) ? 'linear-gradient(' . ($settings->header_gradient_direction?->value ?? 'to right') . ', ' . $settings->header_gradient_start . ', ' . $settings->header_gradient_end . ')' : ($settings?->menu_color ?? '#ffffff') }};
++                    color: {{ $settings?->menu_text_color ?? 'inherit' }}
++                ">
++        <flux:sidebar.toggle class="md:hidden" icon="bars-3" inset="left" />
+
+-                <!-- Desktop Menu -->
+-                <div class="hidden md:flex gap-6 items-center">
+-                    <a href="{{ route('home') }}" class="hover:opacity-75 transition">Home</a>
++        <flux:brand href="{{ route('home') }}" class="flex items-center gap-3 text-2xl font-bold" style="color: {{ $settings?->menu_text_color ?? '#2563eb' }}">
++            @if($settings?->header_logo)
++                <img src="{{ Storage::url($settings->header_logo) }}" alt="{{ $settings->club_name }} Logo" class="h-10 w-auto object-contain">
++            @else
++                <img src="{{ asset('images/logo.png') }}" alt="Clarence Bowls Club Logo" class="h-10 w-auto object-contain">
++            @endif
++            <span class="max-lg:hidden">{{ $settings?->club_name ?? 'Clarence Bowls Club' }}</span>
++        </flux:brand>
+
+-                    <div class="relative" x-data="{ open: false }" @mouseenter="open = true" @mouseleave.debounce.100ms="open = false">
+-                        <button type="button" @click="open = !open" class="flex items-center gap-1 hover:opacity-75 transition focus:outline-none">
+-                            About Us
+-                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+-                                <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
+-                            </svg>
+-                        </button>
+-                        <div x-show="open"
+-                             x-cloak
+-                             x-transition:enter="transition ease-out duration-100"
+-                             x-transition:enter-start="opacity-0 scale-95"
+-                             x-transition:enter-end="opacity-100 scale-100"
+-                             x-transition:leave="transition ease-in duration-75"
+-                             x-transition:leave-start="opacity-100 scale-100"
+-                             x-transition:leave-end="opacity-0 scale-95"
+-                             class="absolute left-0 mt-0 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-2 z-50 border border-gray-100 dark:border-gray-700">
+-                            <a href="{{ route('about') }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">General Info</a>
+-                            <a href="{{ route('about.location') }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Location</a>
+-                            <a href="{{ route('about.officers') }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Club Officers</a>
+-                            <a href="{{ route('about.facilities') }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Facilities</a>
+-                            <a href="{{ route('about.play-learn') }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Play & Learn</a>
+-                            <a href="{{ route('about.membership') }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Membership</a>
+-                            <a href="{{ route('about.history') }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Club History</a>
+-                            <a href="{{ route('about.competition') }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Club Competition</a>
+-                            <a href="{{ route('about.competition-winners') }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Club Competition Winners</a>
+-                        </div>
+-                    </div>
++        <flux:navbar class="hidden md:flex">
++            <flux:navbar.item href="{{ route('home') }}" :current="request()->routeIs('home')">Home</flux:navbar.item>
+
+-                    @if($settings?->show_fixtures_results ?? true)
+-                        <div class="relative" x-data="{ open: false }" @mouseenter="open = true" @mouseleave.debounce.100ms="open = false">
+-                            <button type="button" @click="open = !open" class="flex items-center gap-1 hover:opacity-75 transition focus:outline-none">
+-                                Fixtures
+-                                <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+-                                    <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
+-                                </svg>
+-                            </button>
+-                            <div x-show="open"
+-                                 x-cloak
+-                                 x-transition:enter="transition ease-out duration-100"
+-                                 x-transition:enter-start="opacity-0 scale-95"
+-                                 x-transition:enter-end="opacity-100 scale-100"
+-                                 x-transition:leave="transition ease-in duration-75"
+-                                 x-transition:leave-start="opacity-100 scale-100"
+-                                 x-transition:leave-end="opacity-0 scale-95"
+-                                 class="absolute left-0 mt-0 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-2 z-50 border border-gray-100 dark:border-gray-700">
+-                                <a href="{{ route('fixtures.info') }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Fixture Information</a>
+-                                <hr class="my-1 border-gray-100 dark:border-gray-700">
+-                                <a href="{{ route('fixtures', ['type' => 'Clarence Men']) }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Clarence Men</a>
+-                                <a href="{{ route('fixtures', ['type' => 'Clarence Women']) }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Clarence Women</a>
+-                                <a href="{{ route('fixtures', ['type' => 'Competitions']) }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Competitions</a>
+-                            </div>
+-                        </div>
+-                        <div class="relative" x-data="{ open: false }" @mouseenter="open = true" @mouseleave.debounce.100ms="open = false">
+-                            <button type="button" @click="open = !open" class="flex items-center gap-1 hover:opacity-75 transition focus:outline-none">
+-                                Results
+-                                <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+-                                    <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
+-                                </svg>
+-                            </button>
+-                            <div x-show="open"
+-                                 x-cloak
+-                                 x-transition:enter="transition ease-out duration-100"
+-                                 x-transition:enter-start="opacity-0 scale-95"
+-                                 x-transition:enter-end="opacity-100 scale-100"
+-                                 x-transition:leave="transition ease-in duration-75"
+-                                 x-transition:leave-start="opacity-100 scale-100"
+-                                 x-transition:leave-end="opacity-0 scale-95"
+-                                 class="absolute left-0 mt-0 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-2 z-50 border border-gray-100 dark:border-gray-700">
+-                                <a href="{{ route('results') }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">All Results</a>
+-                                <hr class="my-1 border-gray-100 dark:border-gray-700">
+-                                <a href="{{ route('results', ['type' => 'County League']) }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">County League</a>
+-                                <a href="{{ route('results', ['type' => 'Over 55s League']) }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Over 55s League</a>
+-                                <a href="{{ route('results', ['type' => 'Ladies League']) }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Ladies League</a>
+-                            </div>
+-                        </div>
+-                    @endif
+-                    <a href="{{ route('news') }}" class="hover:opacity-75 transition">News</a>
+-                    <a href="{{ route('events') }}" class="hover:opacity-75 transition">Events</a>
+-                    <a href="{{ route('contact') }}" class="hover:opacity-75 transition">Contact</a>
+-                    <livewire:search-header />
+-                    @if($settings?->member_login_url)
+-                        <a href="{{ $settings->member_login_url }}" target="_blank" rel="noopener noreferrer"
+-                           class="px-4 py-2 rounded-md transition text-sm font-semibold hover:opacity-100"
+-                           style="
+-                                background-color: {{ ($settings?->header_gradient_start && $settings?->header_gradient_end) ? $settings->header_gradient_start : ($settings?->menu_color ?? '#ffffff') }};
+-                                filter: brightness(0.9);
+-                                color: color-mix(in srgb, {{ $settings?->menu_text_color ?? '#000000' }}, black 40%);
+-                            ">
+-                             Member Login
+-                         </a>
+-                     @endif
+-                 </div>
++            <flux:dropdown>
++                <flux:navbar.item icon-trailing="chevron-down">About Us</flux:navbar.item>
+
+-                <!-- Mobile Menu Toggle -->
+-                <div class="md:hidden">
+-                    <button type="button" @click="mobileMenuOpen = !mobileMenuOpen" class="hover:opacity-75 focus:outline-none p-2" style="color: {{ $settings?->menu_text_color ?? 'inherit' }}">
+-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" x-show="!mobileMenuOpen">
+-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+-                        </svg>
+-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" x-show="mobileMenuOpen" x-cloak>
+-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+-                        </svg>
+-                    </button>
+-                </div>
+-            </div>
++                <flux:navmenu>
++                    <flux:navmenu.item href="{{ route('about') }}">General Info</flux:navmenu.item>
++                    <flux:navmenu.item href="{{ route('about.location') }}">Location</flux:navmenu.item>
++                    <flux:navmenu.item href="{{ route('about.officers') }}">Club Officers</flux:navmenu.item>
++                    <flux:navmenu.item href="{{ route('about.facilities') }}">Facilities</flux:navmenu.item>
++                    <flux:navmenu.item href="{{ route('about.play-learn') }}">Play & Learn</flux:navmenu.item>
++                    <flux:navmenu.item href="{{ route('about.membership') }}">Membership</flux:navmenu.item>
++                    <flux:navmenu.item href="{{ route('about.history') }}">Club History</flux:navmenu.item>
++                    <flux:navmenu.item href="{{ route('about.competition') }}">Club Competition</flux:navmenu.item>
++                    <flux:navmenu.item href="{{ route('about.competition-winners') }}">Competition Winners</flux:navmenu.item>
++                </flux:navmenu>
++            </flux:dropdown>
+
+-            <!-- Mobile Menu -->
+-            <div x-show="mobileMenuOpen"
+-                 x-cloak
+-                 x-transition:enter="transition ease-out duration-200"
+-                 x-transition:enter-start="opacity-0 -translate-y-2"
+-                 x-transition:enter-end="opacity-100 translate-y-0"
+-                 x-transition:leave="transition ease-in duration-150"
+-                 x-transition:leave-start="opacity-100 translate-y-0"
+-                 x-transition:leave-end="opacity-0 -translate-y-2"
+-                 class="md:hidden pt-4 pb-2 border-t border-gray-100 dark:border-gray-700">
+-                <div class="flex flex-col gap-2">
+-                    <a href="{{ route('home') }}" class="px-2 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 rounded transition">Home</a>
++            @if($settings?->show_fixtures_results ?? true)
++                <flux:dropdown>
++                    <flux:navbar.item icon-trailing="chevron-down">Fixtures</flux:navbar.item>
+
+-                    <div x-data="{ open: false }">
+-                        <button type="button" @click="open = !open" class="w-full flex items-center justify-between px-2 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 rounded transition">
+-                            <span>About Us</span>
+-                            <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+-                            </svg>
+-                        </button>
+-                        <div x-show="open" x-cloak class="pl-4 mt-1 flex flex-col gap-1 border-l-2 border-gray-100 dark:border-gray-700 ml-2">
+-                            <a href="{{ route('about') }}" class="px-2 py-1.5 hover:text-blue-600 transition">General Info</a>
+-                            <a href="{{ route('about.location') }}" class="px-2 py-1.5 hover:text-blue-600 transition">Location</a>
+-                            <a href="{{ route('about.officers') }}" class="px-2 py-1.5 hover:text-blue-600 transition">Club Officers</a>
+-                            <a href="{{ route('about.facilities') }}" class="px-2 py-1.5 hover:text-blue-600 transition">Facilities</a>
+-                            <a href="{{ route('about.play-learn') }}" class="px-2 py-1.5 hover:text-blue-600 transition">Play & Learn</a>
+-                            <a href="{{ route('about.membership') }}" class="px-2 py-1.5 hover:text-blue-600 transition">Membership</a>
+-                            <a href="{{ route('about.history') }}" class="px-2 py-1.5 hover:text-blue-600 transition">Club History</a>
+-                            <a href="{{ route('about.competition') }}" class="px-2 py-1.5 hover:text-blue-600 transition">Club Competition</a>
+-                            <a href="{{ route('about.competition-winners') }}" class="px-2 py-1.5 hover:text-blue-600 transition">Club Competition Winners</a>
+-                        </div>
+-                    </div>
++                    <flux:navmenu>
++                        <flux:navmenu.item href="{{ route('fixtures.info') }}">Fixture Information</flux:navmenu.item>
++                        <flux:menu.separator />
++                        <flux:navmenu.item href="{{ route('fixtures', ['type' => 'Clarence Men']) }}">Clarence Men</flux:navmenu.item>
++                        <flux:navmenu.item href="{{ route('fixtures', ['type' => 'Clarence Women']) }}">Clarence Women</flux:navmenu.item>
++                        <flux:navmenu.item href="{{ route('fixtures', ['type' => 'Competitions']) }}">Competitions</flux:navmenu.item>
++                    </flux:navmenu>
++                </flux:dropdown>
+
+-                    @if($settings?->show_fixtures_results ?? true)
+-                        <div x-data="{ open: false }">
+-                            <button type="button" @click="open = !open" class="w-full flex items-center justify-between px-2 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 rounded transition">
+-                                <span>Fixtures</span>
+-                                <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+-                                </svg>
+-                            </button>
+-                            <div x-show="open" x-cloak class="pl-4 mt-1 flex flex-col gap-1 border-l-2 border-gray-100 dark:border-gray-700 ml-2">
+-                                <a href="{{ route('fixtures.info') }}" class="px-2 py-1.5 hover:text-blue-600 transition">Fixture Information</a>
+-                                <a href="{{ route('fixtures', ['type' => 'Clarence Men']) }}" class="px-2 py-1.5 hover:text-blue-600 transition">Clarence Men</a>
+-                                <a href="{{ route('fixtures', ['type' => 'Clarence Women']) }}" class="px-2 py-1.5 hover:text-blue-600 transition">Clarence Women</a>
+-                                <a href="{{ route('fixtures', ['type' => 'Competitions']) }}" class="px-2 py-1.5 hover:text-blue-600 transition">Competitions</a>
+-                            </div>
+-                        </div>
++                <flux:dropdown>
++                    <flux:navbar.item icon-trailing="chevron-down">Results</flux:navbar.item>
+
+-                        <div x-data="{ open: false }">
+-                            <button type="button" @click="open = !open" class="w-full flex items-center justify-between px-2 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 rounded transition">
+-                                <span>Results</span>
+-                                <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+-                                </svg>
+-                            </button>
+-                            <div x-show="open" x-cloak class="pl-4 mt-1 flex flex-col gap-1 border-l-2 border-gray-100 dark:border-gray-700 ml-2">
+-                                <a href="{{ route('results') }}" class="px-2 py-1.5 hover:text-blue-600 transition">All Results</a>
+-                                <a href="{{ route('results', ['type' => 'County League']) }}" class="px-2 py-1.5 hover:text-blue-600 transition">County League</a>
+-                                <a href="{{ route('results', ['type' => 'Over 55s League']) }}" class="px-2 py-1.5 hover:text-blue-600 transition">Over 55s League</a>
+-                                <a href="{{ route('results', ['type' => 'Ladies League']) }}" class="px-2 py-1.5 hover:text-blue-600 transition">Ladies League</a>
+-                            </div>
+-                        </div>
+-                    @endif
+-                    <a href="{{ route('news') }}" class="px-2 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 rounded transition">News</a>
+-                    <a href="{{ route('events') }}" class="px-2 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 rounded transition">Events</a>
+-                    <a href="{{ route('contact') }}" class="px-2 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 rounded transition">Contact</a>
+-                    <div class="px-2 py-2">
+-                        <form action="{{ route('search') }}" method="GET" class="relative">
+-                            <input type="text" name="q" placeholder="Search..." maxlength="100" class="w-full pl-4 pr-10 py-2 border border-gray-300 dark:bg-gray-700 dark:border-gray-600 rounded-md bg-gray-50 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
+-                            <button type="submit" class="absolute right-2 top-1/2 -translate-y-1/2 hover:text-blue-500" style="color: {{ $settings?->menu_text_color ?? 'inherit' }}">
+-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+-                                </svg>
+-                            </button>
+-                        </form>
+-                    </div>
+-                    @if($settings?->member_login_url)
+-                        <div class="px-2 py-2">
+-                            <a href="{{ $settings->member_login_url }}" target="_blank" rel="noopener noreferrer"
+-                               class="block w-full text-center px-4 py-2 rounded-md transition text-sm font-semibold hover:opacity-100"
+-                               style="
+-                                    background-color: {{ ($settings?->header_gradient_start && $settings?->header_gradient_end) ? $settings->header_gradient_start : ($settings?->menu_color ?? '#ffffff') }};
+-                                    filter: brightness(0.9);
+-                                    color: color-mix(in srgb, {{ $settings?->menu_text_color ?? '#000000' }}, black 40%);
+-                               ">
+-                                Member Login
+-                            </a>
+-                        </div>
+-                    @endif
+-                </div>
+-            </div>
+-        </nav>
++                    <flux:navmenu>
++                        <flux:navmenu.item href="{{ route('results') }}">All Results</flux:navmenu.item>
++                        <flux:menu.separator />
++                        <flux:navmenu.item href="{{ route('results', ['type' => 'County League']) }}">County League</flux:navmenu.item>
++                        <flux:navmenu.item href="{{ route('results', ['type' => 'Over 55s League']) }}">Over 55s League</flux:navmenu.item>
++                        <flux:navmenu.item href="{{ route('results', ['type' => 'Ladies League']) }}">Ladies League</flux:navmenu.item>
++                    </flux:navmenu>
++                </flux:dropdown>
++            @endif
++
++            <flux:navbar.item href="{{ route('news') }}" :current="request()->routeIs('news')">News</flux:navbar.item>
++            <flux:navbar.item href="{{ route('events') }}" :current="request()->routeIs('events')">Events</flux:navbar.item>
++            <flux:navbar.item href="{{ route('contact') }}" :current="request()->routeIs('contact')">Contact</flux:navbar.item>
++        </flux:navbar>
++
++        <flux:spacer />
++
++        <flux:navbar class="gap-1 md:gap-4">
++            <livewire:search-header />
++
++            @if($settings?->member_login_url)
++                <flux:navbar.item href="{{ $settings->member_login_url }}" target="_blank" rel="noopener noreferrer"
++                                 class="max-md:hidden">
++                    Member Login
++                </flux:navbar.item>
++            @endif
++        </flux:navbar>
+         @if($settings?->pinstripe_color)
+             <div class="w-full"
+                  style="
+@@ -289,7 +148,60 @@ class="block w-full text-center px-4 py-2 rounded-md transition text-sm font-sem
+                  ">
+             </div>
+         @endif
+-    </header>
++    </flux:header>
++
++    <flux:sidebar stashable sticky class="md:hidden bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700">
++        <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
++
++        <flux:brand href="{{ route('home') }}" class="flex items-center gap-3 text-2xl font-bold" style="color: {{ $settings?->menu_text_color ?? '#2563eb' }}">
++            @if($settings?->header_logo)
++                <img src="{{ Storage::url($settings->header_logo) }}" alt="{{ $settings->club_name }} Logo" class="h-10 w-auto object-contain">
++            @endif
++            <span>{{ $settings?->club_name ?? 'Clarence Bowls Club' }}</span>
++        </flux:brand>
++
++        <flux:navlist variant="outline">
++            <flux:navlist.item href="{{ route('home') }}" icon="home">Home</flux:navlist.item>
++
++            <flux:navlist.group label="About Us" expandable>
++                <flux:navlist.item href="{{ route('about') }}">General Info</flux:navlist.item>
++                <flux:navlist.item href="{{ route('about.location') }}">Location</flux:navlist.item>
++                <flux:navlist.item href="{{ route('about.officers') }}">Club Officers</flux:navlist.item>
++                <flux:navlist.item href="{{ route('about.facilities') }}">Facilities</flux:navlist.item>
++                <flux:navlist.item href="{{ route('about.play-learn') }}">Play & Learn</flux:navlist.item>
++                <flux:navlist.item href="{{ route('about.membership') }}">Membership</flux:navlist.item>
++                <flux:navlist.item href="{{ route('about.history') }}">Club History</flux:navlist.item>
++                <flux:navlist.item href="{{ route('about.competition') }}">Club Competition</flux:navlist.item>
++                <flux:navlist.item href="{{ route('about.competition-winners') }}">Competition Winners</flux:navlist.item>
++            </flux:navlist.group>
++
++            @if($settings?->show_fixtures_results ?? true)
++                <flux:navlist.group label="Fixtures" expandable>
++                    <flux:navlist.item href="{{ route('fixtures.info') }}">Fixture Information</flux:navlist.item>
++                    <flux:navlist.item href="{{ route('fixtures', ['type' => 'Clarence Men']) }}">Clarence Men</flux:navlist.item>
++                    <flux:navlist.item href="{{ route('fixtures', ['type' => 'Clarence Women']) }}">Clarence Women</flux:navlist.item>
++                    <flux:navlist.item href="{{ route('fixtures', ['type' => 'Competitions']) }}">Competitions</flux:navlist.item>
++                </flux:navlist.group>
++
++                <flux:navlist.group label="Results" expandable>
++                    <flux:navlist.item href="{{ route('results') }}">All Results</flux:navlist.item>
++                    <flux:navlist.item href="{{ route('results', ['type' => 'County League']) }}">County League</flux:navlist.item>
++                    <flux:navlist.item href="{{ route('results', ['type' => 'Over 55s League']) }}">Over 55s League</flux:navlist.item>
++                    <flux:navlist.item href="{{ route('results', ['type' => 'Ladies League']) }}">Ladies League</flux:navlist.item>
++                </flux:navlist.group>
++            @endif
++
++            <flux:navlist.item href="{{ route('news') }}" icon="newspaper">News</flux:navlist.item>
++            <flux:navlist.item href="{{ route('events') }}" icon="calendar">Events</flux:navlist.item>
++            <flux:navlist.item href="{{ route('contact') }}" icon="envelope">Contact</flux:navlist.item>
++
++            @if($settings?->member_login_url)
++                <flux:navlist.item href="{{ $settings->member_login_url }}" target="_blank" rel="noopener noreferrer" icon="user">
++                    Member Login
++                </flux:navlist.item>
++            @endif
++        </flux:navlist>
++    </flux:sidebar>
+
+     <main>
+         @if(isset($hero) && $hero)
+@@ -304,6 +216,7 @@ class="block w-full text-center px-4 py-2 rounded-md transition text-sm font-sem
+
+     <livewire:sponsors-panel />
+
++    @fluxScripts
+     <footer class="py-12 relative"
+             style="
+                 background: {{ ($settings?->footer_gradient_start && $settings?->footer_gradient_end) ? 'linear-gradient(' . ($settings->footer_gradient_direction?->value ?? 'to right') . ', ' . $settings->footer_gradient_start . ', ' . $settings->footer_gradient_end . ')' : ($settings?->footer_color ?? '#ffffff') }};

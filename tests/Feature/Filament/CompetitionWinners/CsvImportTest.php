@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Filament\CompetitionWinners;
 
+use App\Enums\UserRole;
 use App\Filament\Resources\CompetitionWinners\Pages\ListCompetitionWinners;
 use App\Models\Competition;
 use App\Models\CompetitionResult;
@@ -18,7 +19,10 @@ class CsvImportTest extends TestCase
 
     public function test_can_import_csv_with_competition_results()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->create([
+            'is_admin' => true,
+            'roles' => [UserRole::SuperUser->value],
+        ]);
         $competition = Competition::create([
             'name' => 'Handicap',
             'category' => 'Both',

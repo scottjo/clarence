@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Enums\OfficerRole;
+use App\Enums\UserRole;
 use App\Filament\Resources\Officers\Pages\CreateOfficer;
 use App\Models\Officer;
 use App\Models\User;
@@ -16,7 +17,10 @@ class OfficersPageTest extends TestCase
 
     public function test_it_can_create_an_officer_via_filament(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create([
+            'is_admin' => true,
+            'roles' => [UserRole::SuperUser->value],
+        ]);
         $this->actingAs($admin);
 
         Livewire::test(CreateOfficer::class)
