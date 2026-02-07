@@ -26,18 +26,26 @@
             <h2 class="text-3xl font-bold mb-6">Upcoming Events</h2>
             <div class="space-y-6">
                 @foreach($upcomingEvents as $event)
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border border-gray-100 dark:border-gray-700">
-                        <div class="flex items-start gap-4">
-                            <div class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 p-3 rounded-lg text-center min-w-[80px]">
-                                <span class="block text-2xl font-bold">{{ $event->start_time->format('d') }}</span>
-                                <span class="text-sm uppercase">{{ $event->start_time->format('M') }}</span>
+                    <div class="relative overflow-hidden bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-100 dark:border-gray-700">
+                        @if($event->image)
+                            <div class="absolute inset-y-0 right-0 w-3/5">
+                                <img src="{{ Storage::url($event->image) }}" alt="{{ $event->title }}" class="absolute inset-0 w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-r from-white via-white to-transparent dark:from-gray-800 dark:via-gray-800"></div>
                             </div>
-                            <div>
-                                <h3 class="text-xl font-bold mb-1">{{ $event->title }}</h3>
-                                <p class="text-gray-600 dark:text-gray-400 text-sm mb-2">
-                                    {{ $event->start_time->format('H:i') }} @ {{ $event->location ?? 'The Club' }}
-                                </p>
-                                <a href="{{ route('events.show', $event) }}" class="text-blue-600 font-semibold hover:underline">Event Details</a>
+                        @endif
+                        <div class="relative z-10 p-6">
+                            <div class="flex items-start gap-4">
+                                <div class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 p-3 rounded-lg text-center min-w-[80px]">
+                                    <span class="block text-2xl font-bold">{{ $event->start_time->format('d') }}</span>
+                                    <span class="text-sm uppercase">{{ $event->start_time->format('M') }}</span>
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="text-xl font-bold mb-1">{{ $event->title }}</h3>
+                                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-2">
+                                        {{ $event->start_time->format('H:i') }} @ {{ $event->location ?? 'The Club' }}
+                                    </p>
+                                    <a href="{{ route('events.show', $event) }}" class="text-blue-600 font-semibold hover:underline">Event Details</a>
+                                </div>
                             </div>
                         </div>
                     </div>
