@@ -81,22 +81,22 @@
                 <div class="hidden md:flex gap-6 items-center">
                     <a href="{{ route('home') }}" class="hover:opacity-75 transition">Home</a>
 
-                    <div class="relative" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
-                        <button @click="open = !open" class="flex items-center gap-1 hover:opacity-75 transition focus:outline-none">
+                    <div class="relative" x-data="{ open: false }" @mouseenter="open = true" @mouseleave.debounce.100ms="open = false">
+                        <button type="button" @click="open = !open" class="flex items-center gap-1 hover:opacity-75 transition focus:outline-none">
                             About Us
                             <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
                                 <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
                             </svg>
                         </button>
                         <div x-show="open"
+                             x-cloak
                              x-transition:enter="transition ease-out duration-100"
                              x-transition:enter-start="opacity-0 scale-95"
                              x-transition:enter-end="opacity-100 scale-100"
                              x-transition:leave="transition ease-in duration-75"
                              x-transition:leave-start="opacity-100 scale-100"
                              x-transition:leave-end="opacity-0 scale-95"
-                             class="absolute left-0 mt-0 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-2 z-50 border border-gray-100 dark:border-gray-700"
-                             style="display: none;">
+                             class="absolute left-0 mt-0 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-2 z-50 border border-gray-100 dark:border-gray-700">
                             <a href="{{ route('about') }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">General Info</a>
                             <a href="{{ route('about.location') }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Location</a>
                             <a href="{{ route('about.officers') }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Club Officers</a>
@@ -110,22 +110,22 @@
                     </div>
 
                     @if($settings?->show_fixtures_results ?? true)
-                        <div class="relative" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
-                            <button @click="open = !open" class="flex items-center gap-1 hover:opacity-75 transition focus:outline-none">
+                        <div class="relative" x-data="{ open: false }" @mouseenter="open = true" @mouseleave.debounce.100ms="open = false">
+                            <button type="button" @click="open = !open" class="flex items-center gap-1 hover:opacity-75 transition focus:outline-none">
                                 Fixtures
                                 <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
                                     <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
                                 </svg>
                             </button>
                             <div x-show="open"
+                                 x-cloak
                                  x-transition:enter="transition ease-out duration-100"
                                  x-transition:enter-start="opacity-0 scale-95"
                                  x-transition:enter-end="opacity-100 scale-100"
                                  x-transition:leave="transition ease-in duration-75"
                                  x-transition:leave-start="opacity-100 scale-100"
                                  x-transition:leave-end="opacity-0 scale-95"
-                                 class="absolute left-0 mt-0 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-2 z-50 border border-gray-100 dark:border-gray-700"
-                                 style="display: none;">
+                                 class="absolute left-0 mt-0 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-2 z-50 border border-gray-100 dark:border-gray-700">
                                 <a href="{{ route('fixtures.info') }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Fixture Information</a>
                                 <hr class="my-1 border-gray-100 dark:border-gray-700">
                                 <a href="{{ route('fixtures', ['type' => 'Clarence Men']) }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Clarence Men</a>
@@ -133,22 +133,22 @@
                                 <a href="{{ route('fixtures', ['type' => 'Competitions']) }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Competitions</a>
                             </div>
                         </div>
-                        <div class="relative" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
-                            <button @click="open = !open" class="flex items-center gap-1 hover:opacity-75 transition focus:outline-none">
+                        <div class="relative" x-data="{ open: false }" @mouseenter="open = true" @mouseleave.debounce.100ms="open = false">
+                            <button type="button" @click="open = !open" class="flex items-center gap-1 hover:opacity-75 transition focus:outline-none">
                                 Results
                                 <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
                                     <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
                                 </svg>
                             </button>
                             <div x-show="open"
+                                 x-cloak
                                  x-transition:enter="transition ease-out duration-100"
                                  x-transition:enter-start="opacity-0 scale-95"
                                  x-transition:enter-end="opacity-100 scale-100"
                                  x-transition:leave="transition ease-in duration-75"
                                  x-transition:leave-start="opacity-100 scale-100"
                                  x-transition:leave-end="opacity-0 scale-95"
-                                 class="absolute left-0 mt-0 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-2 z-50 border border-gray-100 dark:border-gray-700"
-                                 style="display: none;">
+                                 class="absolute left-0 mt-0 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-2 z-50 border border-gray-100 dark:border-gray-700">
                                 <a href="{{ route('results') }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">All Results</a>
                                 <hr class="my-1 border-gray-100 dark:border-gray-700">
                                 <a href="{{ route('results', ['type' => 'County League']) }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">County League</a>
@@ -176,11 +176,11 @@
 
                 <!-- Mobile Menu Toggle -->
                 <div class="md:hidden">
-                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="hover:opacity-75 focus:outline-none p-2" style="color: {{ $settings?->menu_text_color ?? 'inherit' }}">
+                    <button type="button" @click="mobileMenuOpen = !mobileMenuOpen" class="hover:opacity-75 focus:outline-none p-2" style="color: {{ $settings?->menu_text_color ?? 'inherit' }}">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" x-show="!mobileMenuOpen">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                         </svg>
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" x-show="mobileMenuOpen" style="display: none;">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" x-show="mobileMenuOpen" x-cloak>
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
                     </button>
@@ -189,25 +189,25 @@
 
             <!-- Mobile Menu -->
             <div x-show="mobileMenuOpen"
+                 x-cloak
                  x-transition:enter="transition ease-out duration-200"
                  x-transition:enter-start="opacity-0 -translate-y-2"
                  x-transition:enter-end="opacity-100 translate-y-0"
                  x-transition:leave="transition ease-in duration-150"
                  x-transition:leave-start="opacity-100 translate-y-0"
                  x-transition:leave-end="opacity-0 -translate-y-2"
-                 class="md:hidden pt-4 pb-2 border-t border-gray-100 dark:border-gray-700"
-                 style="display: none;">
+                 class="md:hidden pt-4 pb-2 border-t border-gray-100 dark:border-gray-700">
                 <div class="flex flex-col gap-2">
                     <a href="{{ route('home') }}" class="px-2 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 rounded transition">Home</a>
 
                     <div x-data="{ open: false }">
-                        <button @click="open = !open" class="w-full flex items-center justify-between px-2 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 rounded transition">
+                        <button type="button" @click="open = !open" class="w-full flex items-center justify-between px-2 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 rounded transition">
                             <span>About Us</span>
                             <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </button>
-                        <div x-show="open" class="pl-4 mt-1 flex flex-col gap-1 border-l-2 border-gray-100 dark:border-gray-700 ml-2">
+                        <div x-show="open" x-cloak class="pl-4 mt-1 flex flex-col gap-1 border-l-2 border-gray-100 dark:border-gray-700 ml-2">
                             <a href="{{ route('about') }}" class="px-2 py-1.5 hover:text-blue-600 transition">General Info</a>
                             <a href="{{ route('about.location') }}" class="px-2 py-1.5 hover:text-blue-600 transition">Location</a>
                             <a href="{{ route('about.officers') }}" class="px-2 py-1.5 hover:text-blue-600 transition">Club Officers</a>
@@ -222,13 +222,13 @@
 
                     @if($settings?->show_fixtures_results ?? true)
                         <div x-data="{ open: false }">
-                            <button @click="open = !open" class="w-full flex items-center justify-between px-2 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 rounded transition">
+                            <button type="button" @click="open = !open" class="w-full flex items-center justify-between px-2 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 rounded transition">
                                 <span>Fixtures</span>
                                 <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                 </svg>
                             </button>
-                            <div x-show="open" class="pl-4 mt-1 flex flex-col gap-1 border-l-2 border-gray-100 dark:border-gray-700 ml-2">
+                            <div x-show="open" x-cloak class="pl-4 mt-1 flex flex-col gap-1 border-l-2 border-gray-100 dark:border-gray-700 ml-2">
                                 <a href="{{ route('fixtures.info') }}" class="px-2 py-1.5 hover:text-blue-600 transition">Fixture Information</a>
                                 <a href="{{ route('fixtures', ['type' => 'Clarence Men']) }}" class="px-2 py-1.5 hover:text-blue-600 transition">Clarence Men</a>
                                 <a href="{{ route('fixtures', ['type' => 'Clarence Women']) }}" class="px-2 py-1.5 hover:text-blue-600 transition">Clarence Women</a>
@@ -237,13 +237,13 @@
                         </div>
 
                         <div x-data="{ open: false }">
-                            <button @click="open = !open" class="w-full flex items-center justify-between px-2 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 rounded transition">
+                            <button type="button" @click="open = !open" class="w-full flex items-center justify-between px-2 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 rounded transition">
                                 <span>Results</span>
                                 <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                 </svg>
                             </button>
-                            <div x-show="open" class="pl-4 mt-1 flex flex-col gap-1 border-l-2 border-gray-100 dark:border-gray-700 ml-2">
+                            <div x-show="open" x-cloak class="pl-4 mt-1 flex flex-col gap-1 border-l-2 border-gray-100 dark:border-gray-700 ml-2">
                                 <a href="{{ route('results') }}" class="px-2 py-1.5 hover:text-blue-600 transition">All Results</a>
                                 <a href="{{ route('results', ['type' => 'County League']) }}" class="px-2 py-1.5 hover:text-blue-600 transition">County League</a>
                                 <a href="{{ route('results', ['type' => 'Over 55s League']) }}" class="px-2 py-1.5 hover:text-blue-600 transition">Over 55s League</a>

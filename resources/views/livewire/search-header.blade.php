@@ -1,5 +1,5 @@
 <div class="relative" x-data="{ open: false }">
-    <button @click="open = !open; if(open) { $nextTick(() => { $refs.searchInput.focus() }) }"
+    <button type="button" @click="open = !open; if(open) { $nextTick(() => { $refs.searchInput.focus() }) }"
             class="p-2 transition"
             style="color: {{ $settings?->menu_text_color ?? 'inherit' }}"
             aria-label="Search">
@@ -9,6 +9,7 @@
     </button>
 
     <div x-show="open"
+         x-cloak
          @click.away="open = false"
          x-transition:enter="transition ease-out duration-200"
          x-transition:enter-start="opacity-0 translate-y-1"
@@ -16,8 +17,7 @@
          x-transition:leave="transition ease-in duration-150"
          x-transition:leave-start="opacity-100 translate-y-0"
          x-transition:leave-end="opacity-0 translate-y-1"
-         class="absolute right-0 mt-2 w-72 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 p-4 z-50"
-         style="display: none;">
+         class="absolute right-0 mt-2 w-72 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 p-4 z-50">
         <form action="{{ route('search') }}" method="GET" class="relative">
             <input type="text"
                    name="q"
