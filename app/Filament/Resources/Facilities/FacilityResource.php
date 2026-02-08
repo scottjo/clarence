@@ -29,6 +29,8 @@ class FacilityResource extends Resource
 
     protected static null|string|UnitEnum $navigationGroup = 'Configuration';
 
+    protected static ?int $navigationSort = 404;
+
     public static function form(Schema $schema): Schema
     {
         return $schema

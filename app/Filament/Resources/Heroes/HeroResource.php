@@ -23,6 +23,8 @@ class HeroResource extends Resource
 
     protected static null|string|UnitEnum $navigationGroup = 'Configuration';
 
+    protected static ?int $navigationSort = 405;
+
     public static function form(Schema $schema): Schema
     {
         return HeroForm::configure($schema);

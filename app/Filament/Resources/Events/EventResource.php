@@ -23,7 +23,7 @@ class EventResource extends Resource
 
     protected static null|string|UnitEnum $navigationGroup = 'Content';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 301;
 
     public static function form(Schema $schema): Schema
     {

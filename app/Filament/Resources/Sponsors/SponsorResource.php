@@ -23,6 +23,8 @@ class SponsorResource extends Resource
 
     protected static null|string|UnitEnum $navigationGroup = 'Configuration';
 
+    protected static ?int $navigationSort = 410;
+
     public static function form(Schema $schema): Schema
     {
         return SponsorForm::configure($schema);

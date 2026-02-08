@@ -23,6 +23,8 @@ class ResultResource extends Resource
 
     protected static null|string|UnitEnum $navigationGroup = 'Content';
 
+    protected static ?int $navigationSort = 304;
+
     public static function form(Schema $schema): Schema
     {
         return ResultForm::configure($schema);

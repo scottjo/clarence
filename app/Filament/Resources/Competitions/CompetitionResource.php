@@ -28,6 +28,8 @@ class CompetitionResource extends Resource
 
     protected static null|string|UnitEnum $navigationGroup = 'Configuration';
 
+    protected static ?int $navigationSort = 403;
+
     public static function form(Schema $schema): Schema
     {
         return $schema

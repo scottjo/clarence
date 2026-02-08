@@ -21,7 +21,9 @@ class OfficerResource extends Resource
 
     protected static BackedEnum|null|string $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static null|string|UnitEnum $navigationGroup = 'Configuration';
+    protected static null|string|UnitEnum $navigationGroup = 'Content';
+
+    protected static ?int $navigationSort = 306;
 
     public static function form(Schema $schema): Schema
     {

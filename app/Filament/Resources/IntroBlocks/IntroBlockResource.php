@@ -23,6 +23,8 @@ class IntroBlockResource extends Resource
 
     protected static null|string|UnitEnum $navigationGroup = 'Configuration';
 
+    protected static ?int $navigationSort = 406;
+
     public static function form(Schema $schema): Schema
     {
         return IntroBlockForm::configure($schema);

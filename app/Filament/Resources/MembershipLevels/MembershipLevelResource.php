@@ -26,6 +26,8 @@ class MembershipLevelResource extends Resource
 
     protected static null|string|UnitEnum $navigationGroup = 'Configuration';
 
+    protected static ?int $navigationSort = 407;
+
     public static function form(Schema $schema): Schema
     {
         return $schema

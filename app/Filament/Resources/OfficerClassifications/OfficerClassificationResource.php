@@ -23,6 +23,8 @@ class OfficerClassificationResource extends Resource
 
     protected static null|string|UnitEnum $navigationGroup = 'Configuration';
 
+    protected static ?int $navigationSort = 408;
+
     public static function form(Schema $schema): Schema
     {
         return OfficerClassificationForm::configure($schema);

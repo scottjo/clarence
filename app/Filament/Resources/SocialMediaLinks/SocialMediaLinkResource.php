@@ -23,6 +23,8 @@ class SocialMediaLinkResource extends Resource
 
     protected static null|string|UnitEnum $navigationGroup = 'Configuration';
 
+    protected static ?int $navigationSort = 409;
+
     public static function form(Schema $schema): Schema
     {
         return SocialMediaLinkForm::configure($schema);
