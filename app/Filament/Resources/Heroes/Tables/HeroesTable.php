@@ -15,11 +15,11 @@ class HeroesTable
     {
         return $table
             ->columns([
-                ImageColumn::make('image'),
                 TextColumn::make('page_identifier')
                     ->label('Page')
                     ->searchable()
                     ->sortable(),
+                ImageColumn::make('image'),
                 TextColumn::make('title')
                     ->searchable()
                     ->sortable(),

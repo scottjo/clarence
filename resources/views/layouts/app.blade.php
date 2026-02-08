@@ -7,6 +7,7 @@
     <title>@isset($title){{ $title }} | @endisset{{ $settings?->club_name ?? 'Clarence Bowls Club' }}</title>
     <meta name="description" content="{{ $metaDescription ?? ($settings?->description ?? 'Clarence Bowls Club is a friendly lawn bowls club located in Clarence Park, Weston-super-Mare. Join us for competitive and social bowling.') }}">
     <link rel="canonical" href="{{ url()->current() }}">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">

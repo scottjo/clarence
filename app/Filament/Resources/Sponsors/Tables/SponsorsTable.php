@@ -16,10 +16,10 @@ class SponsorsTable
     {
         return $table
             ->columns([
-                ImageColumn::make('logo'),
                 TextColumn::make('name')
                     ->searchable()
                     ->sortable(),
+                ImageColumn::make('logo'),
                 TextColumn::make('phone')
                     ->searchable(),
                 TextColumn::make('website')
