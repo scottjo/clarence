@@ -15,7 +15,7 @@
                     <div class="text-sm text-blue-600 font-semibold mb-2">{{ $article->published_at->format('M d, Y') }}</div>
                     <h2 class="text-2xl font-bold mb-4 leading-tight">{{ $article->title }}</h2>
                     <p class="text-gray-600 dark:text-gray-400 mb-6 flex-1">
-                        {{ Str::limit(strip_tags($article->content), 120) }}
+                        {{ Str::limit(html_entity_decode(strip_tags($article->content), ENT_QUOTES, 'UTF-8'), 120) }}
                     </p>
                     <a href="{{ route('news.show', $article) }}" class="inline-flex items-center text-blue-600 font-bold hover:gap-2 transition-all">
                         Read Full Story

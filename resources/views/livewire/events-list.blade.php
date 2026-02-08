@@ -31,7 +31,7 @@
                         </div>
                     </div>
                     <p class="text-gray-600 dark:text-gray-400 mb-8 flex-1">
-                        {{ Str::limit(strip_tags($event->description), 100) }}
+                        {{ Str::limit(html_entity_decode(strip_tags($event->description), ENT_QUOTES, 'UTF-8'), 100) }}
                     </p>
                     <a href="{{ route('events.show', $event) }}" class="block text-center py-3 bg-gray-900 dark:bg-white dark:text-gray-900 text-white rounded-xl font-bold hover:bg-gray-800 dark:hover:bg-gray-100 transition">View Details</a>
                 </div>

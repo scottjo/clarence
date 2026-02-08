@@ -21,7 +21,7 @@ class NewsShow extends Component
     {
         return view('livewire.news-show')->layout('layouts.app', [
             'title' => $this->newsArticle->title,
-            'metaDescription' => str(strip_tags($this->newsArticle->content))->limit(160),
+            'metaDescription' => str(html_entity_decode(strip_tags($this->newsArticle->content), ENT_QUOTES, 'UTF-8'))->limit(160),
         ]);
     }
 }

@@ -16,7 +16,7 @@
                             <a href="{{ route('news.show', $article->slug) }}" class="block p-6 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-md transition">
                                 <h3 class="text-xl font-bold text-blue-600 dark:text-blue-400 mb-2">{{ $article->title }}</h3>
                                 <p class="text-gray-600 dark:text-gray-400 line-clamp-3">
-                                    {{ strip_tags($article->content) }}
+                                    {{ html_entity_decode(strip_tags($article->content), ENT_QUOTES, 'UTF-8') }}
                                 </p>
                                 <div class="mt-4 text-sm text-gray-500 dark:text-gray-500">
                                     {{ $article->published_at?->format('M d, Y') }}
@@ -38,7 +38,7 @@
                             <a href="{{ route('events.show', $event->slug) }}" class="block p-6 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-md transition">
                                 <h3 class="text-xl font-bold text-green-600 dark:text-green-400 mb-2">{{ $event->title }}</h3>
                                 <p class="text-gray-600 dark:text-gray-400 line-clamp-3">
-                                    {{ strip_tags($event->description) }}
+                                    {{ html_entity_decode(strip_tags($event->description), ENT_QUOTES, 'UTF-8') }}
                                 </p>
                                 <div class="mt-4 text-sm text-gray-500 dark:text-gray-500">
                                     {{ $event->start_time?->format('M d, Y @ H:i') }}

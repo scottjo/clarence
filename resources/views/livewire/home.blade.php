@@ -11,7 +11,7 @@
                         @endif
                         <div class="p-6">
                             <h3 class="text-xl font-bold mb-2">{{ $article->title }}</h3>
-                            <p class="text-gray-600 dark:text-gray-400 mb-4">{{ Str::limit(strip_tags($article->content), 150) }}</p>
+                            <p class="text-gray-600 dark:text-gray-400 mb-4">{{ Str::limit(html_entity_decode(strip_tags($article->content), ENT_QUOTES, 'UTF-8'), 150) }}</p>
                             <a href="{{ route('news.show', $article) }}" class="text-blue-600 font-semibold hover:underline">Read More &rarr;</a>
                         </div>
                     </div>
