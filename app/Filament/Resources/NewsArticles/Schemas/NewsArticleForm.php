@@ -31,6 +31,12 @@ class NewsArticleForm
                     ->columnSpanFull(),
                 FileUpload::make('image')
                     ->image(),
+                FileUpload::make('attachments')
+                    ->multiple()
+                    ->downloadable()
+                    ->openable()
+                    ->preserveFilenames()
+                    ->columnSpanFull(),
                 Toggle::make('is_active')
                     ->required(),
                 DateTimePicker::make('published_at'),

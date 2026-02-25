@@ -15,6 +15,7 @@ class NewsArticle extends Model
         'slug',
         'content',
         'image',
+        'attachments',
         'is_active',
         'published_at',
     ];
@@ -24,6 +25,7 @@ class NewsArticle extends Model
         return [
             'is_active' => 'boolean',
             'published_at' => 'datetime',
+            'attachments' => 'array',
         ];
     }
 }
