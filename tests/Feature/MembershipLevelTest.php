@@ -3,7 +3,9 @@
 namespace Tests\Feature;
 
 use App\Models\MembershipLevel;
+use App\Models\Setting;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class MembershipLevelTest extends TestCase
@@ -62,5 +64,39 @@ class MembershipLevelTest extends TestCase
         $response = $this->get(route('about.membership'));
         $response->assertSee('lg:grid-cols-4');
         $response->assertSee('md:grid-cols-2');
+    }
+
+    public function test_membership_page_shows_download_button_when_form_exists(): void
+    {
+        Storage::fake('public');
+        $filePath = 'membership/application.pdf';
+        Storage::disk('public')->put($filePath, 'dummy content');
+
+        Setting::create([
+            'club_name' => 'Test Club',
+            'membership_application_form' => $filePath,
+        ]);
+
+        $response = $this->get(route('about.membership'));
+
+        $response->assertStatus(200);
+        $response->assertSee('Download Application Form');
+        $response->assertSee('storage/membership/application.pdf');
+        $response->assertSee('?v=');
+    }
+
+    public function test_membership_page_shows_disabled_button_when_form_missing(): void
+    {
+        Setting::create([
+            'club_name' => 'Test Club',
+            'membership_application_form' => null,
+        ]);
+
+        $response = $this->get(route('about.membership'));
+
+        $response->assertStatus(200);
+        $response->assertSee('Download Application Form');
+        $response->assertSee('disabled');
+        $response->assertSee('The online application form is currently being updated');
     }
 }

@@ -184,6 +184,16 @@ class Settings extends Page implements HasForms
                             ->default(true),
                     ]),
 
+                Section::make('Membership')
+                    ->schema([
+                        FileUpload::make('membership_application_form')
+                            ->label('Application Form (PDF)')
+                            ->directory('membership')
+                            ->acceptedFileTypes(['application/pdf'])
+                            ->preserveFilenames()
+                            ->helperText('The membership application form that users can download from the website.'),
+                    ]),
+
                 Section::make('Sponsor Panel Appearance')
                     ->schema([
                         Grid::make(3)

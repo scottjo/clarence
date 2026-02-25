@@ -23,7 +23,12 @@
             <div class="bg-gray-50 dark:bg-gray-900/50 p-6 rounded-lg">
                 <h3 class="text-xl font-bold mb-3">How to Apply</h3>
                 <p class="mb-4">Membership applications are open year-round. You can download an application form below or pick one up from the clubhouse.</p>
-                <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition">Download Application Form</button>
+                @if($formUrl)
+                    <a href="{{ $formUrl }}" target="_blank" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition">Download Application Form</a>
+                @else
+                    <button disabled class="bg-gray-400 cursor-not-allowed text-white font-bold py-2 px-6 rounded-lg transition">Download Application Form</button>
+                    <p class="text-sm text-gray-500 mt-2 italic">The online application form is currently being updated. Please check back soon or visit the clubhouse.</p>
+                @endif
             </div>
         </div>
     </div>

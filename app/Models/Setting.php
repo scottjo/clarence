@@ -58,6 +58,7 @@ class Setting extends Model
         'winner_comp_text_color_dark',
         'winner_name_text_color',
         'winner_name_text_color_dark',
+        'membership_application_form',
     ];
 
     protected function casts(): array

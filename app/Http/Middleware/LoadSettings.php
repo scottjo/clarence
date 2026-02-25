@@ -30,6 +30,7 @@ class LoadSettings
             $settings = Cache::rememberForever('settings', function () {
                 return Setting::first();
             });
+            config(['settings' => $settings]);
             View::share('settings', $settings);
         } catch (\Exception $e) {
             View::share('settings', null);
