@@ -70,6 +70,10 @@ class Settings extends Page implements HasForms
                             ->label('Member Login URL')
                             ->url()
                             ->helperText('The URL for the Member Login button in the menu bar.'),
+                        Textarea::make('useful_contacts_message')
+                            ->label('Useful Contacts Message')
+                            ->rows(3)
+                            ->helperText('The message displayed below the useful contacts on the contact page.'),
                     ])->columns(2),
 
                 Section::make('Map Location')

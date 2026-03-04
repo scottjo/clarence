@@ -94,5 +94,42 @@
                 </section>
             </div>
         </div>
+
+        @if($usefulContacts->isNotEmpty())
+            <div class="mt-16 bg-white dark:bg-gray-800 p-8 md:p-12 rounded-3xl shadow-lg border border-gray-100 dark:border-gray-700">
+                <h2 class="text-3xl font-bold mb-8 text-center">Useful Contacts</h2>
+
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 @if($usefulContacts->count() === 2) lg:flex lg:justify-center @endif">
+                    @foreach($usefulContacts as $contact)
+                        <div class="bg-gray-50 dark:bg-gray-900/50 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 flex flex-col items-center text-center group hover:shadow-md transition @if($usefulContacts->count() === 2) lg:w-1/3 lg:max-w-md @endif">
+                            <span class="text-sm font-bold text-blue-600 dark:text-blue-400 mb-2 uppercase tracking-wider">{{ $contact->title }}</span>
+                            <h3 class="text-xl font-black mb-4">{{ $contact->name }}</h3>
+
+                            <div class="space-y-2 w-full">
+                                @if($contact->telephone)
+                                    <a href="tel:{{ $contact->telephone }}" class="flex items-center justify-center gap-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                                        <span class="text-sm font-medium">{{ $contact->telephone }}</span>
+                                    </a>
+                                @endif
+
+                                @if($contact->email)
+                                    <a href="mailto:{{ $contact->email }}" class="flex items-center justify-center gap-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                        <span class="text-sm font-medium break-all">{{ $contact->email }}</span>
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
+                @if($settings?->useful_contacts_message)
+                    <div class="mt-12 pt-8 border-t border-gray-100 dark:border-gray-700 text-center">
+                        <p class="text-gray-600 dark:text-gray-400 italic">{{ $settings->useful_contacts_message }}</p>
+                    </div>
+                @endif
+            </div>
+        @endif
     </div>
 </div>

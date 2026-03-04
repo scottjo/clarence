@@ -2,8 +2,10 @@
 
 namespace App\Livewire;
 
+use App\Models\UsefulContact;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Collection;
 use Livewire\Component;
 
 class Contact extends Component
@@ -17,6 +19,16 @@ class Contact extends Component
     public string $message = '';
 
     public bool $success = false;
+
+    public Collection $usefulContacts;
+
+    public function mount(): void
+    {
+        $this->usefulContacts = UsefulContact::query()
+            ->where('is_active', true)
+            ->orderBy('sort_order')
+            ->get();
+    }
 
     protected $rules = [
         'name' => 'required|min:3',
