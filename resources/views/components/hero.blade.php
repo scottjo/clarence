@@ -2,7 +2,11 @@
 
 @if($hero)
     <div class="relative h-[400px] md:h-[500px] overflow-hidden mb-12 {{ $hero->font_family }}">
-        <img src="{{ str_starts_with($hero->image, 'http') ? $hero->image : Storage::url($hero->image) }}" alt="{{ $hero->title }}" class="absolute inset-0 w-full h-full object-cover">
+        @if($hero->hasMedia('image'))
+            {{ $hero->getFirstMedia('image')->img('', ['class' => 'absolute inset-0 w-full h-full object-cover', 'alt' => $hero->title]) }}
+        @elseif($hero->image)
+            <img src="{{ str_starts_with($hero->image, 'http') ? $hero->image : Storage::url($hero->image) }}" alt="{{ $hero->title }}" class="absolute inset-0 w-full h-full object-cover">
+        @endif
         <div class="absolute inset-0 bg-black" style="opacity: {{ $hero->overlay_opacity / 100 }}"></div>
         <div class="absolute inset-0 flex items-center justify-center">
             <div class="text-center px-4 max-w-4xl">

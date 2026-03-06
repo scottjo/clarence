@@ -3,8 +3,8 @@
 namespace App\Filament\Resources\Officers\Schemas;
 
 use App\Enums\OfficerRole;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
@@ -37,12 +37,15 @@ class OfficerForm
 
                 Section::make('Avatar')
                     ->schema([
-                        FileUpload::make('avatar')
+                        SpatieMediaLibraryFileUpload::make('avatar')
+                            ->collection('avatar')
+                            ->multiple()
+                            ->maxFiles(1)
                             ->image()
-                            ->directory('officers')
                             ->avatar()
                             ->imageEditor()
-                            ->circleCropper(),
+                            ->circleCropper()
+                            ->responsiveImages(),
                     ]),
             ]);
     }

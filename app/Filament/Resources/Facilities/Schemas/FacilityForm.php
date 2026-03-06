@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources\Facilities\Schemas;
 
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
@@ -30,9 +30,12 @@ class FacilityForm
                     ->required()
                     ->rows(5)
                     ->columnSpanFull(),
-                FileUpload::make('image')
+                SpatieMediaLibraryFileUpload::make('image')
+                    ->collection('image')
+                    ->multiple()
+                    ->maxFiles(1)
                     ->image()
-                    ->directory('facilities')
+                    ->responsiveImages()
                     ->columnSpanFull(),
                 TextInput::make('sort_order')
                     ->numeric()

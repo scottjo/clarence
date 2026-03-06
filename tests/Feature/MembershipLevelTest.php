@@ -69,20 +69,19 @@ class MembershipLevelTest extends TestCase
     public function test_membership_page_shows_download_button_when_form_exists(): void
     {
         Storage::fake('public');
-        $filePath = 'membership/application.pdf';
-        Storage::disk('public')->put($filePath, 'dummy content');
 
-        Setting::create([
+        $settings = Setting::create([
             'club_name' => 'Test Club',
-            'membership_application_form' => $filePath,
         ]);
+
+        $file = \Illuminate\Http\UploadedFile::fake()->create('application.pdf', 100);
+        $settings->addMedia($file)->toMediaCollection('membership_application_form');
 
         $response = $this->get(route('about.membership'));
 
         $response->assertStatus(200);
         $response->assertSee('Download Application Form');
-        $response->assertSee('storage/membership/application.pdf');
-        $response->assertSee('?v=');
+        $response->assertSee($settings->getFirstMediaUrl('membership_application_form'));
     }
 
     public function test_membership_page_shows_disabled_button_when_form_missing(): void

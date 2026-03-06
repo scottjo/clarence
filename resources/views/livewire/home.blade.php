@@ -6,8 +6,8 @@
             <div class="space-y-6">
                 @foreach($latestNews as $article)
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-100 dark:border-gray-700">
-                        @if($article->image)
-                            <img src="{{ Storage::url($article->image) }}" alt="{{ $article->title }}" class="w-full h-48 object-cover">
+                        @if($article->hasMedia('image'))
+                            {{ $article->getFirstMedia('image')->img('', ['class' => 'w-full h-48 object-cover']) }}
                         @endif
                         <div class="p-6">
                             <h3 class="text-xl font-bold mb-2">{{ $article->title }}</h3>
@@ -27,9 +27,9 @@
             <div class="space-y-6">
                 @foreach($upcomingEvents as $event)
                     <div class="relative overflow-hidden bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-100 dark:border-gray-700">
-                        @if($event->image)
+                        @if($event->hasMedia('image'))
                             <div class="absolute inset-y-0 right-0 w-3/5">
-                                <img src="{{ Storage::url($event->image) }}" alt="{{ $event->title }}" class="absolute inset-0 w-full h-full object-cover">
+                                {{ $event->getFirstMedia('image')->img('', ['class' => 'absolute inset-0 w-full h-full object-cover']) }}
                                 <div class="absolute inset-0 bg-gradient-to-r from-white via-white to-transparent dark:from-gray-800 dark:via-gray-800"></div>
                             </div>
                         @endif

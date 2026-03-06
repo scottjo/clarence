@@ -3,8 +3,8 @@
 namespace App\Filament\Resources\NewsArticles\Schemas;
 
 use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Utilities\Set;
@@ -29,9 +29,14 @@ class NewsArticleForm
                 RichEditor::make('content')
                     ->required()
                     ->columnSpanFull(),
-                FileUpload::make('image')
-                    ->image(),
-                FileUpload::make('attachments')
+                SpatieMediaLibraryFileUpload::make('image')
+                    ->collection('image')
+                    ->multiple()
+                    ->maxFiles(1)
+                    ->image()
+                    ->responsiveImages(),
+                SpatieMediaLibraryFileUpload::make('attachments')
+                    ->collection('attachments')
                     ->multiple()
                     ->downloadable()
                     ->openable()

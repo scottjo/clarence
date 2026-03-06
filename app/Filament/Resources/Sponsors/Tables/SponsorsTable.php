@@ -5,7 +5,7 @@ namespace App\Filament\Resources\Sponsors\Tables;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
@@ -19,7 +19,8 @@ class SponsorsTable
                 TextColumn::make('name')
                     ->searchable()
                     ->sortable(),
-                ImageColumn::make('logo'),
+                SpatieMediaLibraryImageColumn::make('logo')
+                    ->collection('logo'),
                 TextColumn::make('phone')
                     ->searchable(),
                 TextColumn::make('website')

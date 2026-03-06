@@ -5,8 +5,8 @@
         @forelse($events as $event)
             <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 overflow-hidden flex flex-col hover:-translate-y-1 transition duration-300">
                 <div class="relative h-48">
-                    @if($event->image)
-                        <img src="{{ Storage::url($event->image) }}" alt="{{ $event->title }}" class="w-full h-full object-cover">
+                    @if($event->hasMedia('image'))
+                        {{ $event->getFirstMedia('image')->img('', ['class' => 'w-full h-full object-cover']) }}
                     @else
                         <div class="w-full h-full bg-blue-600 flex items-center justify-center text-white">
                             <svg class="w-16 h-16 opacity-20" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>

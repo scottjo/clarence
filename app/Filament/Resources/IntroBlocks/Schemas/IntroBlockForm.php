@@ -3,9 +3,9 @@
 namespace App\Filament\Resources\IntroBlocks\Schemas;
 
 use Filament\Forms\Components\ColorPicker;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
@@ -57,13 +57,19 @@ class IntroBlockForm
                     ->schema([
                         Grid::make(2)
                             ->schema([
-                                FileUpload::make('left_image')
+                                SpatieMediaLibraryFileUpload::make('left_image')
+                                    ->collection('left_image')
+                                    ->multiple()
+                                    ->maxFiles(1)
                                     ->image()
-                                    ->directory('intro-blocks')
+                                    ->responsiveImages()
                                     ->helperText('Optional image displayed on the left of the text.'),
-                                FileUpload::make('right_image')
+                                SpatieMediaLibraryFileUpload::make('right_image')
+                                    ->collection('right_image')
+                                    ->multiple()
+                                    ->maxFiles(1)
                                     ->image()
-                                    ->directory('intro-blocks')
+                                    ->responsiveImages()
                                     ->helperText('Optional image displayed on the right of the text.'),
                             ]),
                     ])

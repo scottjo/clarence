@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\Sponsors\Schemas;
 
-use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -31,9 +31,12 @@ class SponsorForm
                                     TextInput::make('website')
                                         ->url(),
                                 ])->columnSpan(2),
-                                FileUpload::make('logo')
+                                SpatieMediaLibraryFileUpload::make('logo')
+                                    ->collection('logo')
+                                    ->multiple()
+                                    ->maxFiles(1)
                                     ->image()
-                                    ->directory('sponsors')
+                                    ->responsiveImages()
                                     ->required()
                                     ->columnSpan(1),
                             ]),

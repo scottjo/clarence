@@ -3,8 +3,8 @@
 namespace App\Filament\Resources\Heroes\Schemas;
 
 use Filament\Forms\Components\ColorPicker;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Grid;
@@ -44,9 +44,12 @@ class HeroForm
                     ->schema([
                         Grid::make(2)
                             ->schema([
-                                FileUpload::make('image')
+                                SpatieMediaLibraryFileUpload::make('image')
+                                    ->collection('image')
+                                    ->multiple()
+                                    ->maxFiles(1)
                                     ->image()
-                                    ->directory('heroes')
+                                    ->responsiveImages()
                                     ->required(),
                                 Grid::make(1)
                                     ->schema([

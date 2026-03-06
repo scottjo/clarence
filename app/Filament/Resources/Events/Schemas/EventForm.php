@@ -3,8 +3,8 @@
 namespace App\Filament\Resources\Events\Schemas;
 
 use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Utilities\Set;
@@ -34,8 +34,12 @@ class EventForm
                 DateTimePicker::make('end_time'),
                 TextInput::make('location')
                     ->maxLength(255),
-                FileUpload::make('image')
-                    ->image(),
+                SpatieMediaLibraryFileUpload::make('image')
+                    ->collection('image')
+                    ->multiple()
+                    ->maxFiles(1)
+                    ->image()
+                    ->responsiveImages(),
                 Toggle::make('is_active')
                     ->required(),
             ]);

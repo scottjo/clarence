@@ -6,7 +6,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -19,7 +19,8 @@ class FacilitiesTable
                 TextColumn::make('title')
                     ->searchable()
                     ->sortable(),
-                ImageColumn::make('image'),
+                SpatieMediaLibraryImageColumn::make('image')
+                    ->collection('image'),
                 TextColumn::make('image_position')
                     ->sortable(),
                 TextColumn::make('sort_order')

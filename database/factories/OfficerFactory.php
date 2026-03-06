@@ -20,7 +20,6 @@ class OfficerFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'role' => $this->faker->randomElement(OfficerRole::cases()),
-            'avatar' => null,
             'sort_order' => 0,
             'is_active' => true,
             'classification_id' => null,

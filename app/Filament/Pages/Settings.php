@@ -7,8 +7,8 @@ use App\Models\Setting;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Forms\Components\ColorPicker;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -88,9 +88,12 @@ class Settings extends Page implements HasForms
 
                 Section::make('Header Appearance')
                     ->schema([
-                        FileUpload::make('header_logo')
+                        SpatieMediaLibraryFileUpload::make('header_logo')
+                            ->collection('header_logo')
+                            ->multiple()
+                            ->maxFiles(1)
                             ->image()
-                            ->directory('logos')
+                            ->responsiveImages()
                             ->helperText('The logo displayed in the top navigation bar.'),
                         ColorPicker::make('menu_color')
                             ->label('Background Color')
@@ -109,13 +112,19 @@ class Settings extends Page implements HasForms
 
                 Section::make('Footer Appearance')
                     ->schema([
-                        FileUpload::make('footer_logo_left')
+                        SpatieMediaLibraryFileUpload::make('footer_logo_left')
+                            ->collection('footer_logo_left')
+                            ->multiple()
+                            ->maxFiles(1)
                             ->image()
-                            ->directory('logos')
-                            ->helperText('Optional logo for the left side of the footer.'),
-                        FileUpload::make('footer_logo_right')
+                            ->responsiveImages()
+                            ->helperText('The logo displayed in the top navigation bar.'),
+                        SpatieMediaLibraryFileUpload::make('footer_logo_right')
+                            ->collection('footer_logo_right')
+                            ->multiple()
+                            ->maxFiles(1)
                             ->image()
-                            ->directory('logos')
+                            ->responsiveImages()
                             ->helperText('Optional logo for the right side of the footer.'),
                         ColorPicker::make('footer_color')
                             ->label('Background Color')
@@ -190,9 +199,11 @@ class Settings extends Page implements HasForms
 
                 Section::make('Membership')
                     ->schema([
-                        FileUpload::make('membership_application_form')
+                        SpatieMediaLibraryFileUpload::make('membership_application_form')
+                            ->collection('membership_application_form')
+                            ->multiple()
+                            ->maxFiles(1)
                             ->label('Application Form (PDF)')
-                            ->directory('membership')
                             ->acceptedFileTypes(['application/pdf'])
                             ->preserveFilenames()
                             ->helperText('The membership application form that users can download from the website.'),

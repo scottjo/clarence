@@ -14,7 +14,9 @@
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:title" content="{{ $title ?? ($settings?->club_name ?? 'Clarence Bowls Club') }}">
     <meta property="og:description" content="{{ $metaDescription ?? ($settings?->description ?? 'Join Clarence Bowls Club in Weston-super-Mare.') }}">
-    @if($settings?->header_logo)
+    @if($settings?->hasMedia('header_logo'))
+        <meta property="og:image" content="{{ $settings->getFirstMediaUrl('header_logo') }}">
+    @elseif($settings?->header_logo)
         <meta property="og:image" content="{{ Storage::url($settings->header_logo) }}">
     @endif
 
@@ -23,7 +25,9 @@
     <meta property="twitter:url" content="{{ url()->current() }}">
     <meta property="twitter:title" content="{{ $title ?? ($settings?->club_name ?? 'Clarence Bowls Club') }}">
     <meta property="twitter:description" content="{{ $metaDescription ?? ($settings?->description ?? 'Join Clarence Bowls Club in Weston-super-Mare.') }}">
-    @if($settings?->header_logo)
+    @if($settings?->hasMedia('header_logo'))
+        <meta property="twitter:image" content="{{ $settings->getFirstMediaUrl('header_logo') }}">
+    @elseif($settings?->header_logo)
         <meta property="twitter:image" content="{{ Storage::url($settings->header_logo) }}">
     @endif
 
@@ -34,7 +38,7 @@
         "@@type": "SportsOrganization",
         "name": "{{ $settings?->club_name ?? 'Clarence Bowls Club' }}",
         "url": "{{ config('app.url') }}",
-        {!! $settings?->header_logo ? '"logo": "' . Storage::url($settings->header_logo) . '",' : '' !!}
+        {!! $settings?->hasMedia('header_logo') ? '"logo": "' . $settings->getFirstMediaUrl('header_logo') . '",' : ($settings?->header_logo ? '"logo": "' . Storage::url($settings->header_logo) . '",' : '') !!}
         "address": {
             "@@type": "PostalAddress",
             "streetAddress": "Clarence Park",
@@ -70,7 +74,9 @@
         <nav class="container mx-auto px-4 py-4">
             <div class="flex items-center justify-between">
                 <a href="{{ route('home') }}" class="flex items-center gap-3 text-2xl font-bold" style="color: {{ $settings?->menu_text_color ?? '#2563eb' }}">
-                    @if($settings?->header_logo)
+                    @if($settings?->hasMedia('header_logo'))
+                        <img src="{{ $settings->getFirstMediaUrl('header_logo') }}" alt="{{ $settings->club_name }} Logo" class="h-10 w-auto object-contain">
+                    @elseif($settings?->header_logo)
                         <img src="{{ Storage::url($settings->header_logo) }}" alt="{{ $settings->club_name }} Logo" class="h-10 w-auto object-contain">
                     @else
                         <img src="{{ asset('images/logo.png') }}" alt="Clarence Bowls Club Logo" class="h-10 w-auto object-contain">
@@ -323,7 +329,9 @@
         <div class="container mx-auto px-4">
             <div class="grid md:grid-cols-3 items-center gap-8 mb-8">
                 <div class="flex justify-center md:justify-start h-24">
-                    @if($settings?->footer_logo_left)
+                    @if($settings?->hasMedia('footer_logo_left'))
+                        <img src="{{ $settings->getFirstMediaUrl('footer_logo_left') }}" alt="Footer Logo Left" class="h-full w-auto object-contain">
+                    @elseif($settings?->footer_logo_left)
                         <img src="{{ Storage::url($settings->footer_logo_left) }}" alt="Footer Logo Left" class="h-full w-auto object-contain">
                     @endif
                 </div>
@@ -337,7 +345,9 @@
                     @endif
                 </div>
                 <div class="flex justify-center md:justify-end h-24">
-                    @if($settings?->footer_logo_right)
+                    @if($settings?->hasMedia('footer_logo_right'))
+                        <img src="{{ $settings->getFirstMediaUrl('footer_logo_right') }}" alt="Footer Logo Right" class="h-full w-auto object-contain">
+                    @elseif($settings?->footer_logo_right)
                         <img src="{{ Storage::url($settings->footer_logo_right) }}" alt="Footer Logo Right" class="h-full w-auto object-contain">
                     @endif
                 </div>

@@ -13,7 +13,9 @@ class Membership extends Component
         $formUrl = null;
         $settings = config('settings');
 
-        if ($settings?->membership_application_form) {
+        if ($settings?->hasMedia('membership_application_form')) {
+            $formUrl = $settings->getFirstMediaUrl('membership_application_form');
+        } elseif ($settings?->membership_application_form) {
             try {
                 $disk = Storage::disk('public');
                 $path = $settings->membership_application_form;

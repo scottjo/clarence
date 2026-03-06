@@ -19,7 +19,6 @@ class FacilityFactory extends Factory
         return [
             'title' => $this->faker->sentence(3),
             'description' => $this->faker->paragraph(),
-            'image' => null,
             'image_position' => $this->faker->randomElement(['left', 'right', 'above', 'below']),
             'sort_order' => 0,
         ];

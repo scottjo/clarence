@@ -6,11 +6,39 @@ use App\Enums\GradientDirection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Setting extends Model
+class Setting extends Model implements HasMedia
 {
     /** @use HasFactory<\Database\Factories\SettingFactory> */
     use HasFactory;
+
+    use InteractsWithMedia;
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('header_logo')
+            ->singleFile();
+
+        $this->addMediaCollection('footer_logo_left')
+            ->singleFile();
+
+        $this->addMediaCollection('footer_logo_right')
+            ->singleFile();
+
+        $this->addMediaCollection('membership_application_form')
+            ->singleFile();
+    }
+
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+            ->width(368)
+            ->height(232)
+            ->sharpen(10);
+    }
 
     protected static function booted(): void
     {
@@ -25,9 +53,6 @@ class Setting extends Model
         'longitude',
         'phone',
         'email',
-        'header_logo',
-        'footer_logo_left',
-        'footer_logo_right',
         'menu_color',
         'footer_color',
         'menu_text_color',
@@ -58,7 +83,6 @@ class Setting extends Model
         'winner_comp_text_color_dark',
         'winner_name_text_color',
         'winner_name_text_color_dark',
-        'membership_application_form',
         'useful_contacts_message',
     ];
 

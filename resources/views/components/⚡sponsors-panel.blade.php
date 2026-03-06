@@ -120,7 +120,11 @@ new class extends Component
                                     }
                                 </style>
                                 <div class="h-24 w-full flex items-center justify-center mb-4">
-                                    <img src="{{ Storage::url($sponsor->logo) }}" alt="{{ $sponsor->name }}" class="h-full w-auto object-contain grayscale {{ $hasWebsite ? 'group-hover:grayscale-0' : '' }} transition-all duration-300">
+                                    @if($sponsor->hasMedia('logo'))
+                                        {{ $sponsor->getFirstMedia('logo')->img('', ['class' => 'h-full w-auto object-contain grayscale ' . ($hasWebsite ? 'group-hover:grayscale-0' : '') . ' transition-all duration-300', 'alt' => $sponsor->name]) }}
+                                    @else
+                                        <img src="{{ Storage::url($sponsor->logo) }}" alt="{{ $sponsor->name }}" class="h-full w-auto object-contain grayscale {{ $hasWebsite ? 'group-hover:grayscale-0' : '' }} transition-all duration-300">
+                                    @endif
                                 </div>
 
                                 <h3 class="font-bold text-lg mb-2 text-center">{{ $sponsor->name }}</h3>

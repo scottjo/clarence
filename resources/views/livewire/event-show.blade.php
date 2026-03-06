@@ -1,8 +1,8 @@
 <div class="container mx-auto px-4 py-12">
     <div class="max-w-4xl mx-auto">
         <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700">
-            @if($event->image)
-                <img src="{{ Storage::url($event->image) }}" alt="{{ $event->title }}" class="w-full h-80 object-cover">
+            @if($event->hasMedia('image'))
+                {{ $event->getFirstMedia('image')->img('', ['class' => 'w-full h-80 object-cover']) }}
             @endif
 
             <div class="p-8 md:p-12">
