@@ -3,13 +3,13 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
         @foreach($facilities as $facility)
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden flex flex-col" wire:key="facility-{{ $facility->id }}">
-                @if($facility->image)
+                @if($facility->hasMedia('image'))
                     <div @class([
                         'w-full aspect-video',
                         'order-first' => in_array($facility->image_position, ['left', 'above']),
                         'order-last' => in_array($facility->image_position, ['right', 'below']),
                     ])>
-                        <img src="{{ Storage::url($facility->image) }}" alt="{{ $facility->title }}" class="w-full h-full object-cover">
+                        {{ $facility->getFirstMedia('image')->img('', ['class' => 'w-full h-full object-cover', 'alt' => $facility->title]) }}
                     </div>
                 @endif
 

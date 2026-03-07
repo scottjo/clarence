@@ -48,8 +48,8 @@
                                     }
                                 }
                             </style>
-                            @if ($officer->avatar)
-                                <img src="{{ Storage::url($officer->avatar) }}" alt="{{ $officer->name }}" class="w-24 h-24 rounded-full object-cover mb-4 ring-2 ring-offset-2" style="--tw-ring-color: {{ $textColor }};">
+                            @if ($officer->hasMedia('avatar'))
+                                {{ $officer->getFirstMedia('avatar')->img('', ['class' => 'w-24 h-24 rounded-full object-cover mb-4 ring-2 ring-offset-2', 'style' => "--tw-ring-color: $textColor;", 'alt' => $officer->name]) }}
                             @else
                                 <div class="avatar-circle w-24 h-24 rounded-full flex items-center justify-center mb-4 border-2"
                                      style="background-color: {{ $avatarBgColor }}; border-color: {{ $avatarBorderColor }};">
