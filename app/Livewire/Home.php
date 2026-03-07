@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Event;
 use App\Models\NewsArticle;
+use App\Models\PinnedItem;
 use Livewire\Component;
 
 class Home extends Component
@@ -11,6 +12,10 @@ class Home extends Component
     public function render()
     {
         return view('livewire.home', [
+            'pinnedItems' => PinnedItem::where('is_active', true)
+                ->with(['newsArticle', 'media'])
+                ->latest()
+                ->get(),
             'latestNews' => NewsArticle::where('is_active', true)
                 ->where('published_at', '<=', now())
                 ->latest('published_at')
