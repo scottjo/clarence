@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use Database\Factories\UsefulContactFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class UsefulContact extends Model
 {
-    /** @use HasFactory<\Database\Factories\UsefulContactFactory> */
+    /** @use HasFactory<UsefulContactFactory> */
     use HasFactory;
 
     protected $fillable = [
