@@ -27,7 +27,7 @@ class CompetitionWinnerResource extends Resource
 
     protected static null|string|UnitEnum $navigationGroup = 'Content';
 
-    protected static ?int $navigationSort = 305;
+    protected static ?int $navigationSort = 306;
 
     public static function form(Schema $schema): Schema
     {

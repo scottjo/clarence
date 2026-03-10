@@ -23,7 +23,7 @@ class ResultResource extends Resource
 
     protected static null|string|UnitEnum $navigationGroup = 'Content';
 
-    protected static ?int $navigationSort = 304;
+    protected static ?int $navigationSort = 305;
 
     public static function form(Schema $schema): Schema
     {

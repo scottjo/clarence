@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Announcement;
 use App\Models\Hero;
 use App\Models\IntroBlock;
 use App\Models\Setting;
@@ -45,6 +46,13 @@ class LoadSettings
             View::share('socialLinks', $socialLinks);
         } catch (\Exception $e) {
             View::share('socialLinks', collect());
+        }
+
+        try {
+            $announcement = Announcement::active()->first();
+            View::share('activeAnnouncement', $announcement);
+        } catch (\Exception $e) {
+            View::share('activeAnnouncement', null);
         }
 
         try {
