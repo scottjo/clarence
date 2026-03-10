@@ -90,6 +90,22 @@ class AnnouncementTest extends TestCase
         $response->assertSee('Important news!');
     }
 
+    public function test_announcement_is_visible_on_news_page(): void
+    {
+        Announcement::create([
+            'header' => 'News Page Alert',
+            'text' => 'Important news!',
+            'type' => 'danger',
+            'is_active' => true,
+        ]);
+
+        $response = $this->get(route('news'));
+
+        $response->assertStatus(200);
+        $response->assertSee('News Page Alert');
+        $response->assertSee('Important news!');
+    }
+
     public function test_announcement_is_not_visible_on_other_pages(): void
     {
         Announcement::create([
@@ -99,7 +115,7 @@ class AnnouncementTest extends TestCase
             'is_active' => true,
         ]);
 
-        $response = $this->get(route('news'));
+        $response = $this->get(route('contact'));
 
         $response->assertStatus(200);
         $response->assertDontSee('Home Page Alert');

@@ -304,7 +304,7 @@
             <x-hero :hero="$hero" />
         @endif
 
-        @if(isset($activeAnnouncement) && $activeAnnouncement && request()->routeIs('home'))
+        @if(isset($activeAnnouncement) && $activeAnnouncement && request()->routeIs(['home', 'news']))
             <x-announcement :announcement="$activeAnnouncement" />
         @endif
 
