@@ -14,7 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'settings' => \App\Http\Middleware\LoadSettings::class,
         ]);
-        $middleware->append(\App\Http\Middleware\LoadSettings::class);
+        $middleware->web(append: [
+            \App\Http\Middleware\LoadSettings::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

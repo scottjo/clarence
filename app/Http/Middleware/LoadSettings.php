@@ -27,7 +27,7 @@ class LoadSettings
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->is('admin*') || $request->is('livewire/*')) {
+        if ($request->is('admin*') || $request->is('livewire*') || $request->is('filament*')) {
             return $next($request);
         }
 

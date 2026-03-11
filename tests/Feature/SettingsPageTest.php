@@ -24,9 +24,9 @@ class SettingsPageTest extends TestCase
 
     public function test_livewire_update_route_works_with_load_settings_middleware(): void
     {
-        // Livewire internal requests usually go to /livewire/update
+        // Livewire internal requests usually go to /livewire/update or /livewire-hash/update
         // We want to make sure our middleware doesn't crash it
-        $response = $this->post('/livewire/update', [
+        $response = $this->post('/livewire-abc123/update', [
             'components' => [],
         ], [
             'X-Livewire' => true,
@@ -40,11 +40,11 @@ class SettingsPageTest extends TestCase
         $this->assertNotEquals(500, $response->getStatusCode());
     }
 
-    public function test_load_settings_middleware_skips_livewire_matching(): void
+    public function test_load_settings_middleware_skips_hashed_livewire_matching(): void
     {
         // This is a bit hard to test directly without mocking the Route facade,
         // but we can verify that the middleware doesn't crash on a livewire path.
-        $response = $this->get('/livewire/update');
+        $response = $this->get('/livewire-abc123/update');
         // We expect NOT 500. 404 or 405 is fine for GET on update route,
         // as long as it doesn't trigger the match error.
         $this->assertNotEquals(500, $response->getStatusCode());
