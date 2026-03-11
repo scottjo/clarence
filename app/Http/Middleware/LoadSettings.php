@@ -58,9 +58,13 @@ class LoadSettings
         try {
             $routeName = $request->route()?->getName();
 
-            if (! $routeName) {
-                $matched = Route::getRoutes()->match($request);
-                $routeName = $matched->getName();
+            if (! $routeName && ! $request->is('livewire/*')) {
+                try {
+                    $matched = Route::getRoutes()->match($request);
+                    $routeName = $matched->getName();
+                } catch (\Exception $e) {
+                    // Ignore match failures for non-existent routes
+                }
             }
 
             if (! $routeName && ($request->is('/') || $request->path() === '/')) {
@@ -68,6 +72,13 @@ class LoadSettings
             }
 
             $pageIdentifier = $routeName ?: $request->path();
+
+            if (str_starts_with($pageIdentifier, 'livewire/')) {
+                View::share('hero', null);
+                View::share('intro', null);
+
+                return $next($request);
+            }
 
             $hero = $this->rememberNullable("hero:{$pageIdentifier}", function () use ($pageIdentifier) {
                 return Hero::where('page_identifier', $pageIdentifier)->first();
