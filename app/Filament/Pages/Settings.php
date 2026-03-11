@@ -94,6 +94,7 @@ class Settings extends Page implements HasForms
                             ->maxFiles(1)
                             ->image()
                             ->responsiveImages()
+                            ->preserveFilenames()
                             ->helperText('The logo displayed in the top navigation bar.'),
                         ColorPicker::make('menu_color')
                             ->label('Background Color')
@@ -118,13 +119,15 @@ class Settings extends Page implements HasForms
                             ->maxFiles(1)
                             ->image()
                             ->responsiveImages()
-                            ->helperText('The logo displayed in the top navigation bar.'),
+                            ->preserveFilenames()
+                            ->helperText('The logo displayed in the footer (left side).'),
                         SpatieMediaLibraryFileUpload::make('footer_logo_right')
                             ->collection('footer_logo_right')
                             ->multiple()
                             ->maxFiles(1)
                             ->image()
                             ->responsiveImages()
+                            ->preserveFilenames()
                             ->helperText('Optional logo for the right side of the footer.'),
                         ColorPicker::make('footer_color')
                             ->label('Background Color')
@@ -276,42 +279,40 @@ class Settings extends Page implements HasForms
 
     public function save(): void
     {
-        $data = $this->form->getState();
+        try {
+            $data = $this->form->getState();
 
-        // Separate media fields from regular fields
-        $mediaFields = ['header_logo', 'footer_logo_left', 'footer_logo_right', 'membership_application_form'];
-        $regularData = [];
+            // Exclude media fields - they're handled automatically by form component
+            $mediaFields = ['header_logo', 'footer_logo_left', 'footer_logo_right', 'membership_application_form'];
+            $regularData = array_diff_key($data, array_flip($mediaFields));
 
-        foreach ($data as $key => $value) {
-            // Only include media fields if they have a value (being updated)
-            // This prevents clearing existing media when field is empty
-            if (in_array($key, $mediaFields)) {
-                if (! empty($value)) {
-                    $regularData[$key] = $value;
+            // Update regular fields
+            $this->record->fill($regularData);
+            $this->record->save();
+
+            // Clear all settings-related caches
+            \Illuminate\Support\Facades\Cache::forget('settings');
+            \Illuminate\Support\Facades\Cache::forget('social_links');
+
+            // Clear hero and intro block caches for all pages
+            $routes = \Illuminate\Support\Facades\Route::getRoutes()->getRoutesByName();
+            foreach ($routes as $name => $route) {
+                if (! str_starts_with($name, 'filament.') && ! str_starts_with($name, 'horizon.')) {
+                    \Illuminate\Support\Facades\Cache::forget("hero:{$name}");
+                    \Illuminate\Support\Facades\Cache::forget("intro_block:{$name}");
                 }
-            } else {
-                $regularData[$key] = $value;
             }
+
+            Notification::make()
+                ->title('Settings saved successfully.')
+                ->success()
+                ->send();
+        } catch (\Exception $e) {
+            Notification::make()
+                ->title('Error saving settings')
+                ->body($e->getMessage())
+                ->danger()
+                ->send();
         }
-
-        $this->record->update($regularData);
-
-        // Clear all settings-related caches
-        \Illuminate\Support\Facades\Cache::forget('settings');
-        \Illuminate\Support\Facades\Cache::forget('social_links');
-
-        // Clear hero and intro block caches for all pages
-        $routes = \Illuminate\Support\Facades\Route::getRoutes()->getRoutesByName();
-        foreach ($routes as $name => $route) {
-            if (! str_starts_with($name, 'filament.') && ! str_starts_with($name, 'horizon.')) {
-                \Illuminate\Support\Facades\Cache::forget("hero:{$name}");
-                \Illuminate\Support\Facades\Cache::forget("intro_block:{$name}");
-            }
-        }
-
-        Notification::make()
-            ->title('Settings saved successfully.')
-            ->success()
-            ->send();
     }
 }
