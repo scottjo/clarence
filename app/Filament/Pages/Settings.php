@@ -90,6 +90,7 @@ class Settings extends Page implements HasForms
                     ->schema([
                         SpatieMediaLibraryFileUpload::make('header_logo')
                             ->collection('header_logo')
+                            ->multiple()
                             ->maxFiles(1)
                             ->image()
                             ->responsiveImages()
@@ -114,6 +115,7 @@ class Settings extends Page implements HasForms
                     ->schema([
                         SpatieMediaLibraryFileUpload::make('footer_logo_left')
                             ->collection('footer_logo_left')
+                            ->multiple()
                             ->maxFiles(1)
                             ->image()
                             ->responsiveImages()
@@ -121,6 +123,7 @@ class Settings extends Page implements HasForms
                             ->helperText('The logo displayed in the footer (left side).'),
                         SpatieMediaLibraryFileUpload::make('footer_logo_right')
                             ->collection('footer_logo_right')
+                            ->multiple()
                             ->maxFiles(1)
                             ->image()
                             ->responsiveImages()
