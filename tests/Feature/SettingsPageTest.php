@@ -3,8 +3,11 @@
 namespace Tests\Feature;
 
 use App\Enums\UserRole;
+use App\Filament\Pages\Settings;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Livewire;
 use Tests\TestCase;
 
 class SettingsPageTest extends TestCase
@@ -20,6 +23,26 @@ class SettingsPageTest extends TestCase
         $response = $this->actingAs($user)->get('/admin/settings');
 
         $response->assertStatus(200);
+    }
+
+    public function test_settings_page_can_save_without_media(): void
+    {
+        $user = User::factory()->create([
+            'roles' => [UserRole::Administrator->value],
+        ]);
+
+        $this->actingAs($user);
+
+        Livewire::test(Settings::class)
+            ->fillForm([
+                'club_name' => 'Updated Club Name',
+            ])
+            ->call('save')
+            ->assertHasNoFormErrors();
+
+        $this->assertDatabaseHas(Setting::class, [
+            'club_name' => 'Updated Club Name',
+        ]);
     }
 
     public function test_livewire_update_route_works_with_load_settings_middleware(): void
