@@ -4,52 +4,55 @@ namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
 class Enquiry extends Mailable implements \Illuminate\Contracts\Queue\ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    public string $name;
-
-    public string $email;
-
-    public string $phoneNumber;
-
-    public string $messageSubject;
-
-    public string $messageContent;
-
-    public string $senderEmailAddress;
-
     /**
      * Create a new message instance.
      */
-    public function __construct(string $name,
-        string $email,
-        string $phoneNumber,
-        string $messageSubject,
-        string $messageContent,
-        string $senderEmailAddress
-    ) {
-        $this->name = $name;
-        $this->email = $email;
-        $this->phoneNumber = $phoneNumber;
-        $this->messageSubject = $messageSubject;
-        $this->messageContent = $messageContent;
+    public function __construct(
+        public string $name,
+        public string $email,
+        public string $phoneNumber,
+        public string $messageSubject,
+        public string $messageContent,
+        public string $senderEmailAddress
+    ) {}
 
-        $this->senderEmailAddress = $senderEmailAddress;
+    /**
+     * Get the message envelope.
+     */
+    public function envelope(): Envelope
+    {
+        return new Envelope(
+            from: new Address($this->senderEmailAddress),
+            subject: 'Website Enquiry - '.$this->messageSubject,
+        );
     }
 
     /**
-     * Build the message.
-     *
-     * @return $this
+     * Get the message content definition.
      */
-    public function build(): Mailable
+    public function content(): Content
     {
-        return $this->view('mail.enquiry')
-            ->subject('Website Enquiry - '.$this->messageSubject)
-            ->from($this->senderEmailAddress);
+        return new Content(
+            view: 'mail.enquiry',
+        );
+    }
+
+    /**
+     * Get the attachments for the message.
+     *
+     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     */
+    public function attachments(): array
+    {
+        return [];
     }
 }

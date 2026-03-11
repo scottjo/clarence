@@ -4,46 +4,55 @@ namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
 class EnquiryConfirmation extends Mailable implements \Illuminate\Contracts\Queue\ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    public string $name;
-
-    public string $email;
-
-    public string $phoneNumber;
-
-    public string $messageSubject;
-
-    public string $messageContent;
-
-    public string $senderEmailAddress;
-
     /**
      * Create a new message instance.
      */
-    public function __construct(string $name, string $email, string $phoneNumber, string $messageSubject, string $messageContent, string $senderEmailAddress)
+    public function __construct(
+        public string $name,
+        public string $email,
+        public string $phoneNumber,
+        public string $messageSubject,
+        public string $messageContent,
+        public string $senderEmailAddress
+    ) {}
+
+    /**
+     * Get the message envelope.
+     */
+    public function envelope(): Envelope
     {
-        $this->name = $name;
-        $this->email = $email;
-        $this->phoneNumber = $phoneNumber;
-        $this->messageSubject = $messageSubject;
-        $this->messageContent = $messageContent;
-        $this->senderEmailAddress = $senderEmailAddress;
+        return new Envelope(
+            from: new Address($this->senderEmailAddress),
+            subject: 'Clarence Bowls Website Enquiry Confirmation - '.$this->messageSubject,
+        );
     }
 
     /**
-     * Build the message.
-     *
-     * @return $this
+     * Get the message content definition.
      */
-    public function build(): Mailable
+    public function content(): Content
     {
-        return $this->view('mail.confirmation')
-            ->subject('Clarence Bowls Website Enquiry Confirmation - '.$this->messageSubject)
-            ->from($this->senderEmailAddress);
+        return new Content(
+            view: 'mail.confirmation',
+        );
+    }
+
+    /**
+     * Get the attachments for the message.
+     *
+     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     */
+    public function attachments(): array
+    {
+        return [];
     }
 }
