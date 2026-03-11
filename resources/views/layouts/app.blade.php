@@ -183,7 +183,7 @@
                            class="px-4 py-2 rounded-md transition text-sm font-bold shadow-sm hover:shadow-md hover:scale-105 active:scale-95"
                            style="
                                 background-color: {{ $settings?->menu_text_color ?? '#2563eb' }};
-                                color: {{ ($settings?->header_gradient_start && $settings?->header_gradient_end) ? $settings->header_gradient_start : ($settings?->menu_color ?? '#ffffff') }};
+                                color: #ffffff;
                                 filter: contrast(1.2);
                             ">
                              Member Login
@@ -287,7 +287,7 @@
                                class="block w-full text-center px-4 py-3 rounded-md transition text-sm font-bold shadow-sm active:scale-95"
                                style="
                                     background-color: {{ $settings?->menu_text_color ?? '#2563eb' }};
-                                    color: {{ ($settings?->header_gradient_start && $settings?->header_gradient_end) ? $settings->header_gradient_start : ($settings?->menu_color ?? '#ffffff') }};
+                                    color: #ffffff;
                                     filter: contrast(1.2);
                                ">
                                 Member Login
