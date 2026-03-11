@@ -38,6 +38,8 @@ class Settings extends Page implements HasForms
 
     public ?array $data = [];
 
+    public ?Setting $record = null;
+
     public static function canAccess(): bool
     {
         return auth()->user()?->isAdministrator() ?? false;
@@ -45,11 +47,9 @@ class Settings extends Page implements HasForms
 
     public function mount(): void
     {
-        $settings = Setting::first();
+        $this->record = Setting::firstOrCreate([]);
 
-        if ($settings) {
-            $this->form->fill($settings->toArray());
-        }
+        $this->form->fill($this->record->toArray());
     }
 
     public function form(Schema $schema): Schema
@@ -261,7 +261,8 @@ class Settings extends Page implements HasForms
                             ])->compact(),
                     ])->columns(1),
             ])
-            ->statePath('data');
+            ->statePath('data')
+            ->model($this->record);
     }
 
     protected function getFormActions(): array
@@ -277,7 +278,7 @@ class Settings extends Page implements HasForms
     {
         $data = $this->form->getState();
 
-        Setting::updateOrCreate([], $data);
+        $this->record->update($data);
 
         // Clear all settings-related caches
         \Illuminate\Support\Facades\Cache::forget('settings');
