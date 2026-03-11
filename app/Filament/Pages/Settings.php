@@ -280,48 +280,15 @@ class Settings extends Page implements HasForms
     public function save(): void
     {
         try {
+            // getState() automatically calls saveRelationships() (which saves new uploads
+            // and removes deleted ones) and loadStateFromRelationships() via Filament internals.
             $data = $this->form->getState();
 
-            // Get current media state before update
-            $existingMedia = [
-                'header_logo' => $this->record->getFirstMedia('header_logo'),
-                'footer_logo_left' => $this->record->getFirstMedia('footer_logo_left'),
-                'footer_logo_right' => $this->record->getFirstMedia('footer_logo_right'),
-                'membership_application_form' => $this->record->getFirstMedia('membership_application_form'),
-            ];
-
-            // Separate media and regular fields
             $mediaFields = ['header_logo', 'footer_logo_left', 'footer_logo_right', 'membership_application_form'];
             $regularData = array_diff_key($data, array_flip($mediaFields));
 
-            // Update regular fields only
             $this->record->fill($regularData);
             $this->record->save();
-
-            // Handle media fields manually
-            foreach ($mediaFields as $field) {
-                $fieldData = isset($data[$field]) && is_array($data[$field]) ? $data[$field] : [];
-
-                if (empty($fieldData)) {
-                    // User explicitly cleared the field
-                    $this->record->clearMediaCollection($field);
-
-                    continue;
-                }
-
-                // Check whether there are any new uploads (vs existing file UUIDs)
-                $newUploads = array_filter($fieldData, fn ($file) => $file instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile);
-
-                if (! empty($newUploads)) {
-                    $this->record->clearMediaCollection($field);
-
-                    foreach ($newUploads as $file) {
-                        $this->record->addMedia($file->getRealPath())
-                            ->toMediaCollection($field);
-                    }
-                }
-                // else: existing files unchanged — leave media alone
-            }
 
             // Clear all settings-related caches
             \Illuminate\Support\Facades\Cache::forget('settings');
