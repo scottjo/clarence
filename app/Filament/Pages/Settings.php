@@ -90,7 +90,6 @@ class Settings extends Page implements HasForms
                     ->schema([
                         SpatieMediaLibraryFileUpload::make('header_logo')
                             ->collection('header_logo')
-                            ->multiple()
                             ->maxFiles(1)
                             ->image()
                             ->responsiveImages()
@@ -115,7 +114,6 @@ class Settings extends Page implements HasForms
                     ->schema([
                         SpatieMediaLibraryFileUpload::make('footer_logo_left')
                             ->collection('footer_logo_left')
-                            ->multiple()
                             ->maxFiles(1)
                             ->image()
                             ->responsiveImages()
@@ -123,7 +121,6 @@ class Settings extends Page implements HasForms
                             ->helperText('The logo displayed in the footer (left side).'),
                         SpatieMediaLibraryFileUpload::make('footer_logo_right')
                             ->collection('footer_logo_right')
-                            ->multiple()
                             ->maxFiles(1)
                             ->image()
                             ->responsiveImages()
@@ -282,13 +279,40 @@ class Settings extends Page implements HasForms
         try {
             $data = $this->form->getState();
 
-            // Exclude media fields - they're handled automatically by form component
+            // Get current media state before update
+            $existingMedia = [
+                'header_logo' => $this->record->getFirstMedia('header_logo'),
+                'footer_logo_left' => $this->record->getFirstMedia('footer_logo_left'),
+                'footer_logo_right' => $this->record->getFirstMedia('footer_logo_right'),
+                'membership_application_form' => $this->record->getFirstMedia('membership_application_form'),
+            ];
+
+            // Separate media and regular fields
             $mediaFields = ['header_logo', 'footer_logo_left', 'footer_logo_right', 'membership_application_form'];
             $regularData = array_diff_key($data, array_flip($mediaFields));
 
-            // Update regular fields
+            // Update regular fields only
             $this->record->fill($regularData);
             $this->record->save();
+
+            // Handle media fields manually - only update if there's new data
+            foreach ($mediaFields as $field) {
+                if (isset($data[$field]) && ! empty($data[$field])) {
+                    // Clear existing media in this collection
+                    $this->record->clearMediaCollection($field);
+
+                    // Add new media
+                    if (is_array($data[$field])) {
+                        foreach ($data[$field] as $file) {
+                            if ($file instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile) {
+                                $this->record->addMedia($file->getRealPath())
+                                    ->toMediaCollection($field);
+                            }
+                        }
+                    }
+                }
+                // If field is empty/null, preserve existing media (don't clear)
+            }
 
             // Clear all settings-related caches
             \Illuminate\Support\Facades\Cache::forget('settings');
