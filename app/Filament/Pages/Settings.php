@@ -298,23 +298,29 @@ class Settings extends Page implements HasForms
             $this->record->fill($regularData);
             $this->record->save();
 
-            // Handle media fields manually - only update if there's new data
+            // Handle media fields manually
             foreach ($mediaFields as $field) {
-                if (isset($data[$field]) && ! empty($data[$field])) {
-                    // Clear existing media in this collection
+                $fieldData = isset($data[$field]) && is_array($data[$field]) ? $data[$field] : [];
+
+                if (empty($fieldData)) {
+                    // User explicitly cleared the field
                     $this->record->clearMediaCollection($field);
 
-                    // Add new media
-                    if (is_array($data[$field])) {
-                        foreach ($data[$field] as $file) {
-                            if ($file instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile) {
-                                $this->record->addMedia($file->getRealPath())
-                                    ->toMediaCollection($field);
-                            }
-                        }
+                    continue;
+                }
+
+                // Check whether there are any new uploads (vs existing file UUIDs)
+                $newUploads = array_filter($fieldData, fn ($file) => $file instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile);
+
+                if (! empty($newUploads)) {
+                    $this->record->clearMediaCollection($field);
+
+                    foreach ($newUploads as $file) {
+                        $this->record->addMedia($file->getRealPath())
+                            ->toMediaCollection($field);
                     }
                 }
-                // If field is empty/null, preserve existing media (don't clear)
+                // else: existing files unchanged — leave media alone
             }
 
             // Clear all settings-related caches
