@@ -27,6 +27,10 @@ class LoadSettings
      */
     public function handle(Request $request, Closure $next): Response
     {
+        if ($request->is('admin*') || $request->is('livewire/*')) {
+            return $next($request);
+        }
+
         try {
             $settings = Cache::rememberForever('settings', function () {
                 return Setting::first();
@@ -58,7 +62,7 @@ class LoadSettings
         try {
             $routeName = $request->route()?->getName();
 
-            if (! $routeName && ! $request->is('livewire/*')) {
+            if (! $routeName) {
                 try {
                     $matched = Route::getRoutes()->match($request);
                     $routeName = $matched->getName();
@@ -72,13 +76,6 @@ class LoadSettings
             }
 
             $pageIdentifier = $routeName ?: $request->path();
-
-            if (str_starts_with($pageIdentifier, 'livewire/')) {
-                View::share('hero', null);
-                View::share('intro', null);
-
-                return $next($request);
-            }
 
             $hero = $this->rememberNullable("hero:{$pageIdentifier}", function () use ($pageIdentifier) {
                 return Hero::where('page_identifier', $pageIdentifier)->first();
