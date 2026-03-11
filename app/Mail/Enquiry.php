@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class Enquiry extends Mailable
+class Enquiry extends Mailable implements \Illuminate\Contracts\Queue\ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -31,8 +31,7 @@ class Enquiry extends Mailable
         string $messageSubject,
         string $messageContent,
         string $senderEmailAddress
-    )
-    {
+    ) {
         $this->name = $name;
         $this->email = $email;
         $this->phoneNumber = $phoneNumber;
