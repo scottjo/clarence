@@ -46,6 +46,6 @@ Route::get('/news', NewsList::class)->name('news');
 Route::get('/news/{newsArticle:slug}', NewsShow::class)->name('news.show');
 Route::get('/events', EventsList::class)->name('events');
 Route::get('/events/{event:slug}', EventShow::class)->name('events.show');
-Route::get('/contact', Contact::class)->name('contact');
+Route::get('/contact', Contact::class)->name('contact')->middleware('throttle:10,1');
 
-Route::get('/search', SearchResults::class)->name('search');
+Route::get('/search', SearchResults::class)->name('search')->middleware('throttle:60,1');

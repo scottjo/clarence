@@ -36,26 +36,46 @@ class Contact extends Component
     }
 
     protected $rules = [
-        'name' => 'required|min:3',
-        'email' => 'required|email',
-        'phoneNumber' => 'required|min:10',
-        'subject' => 'required|min:5',
-        'message' => 'required|min:10',
+        'name' => 'required|min:3|max:255',
+        'email' => 'required|email|max:255',
+        'phoneNumber' => 'required|min:10|max:20',
+        'subject' => 'required|min:5|max:255',
+        'message' => 'required|min:10|max:5000',
     ];
 
-    public function submit():void
+    protected $messages = [
+        'name.required' => 'Please enter your name.',
+        'name.min' => 'Your name must be at least 3 characters.',
+        'email.required' => 'Please enter your email address.',
+        'email.email' => 'Please enter a valid email address.',
+        'phoneNumber.required' => 'Please enter your phone number.',
+        'phoneNumber.min' => 'Your phone number must be at least 10 characters.',
+        'subject.required' => 'Please enter a subject.',
+        'subject.min' => 'The subject must be at least 5 characters.',
+        'message.required' => 'Please enter your message.',
+        'message.min' => 'Your message must be at least 10 characters.',
+        'message.max' => 'Your message must not exceed 5000 characters.',
+    ];
+
+    public function submit(): void
     {
         $this->validate();
 
-        if (preg_match_all("/[A-Z]/", $this->subject) > 5) {
+        // Spam detection: too many capital letters in subject
+        if (preg_match_all('/[A-Z]/', $this->subject) > 5) {
+            $this->addError('subject', 'Your message appears to be spam. Please check your subject line.');
             $this->success = false;
+
             return;
         }
 
         $message = strtolower($this->message);
 
+        // Spam detection: Cyrillic characters
         if ($this->isRussian($message)) {
+            $this->addError('message', 'Your message appears to be spam. Please use English characters only.');
             $this->success = false;
+
             return;
         }
 
@@ -75,7 +95,7 @@ class Contact extends Component
             ));
 
         Mail::to($this->email)
-            ->send( new EnquiryConfirmation(
+            ->send(new EnquiryConfirmation(
                 name: $this->name,
                 email: $this->email,
                 phoneNumber: $this->phoneNumber,

@@ -29,50 +29,53 @@ class SearchResults extends Component
         $winnerResults = collect();
 
         if (! empty($this->search)) {
+            // Escape LIKE wildcards to prevent SQL injection
+            $escapedSearch = str_replace(['\\', '%', '_'], ['\\\\', '\%', '\_'], $this->search);
+
             $newsResults = NewsArticle::where('is_active', true)
-                ->where(function ($query) {
-                    $query->where('title', 'like', "%{$this->search}%")
-                        ->orWhere('content', 'like', "%{$this->search}%");
+                ->where(function ($query) use ($escapedSearch) {
+                    $query->where('title', 'like', "%{$escapedSearch}%")
+                        ->orWhere('content', 'like', "%{$escapedSearch}%");
                 })
                 ->latest('published_at')
                 ->get();
 
             $eventResults = Event::where('is_active', true)
-                ->where(function ($query) {
-                    $query->where('title', 'like', "%{$this->search}%")
-                        ->orWhere('description', 'like', "%{$this->search}%");
+                ->where(function ($query) use ($escapedSearch) {
+                    $query->where('title', 'like', "%{$escapedSearch}%")
+                        ->orWhere('description', 'like', "%{$escapedSearch}%");
                 })
                 ->where('start_time', '>=', now())
                 ->orderBy('start_time')
                 ->get();
 
             $officerResults = \App\Models\Officer::where('is_active', true)
-                ->where('name', 'like', "%{$this->search}%")
+                ->where('name', 'like', "%{$escapedSearch}%")
                 ->orderBy('sort_order')
                 ->get();
 
-            $fixtureResults = \App\Models\Fixture::where(function ($query) {
-                $query->where('opponent', 'like', "%{$this->search}%")
-                    ->orWhere('venue', 'like', "%{$this->search}%")
-                    ->orWhere('competition', 'like', "%{$this->search}%")
-                    ->orWhere('notes', 'like', "%{$this->search}%");
+            $fixtureResults = \App\Models\Fixture::where(function ($query) use ($escapedSearch) {
+                $query->where('opponent', 'like', "%{$escapedSearch}%")
+                    ->orWhere('venue', 'like', "%{$escapedSearch}%")
+                    ->orWhere('competition', 'like', "%{$escapedSearch}%")
+                    ->orWhere('notes', 'like', "%{$escapedSearch}%");
             })
                 ->orderBy('date', 'desc')
                 ->get();
 
-            $resultResults = \App\Models\Result::whereHas('fixture', function ($query) {
-                $query->where('opponent', 'like', "%{$this->search}%");
+            $resultResults = \App\Models\Result::whereHas('fixture', function ($query) use ($escapedSearch) {
+                $query->where('opponent', 'like', "%{$escapedSearch}%");
             })
-                ->orWhere('summary', 'like', "%{$this->search}%")
+                ->orWhere('summary', 'like', "%{$escapedSearch}%")
                 ->with('fixture')
                 ->latest()
                 ->get();
 
-            $winnerResults = CompetitionResult::where(function ($query) {
-                $query->whereHas('competition', function ($q) {
-                    $q->where('name', 'like', "%{$this->search}%");
+            $winnerResults = CompetitionResult::where(function ($query) use ($escapedSearch) {
+                $query->whereHas('competition', function ($q) use ($escapedSearch) {
+                    $q->where('name', 'like', "%{$escapedSearch}%");
                 })
-                    ->orWhere('winner_name', 'like', "%{$this->search}%");
+                    ->orWhere('winner_name', 'like', "%{$escapedSearch}%");
             })
                 ->with('competition')
                 ->orderBy('year', 'desc')

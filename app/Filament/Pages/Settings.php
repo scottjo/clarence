@@ -279,6 +279,19 @@ class Settings extends Page implements HasForms
 
         Setting::updateOrCreate([], $data);
 
+        // Clear all settings-related caches
+        \Illuminate\Support\Facades\Cache::forget('settings');
+        \Illuminate\Support\Facades\Cache::forget('social_links');
+
+        // Clear hero and intro block caches for all pages
+        $routes = \Illuminate\Support\Facades\Route::getRoutes()->getRoutesByName();
+        foreach ($routes as $name => $route) {
+            if (! str_starts_with($name, 'filament.') && ! str_starts_with($name, 'horizon.')) {
+                \Illuminate\Support\Facades\Cache::forget("hero:{$name}");
+                \Illuminate\Support\Facades\Cache::forget("intro_block:{$name}");
+            }
+        }
+
         Notification::make()
             ->title('Settings saved successfully.')
             ->success()

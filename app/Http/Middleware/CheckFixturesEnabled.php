@@ -15,7 +15,8 @@ class CheckFixturesEnabled
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $settings = \App\Models\Setting::first();
+        // Use cached settings from LoadSettings middleware instead of querying database
+        $settings = config('settings');
 
         if ($settings && ! ($settings->show_fixtures_results ?? true)) {
             abort(404);
