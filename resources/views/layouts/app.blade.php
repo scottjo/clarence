@@ -180,11 +180,11 @@
                     <livewire:search-header />
                     @if($settings?->member_login_url)
                         <a href="{{ $settings->member_login_url }}" target="_blank" rel="noopener noreferrer"
-                           class="px-4 py-2 rounded-md transition text-sm font-semibold hover:opacity-100"
+                           class="px-4 py-2 rounded-md transition text-sm font-bold shadow-sm hover:shadow-md hover:scale-105 active:scale-95"
                            style="
-                                background-color: {{ ($settings?->header_gradient_start && $settings?->header_gradient_end) ? $settings->header_gradient_start : ($settings?->menu_color ?? '#ffffff') }};
-                                filter: brightness(0.9);
-                                color: color-mix(in srgb, {{ $settings?->menu_text_color ?? '#000000' }}, black 40%);
+                                background-color: {{ $settings?->menu_text_color ?? '#2563eb' }};
+                                color: {{ ($settings?->header_gradient_start && $settings?->header_gradient_end) ? $settings->header_gradient_start : ($settings?->menu_color ?? '#ffffff') }};
+                                filter: contrast(1.2);
                             ">
                              Member Login
                          </a>
@@ -284,11 +284,11 @@
                     @if($settings?->member_login_url)
                         <div class="px-2 py-2">
                             <a href="{{ $settings->member_login_url }}" target="_blank" rel="noopener noreferrer"
-                               class="block w-full text-center px-4 py-2 rounded-md transition text-sm font-semibold hover:opacity-100"
+                               class="block w-full text-center px-4 py-3 rounded-md transition text-sm font-bold shadow-sm active:scale-95"
                                style="
-                                    background-color: {{ ($settings?->header_gradient_start && $settings?->header_gradient_end) ? $settings->header_gradient_start : ($settings?->menu_color ?? '#ffffff') }};
-                                    filter: brightness(0.9);
-                                    color: color-mix(in srgb, {{ $settings?->menu_text_color ?? '#000000' }}, black 40%);
+                                    background-color: {{ $settings?->menu_text_color ?? '#2563eb' }};
+                                    color: {{ ($settings?->header_gradient_start && $settings?->header_gradient_end) ? $settings->header_gradient_start : ($settings?->menu_color ?? '#ffffff') }};
+                                    filter: contrast(1.2);
                                ">
                                 Member Login
                             </a>
