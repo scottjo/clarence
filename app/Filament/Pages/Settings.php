@@ -278,7 +278,23 @@ class Settings extends Page implements HasForms
     {
         $data = $this->form->getState();
 
-        $this->record->update($data);
+        // Separate media fields from regular fields
+        $mediaFields = ['header_logo', 'footer_logo_left', 'footer_logo_right', 'membership_application_form'];
+        $regularData = [];
+
+        foreach ($data as $key => $value) {
+            // Only include media fields if they have a value (being updated)
+            // This prevents clearing existing media when field is empty
+            if (in_array($key, $mediaFields)) {
+                if (! empty($value)) {
+                    $regularData[$key] = $value;
+                }
+            } else {
+                $regularData[$key] = $value;
+            }
+        }
+
+        $this->record->update($regularData);
 
         // Clear all settings-related caches
         \Illuminate\Support\Facades\Cache::forget('settings');
