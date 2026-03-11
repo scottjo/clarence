@@ -124,4 +124,8 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'google' => [
+        'analytics_tag' => env('GOOGLE_ANALYTICS_TAG'),
+    ],
+
 ];

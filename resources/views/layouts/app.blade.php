@@ -53,6 +53,15 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ config('app.google.analytics_tag') }}"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', '{{ config('app.google.analytics_tag') }}');
+</script>
 <body class="text-gray-900 font-sans antialiased dark:text-gray-100"
       style="
         --page-bg: {{ $settings?->page_bg_color ?? '#f9fafb' }};

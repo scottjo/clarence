@@ -5,6 +5,8 @@
     ],
     "guidelines": true,
     "packages": [
-        "filament/filament"
+        "filament/filament",
+        "spatie/laravel-medialibrary",
+        "spatie/laravel-backup"
     ]
 }
