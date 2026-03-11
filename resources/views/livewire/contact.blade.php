@@ -19,19 +19,19 @@
                 <form wire:submit.prevent="submit" class="space-y-6">
                     <div>
                         <label for="name" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 uppercase tracking-wide">Your Name</label>
-                        <input type="text" id="name" wire:model="name" class="w-full px-6 py-4 rounded-xl border-2 border-gray-100 dark:border-gray-700 dark:bg-gray-900 focus:border-blue-600 focus:outline-none transition">
+                        <input type="text" id="name" wire:model="name" autocomplete="name" class="w-full px-6 py-4 rounded-xl border-2 border-gray-100 dark:border-gray-700 dark:bg-gray-900 focus:border-blue-600 focus:outline-none transition">
                         @error('name') <span class="text-red-600 text-xs font-bold mt-1">{{ $message }}</span> @enderror
                     </div>
 
                     <div>
                         <label for="email" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 uppercase tracking-wide">Email Address</label>
-                        <input type="email" id="email" wire:model="email" class="w-full px-6 py-4 rounded-xl border-2 border-gray-100 dark:border-gray-700 dark:bg-gray-900 focus:border-blue-600 focus:outline-none transition">
+                        <input type="email" id="email" wire:model="email" autocomplete="email" class="w-full px-6 py-4 rounded-xl border-2 border-gray-100 dark:border-gray-700 dark:bg-gray-900 focus:border-blue-600 focus:outline-none transition">
                         @error('email') <span class="text-red-600 text-xs font-bold mt-1">{{ $message }}</span> @enderror
                     </div>
 
                     <div>
                         <label for="phoneNumber" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 uppercase tracking-wide">Phone Number</label>
-                        <input type="text" id="phoneNumber" wire:model="phoneNumber" class="w-full px-6 py-4 rounded-xl border-2 border-gray-100 dark:border-gray-700 dark:bg-gray-900 focus:border-blue-600 focus:outline-none transition">
+                        <input type="tel" id="phoneNumber" wire:model="phoneNumber" autocomplete="tel" class="w-full px-6 py-4 rounded-xl border-2 border-gray-100 dark:border-gray-700 dark:bg-gray-900 focus:border-blue-600 focus:outline-none transition">
                         @error('phoneNumber') <span class="text-red-600 text-xs font-bold mt-1">{{ $message }}</span> @enderror
                     </div>
 
