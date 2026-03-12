@@ -39,6 +39,7 @@ class Event extends Model implements HasMedia
         'is_active',
         'overlay_message',
         'overlay_label',
+        'overlay_active',
     ];
 
     protected function casts(): array
@@ -47,6 +48,7 @@ class Event extends Model implements HasMedia
             'start_time' => 'datetime',
             'end_time' => 'datetime',
             'is_active' => 'boolean',
+            'overlay_active' => 'boolean',
         ];
     }
 }

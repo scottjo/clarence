@@ -3,7 +3,14 @@
 
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         @forelse($events as $event)
-            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 overflow-hidden flex flex-col hover:-translate-y-1 transition duration-300">
+            <div class="relative bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 overflow-hidden flex flex-col hover:-translate-y-1 transition duration-300">
+                @if($event->overlay_message && $event->overlay_active)
+                    <div class="absolute inset-0 flex items-center justify-center p-4 pointer-events-none z-30">
+                        <div class="bg-yellow-300 dark:bg-yellow-400 text-gray-900 px-6 py-4 font-bold text-center shadow-[0_25px_60px_-15px_rgba(0,0,0,0.5)] transform -rotate-12 border-4 border-yellow-400 dark:border-yellow-500 text-base leading-snug max-w-[90%] opacity-95">
+                            {{ $event->overlay_message }}
+                        </div>
+                    </div>
+                @endif
                 <div class="relative h-48">
                     @if($event->hasMedia('image'))
                         {{ $event->getFirstMedia('image')->img('', ['class' => 'w-full h-full object-cover']) }}
@@ -13,15 +20,8 @@
                         </div>
                     @endif
 
-                    @if($event->overlay_label)
-                        <div class="absolute inset-0 flex items-center justify-center p-4 pointer-events-none">
-                            <div class="bg-yellow-300 dark:bg-yellow-400 text-gray-900 px-4 py-2 font-bold text-lg shadow-xl transform -rotate-3 border-2 border-yellow-400 dark:border-yellow-500 uppercase tracking-wider">
-                                {{ $event->overlay_label }}
-                            </div>
-                        </div>
-                    @endif
 
-                    <div class="absolute top-4 left-4 bg-white dark:bg-gray-900 rounded-xl p-2 text-center shadow-lg min-w-[60px]">
+                    <div class="absolute top-4 left-4 bg-white dark:bg-gray-900 rounded-xl p-2 text-center shadow-lg min-w-[60px] z-20">
                         <span class="block text-xl font-black leading-none">{{ $event->start_time->format('d') }}</span>
                         <span class="block text-xs uppercase font-bold text-gray-500">{{ $event->start_time->format('M') }}</span>
                     </div>

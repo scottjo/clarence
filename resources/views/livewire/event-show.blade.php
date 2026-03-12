@@ -6,9 +6,9 @@
                     {{ $event->getFirstMedia('image')->img('', ['class' => 'w-full h-80 object-cover']) }}
                 @endif
 
-                @if($event->overlay_message)
-                    <div class="absolute inset-0 flex items-center justify-center p-6 pointer-events-none">
-                        <div class="bg-yellow-200 dark:bg-yellow-300 text-gray-900 p-6 shadow-2xl transform rotate-2 max-w-sm border-l-8 border-yellow-400 dark:border-yellow-500 font-medium text-lg leading-relaxed relative">
+                @if($event->overlay_message && $event->overlay_active)
+                    <div class="absolute inset-0 flex items-center justify-center p-6 pointer-events-none z-10">
+                        <div class="bg-yellow-200 dark:bg-yellow-300 text-gray-900 p-6 shadow-[0_30px_70px_-10px_rgba(0,0,0,0.6)] transform rotate-2 max-w-sm border-l-8 border-yellow-400 dark:border-yellow-500 font-medium text-lg leading-relaxed relative">
                             <div class="absolute -top-2 left-1/2 -translate-x-1/2 w-12 h-6 bg-white/40 blur-sm -rotate-2"></div>
                             {{ $event->overlay_message }}
                         </div>

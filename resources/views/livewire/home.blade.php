@@ -106,6 +106,14 @@
             <div class="space-y-6">
                 @foreach($upcomingEvents as $event)
                     <div class="relative overflow-hidden bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-100 dark:border-gray-700">
+                        @if($event->overlay_label && $event->overlay_active)
+                            <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
+                                <div class="bg-yellow-300 dark:bg-yellow-400 text-gray-900 px-6 py-2 font-black text-2xl md:text-3xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)] transform -rotate-12 border-4 border-yellow-400 dark:border-yellow-500 uppercase tracking-widest whitespace-nowrap opacity-90">
+                                    {{ $event->overlay_label }}
+                                </div>
+                            </div>
+                        @endif
+
                         @if($event->hasMedia('image'))
                             <div class="absolute inset-y-0 right-0 w-3/5">
                                 {{ $event->getFirstMedia('image')->img('', ['class' => 'absolute inset-0 w-full h-full object-cover']) }}
