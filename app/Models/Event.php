@@ -37,6 +37,8 @@ class Event extends Model implements HasMedia
         'end_time',
         'location',
         'is_active',
+        'overlay_message',
+        'overlay_label',
     ];
 
     protected function casts(): array

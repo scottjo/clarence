@@ -1,9 +1,20 @@
 <div class="container mx-auto px-4 py-12">
     <div class="max-w-4xl mx-auto">
         <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700">
-            @if($event->hasMedia('image'))
-                {{ $event->getFirstMedia('image')->img('', ['class' => 'w-full h-80 object-cover']) }}
-            @endif
+            <div class="relative">
+                @if($event->hasMedia('image'))
+                    {{ $event->getFirstMedia('image')->img('', ['class' => 'w-full h-80 object-cover']) }}
+                @endif
+
+                @if($event->overlay_message)
+                    <div class="absolute inset-0 flex items-center justify-center p-6 pointer-events-none">
+                        <div class="bg-yellow-200 dark:bg-yellow-300 text-gray-900 p-6 shadow-2xl transform rotate-2 max-w-sm border-l-8 border-yellow-400 dark:border-yellow-500 font-medium text-lg leading-relaxed relative">
+                            <div class="absolute -top-2 left-1/2 -translate-x-1/2 w-12 h-6 bg-white/40 blur-sm -rotate-2"></div>
+                            {{ $event->overlay_message }}
+                        </div>
+                    </div>
+                @endif
+            </div>
 
             <div class="p-8 md:p-12">
                 <div class="flex flex-wrap items-center gap-4 mb-6">

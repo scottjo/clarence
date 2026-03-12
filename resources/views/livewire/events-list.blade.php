@@ -12,6 +12,15 @@
                             <svg class="w-16 h-16 opacity-20" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
                         </div>
                     @endif
+
+                    @if($event->overlay_label)
+                        <div class="absolute inset-0 flex items-center justify-center p-4 pointer-events-none">
+                            <div class="bg-yellow-300 dark:bg-yellow-400 text-gray-900 px-4 py-2 font-bold text-lg shadow-xl transform -rotate-3 border-2 border-yellow-400 dark:border-yellow-500 uppercase tracking-wider">
+                                {{ $event->overlay_label }}
+                            </div>
+                        </div>
+                    @endif
+
                     <div class="absolute top-4 left-4 bg-white dark:bg-gray-900 rounded-xl p-2 text-center shadow-lg min-w-[60px]">
                         <span class="block text-xl font-black leading-none">{{ $event->start_time->format('d') }}</span>
                         <span class="block text-xs uppercase font-bold text-gray-500">{{ $event->start_time->format('M') }}</span>
