@@ -3,10 +3,12 @@
 namespace App\Filament\Pages;
 
 use App\Enums\GradientDirection;
+use App\Models\Event;
 use App\Models\Setting;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
@@ -47,7 +49,9 @@ class Settings extends Page implements HasForms
 
     public function mount(): void
     {
-        $this->record = Setting::firstOrCreate([]);
+        /** @var Setting $record */
+        $record = Setting::query()->firstOrCreate([]);
+        $this->record = $record;
 
         $this->form->fill($this->record->toArray());
     }
@@ -109,6 +113,28 @@ class Settings extends Page implements HasForms
                             ->label('Gradient Direction')
                             ->options(GradientDirection::class)
                             ->default(GradientDirection::LeftToRight),
+                    ])->columns(2),
+
+                Section::make('Countdown Clock')
+                    ->description('Manage the ticking down clock on the home page.')
+                    ->schema([
+                        Toggle::make('countdown_active')
+                            ->label('Enable Countdown Clock')
+                            ->reactive(),
+                        TextInput::make('countdown_message')
+                            ->label('Optional Message')
+                            ->placeholder('e.g. Next match starts in:')
+                            ->visible(fn (Get $get) => $get('countdown_active')),
+                        DateTimePicker::make('countdown_target_date')
+                            ->label('Target Date & Time')
+                            ->required(fn (Get $get) => $get('countdown_active'))
+                            ->visible(fn (Get $get) => $get('countdown_active')),
+                        Select::make('countdown_event_id')
+                            ->label('Link to Event')
+                            ->options(Event::query()->where('is_active', true)->where('start_time', '>', now())->pluck('title', 'id'))
+                            ->searchable()
+                            ->visible(fn (Get $get) => $get('countdown_active'))
+                            ->helperText('Optional: link the countdown to a specific event page.'),
                     ])->columns(3),
 
                 Section::make('Footer Appearance')

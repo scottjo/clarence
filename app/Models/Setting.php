@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\GradientDirection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Cache;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -84,6 +85,10 @@ class Setting extends Model implements HasMedia
         'winner_name_text_color',
         'winner_name_text_color_dark',
         'useful_contacts_message',
+        'countdown_active',
+        'countdown_message',
+        'countdown_target_date',
+        'countdown_event_id',
     ];
 
     protected function casts(): array
@@ -94,6 +99,13 @@ class Setting extends Model implements HasMedia
             'sponsor_panel_show_on_all_pages' => 'boolean',
             'sponsor_panel_pages' => 'array',
             'show_fixtures_results' => 'boolean',
+            'countdown_active' => 'boolean',
+            'countdown_target_date' => 'datetime',
         ];
+    }
+
+    public function countdownEvent(): BelongsTo
+    {
+        return $this->belongsTo(Event::class, 'countdown_event_id');
     }
 }
