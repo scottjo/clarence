@@ -308,17 +308,17 @@
         @endif
     </header>
 
-    @if(($settings?->countdown_active ?? false) && $settings?->countdown_target_date && \Illuminate\Support\Facades\Route::currentRouteName() === 'home')
-        <x-countdown-clock
-            :target-date="$settings->countdown_target_date"
-            :message="$settings->countdown_message"
-            :event="$settings->countdownEvent"
-        />
-    @endif
-
     <main>
         @if(isset($hero) && $hero)
             <x-hero :hero="$hero" />
+        @endif
+
+        @if(($settings?->countdown_active ?? false) && $settings?->countdown_target_date && \Illuminate\Support\Facades\Route::currentRouteName() === 'home')
+            <x-countdown-clock
+                :target-date="$settings->countdown_target_date"
+                :message="$settings->countdown_message"
+                :event="$settings->countdownEvent"
+            />
         @endif
 
         @if(isset($activeAnnouncement) && $activeAnnouncement && request()->routeIs(['home', 'news']))
