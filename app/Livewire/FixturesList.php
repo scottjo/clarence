@@ -42,6 +42,8 @@ class FixturesList extends Component
                 ->where('date', '>=', now())
                 ->orderBy('date')
                 ->paginate($this->perPage),
-        ])->layout('layouts.app');
+        ])->layout('layouts.app',[
+            'title' => 'Fixtures at Clarence Bowls Club | Weston-super-Mare',
+        ]);
     }
 }

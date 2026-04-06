@@ -24,6 +24,8 @@ class Officers extends Component
 
         return view('livewire.about.officers', [
             'groups' => $groups,
-        ])->layout('layouts.app');
+        ])->layout('layouts.app',[
+            'title' => 'Officers of Clarence Bowls Club | Weston-super-Mare',
+        ]);
     }
 }

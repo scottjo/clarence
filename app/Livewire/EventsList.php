@@ -17,6 +17,8 @@ class EventsList extends Component
                 ->where('start_time', '>=', now())
                 ->orderBy('start_time')
                 ->paginate(9),
-        ])->layout('layouts.app');
+        ])->layout('layouts.app',[
+            'title' => 'Events at Clarence Bowls Club | Weston-super-Mare',
+        ]);
     }
 }

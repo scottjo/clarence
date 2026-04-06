@@ -8,6 +8,8 @@ class Competition extends Component
 {
     public function render(): \Illuminate\View\View
     {
-        return view('livewire.about.competition')->layout('layouts.app');
+        return view('livewire.about.competition')->layout('layouts.app',[
+            'title' => 'Competitions at Clarence Bowls Club | Weston-super-Mare',
+        ]);
     }
 }

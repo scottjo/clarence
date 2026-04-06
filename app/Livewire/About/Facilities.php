@@ -11,6 +11,8 @@ class Facilities extends Component
     {
         return view('livewire.about.facilities', [
             'facilities' => Facility::orderBy('sort_order')->get(),
-        ])->layout('layouts.app');
+        ])->layout('layouts.app',[
+            'title' => 'Facilities at Clarence Bowls Club | Weston-super-Mare',
+        ]);
     }
 }
