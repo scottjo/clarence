@@ -27,7 +27,7 @@ class Home extends Component
                 ->take(3)
                 ->get(),
         ])->layout('layouts.app', [
-            'title' => 'Home',
+            'title' => 'Lawn Bowls Club in Weston-super-Mare | Clarence Bowls Club',
         ]);
     }
 }

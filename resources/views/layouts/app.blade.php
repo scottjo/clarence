@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>@isset($title){{ $title }} | @endisset{{ $settings?->club_name ?? 'Clarence Bowls Club' }}</title>
+    <title>{{ $title ?? ($settings?->club_name ?? 'Clarence Bowls Club') }}</title>
     <meta name="description" content="{{ $metaDescription ?? ($settings?->description ?? 'Clarence Bowls Club is a friendly lawn bowls club located in Clarence Park, Weston-super-Mare. Join us for competitive and social bowling.') }}">
     <link rel="canonical" href="{{ url()->current() }}">
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">

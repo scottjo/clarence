@@ -36,7 +36,7 @@ class Membership extends Component
             'levels' => MembershipLevel::orderBy('sort_order')->get(),
             'formUrl' => $formUrl,
         ])->layout('layouts.app', [
-            'title' => 'Membership',
+            'title' => 'Join Clarence Bowls Club | Lawn Bowls in Weston-super-Mare',
             'metaDescription' => 'Join Clarence Bowls Club in Weston-super-Mare. Explore our membership types and benefits for the '.date('Y').' season.',
         ]);
     }
