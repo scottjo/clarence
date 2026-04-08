@@ -52,6 +52,7 @@
     </script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @cookieconsentscripts
 </head>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('app.google.analytics_tag') }}"></script>
@@ -397,5 +398,6 @@
             </div>
         </div>
     </footer>
+    @cookieconsentview
 </body>
 </html>
