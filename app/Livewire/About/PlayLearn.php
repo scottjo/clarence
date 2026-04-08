@@ -2,13 +2,14 @@
 
 namespace App\Livewire\About;
 
+use Illuminate\View\View;
 use Livewire\Component;
 
 class PlayLearn extends Component
 {
-    public function render(): \Illuminate\View\View
+    public function render(): View
     {
-        return view('livewire.about.play-learn')->layout('layouts.app',[
+        return view('livewire.about.play-learn')->layout('layouts.app', [
             'title' => 'Play & Learn Lawn Bowls at Clarence Bowls Club | Weston-super-Mare',
         ]);
     }
