@@ -8,6 +8,7 @@ use App\Models\IntroBlock;
 use App\Models\Setting;
 use App\Models\SocialMediaLink;
 use Closure;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
@@ -23,7 +24,7 @@ class LoadSettings
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param Closure(Request): (Response) $next
      */
     public function handle(Request $request, Closure $next): Response
     {
@@ -37,7 +38,7 @@ class LoadSettings
             });
             config(['settings' => $settings]);
             View::share('settings', $settings);
-        } catch (\Exception $e) {
+        } catch (Exception) {
             View::share('settings', null);
         }
 
@@ -48,14 +49,14 @@ class LoadSettings
                     ->get();
             });
             View::share('socialLinks', $socialLinks);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             View::share('socialLinks', collect());
         }
 
         try {
             $announcement = Announcement::active()->first();
             View::share('activeAnnouncement', $announcement);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             View::share('activeAnnouncement', null);
         }
 
@@ -66,7 +67,7 @@ class LoadSettings
                 try {
                     $matched = Route::getRoutes()->match($request);
                     $routeName = $matched->getName();
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     // Ignore match failures for non-existent routes
                 }
             }
@@ -77,16 +78,16 @@ class LoadSettings
 
             $pageIdentifier = $routeName ?: $request->path();
 
-            $hero = $this->rememberNullable("hero:{$pageIdentifier}", function () use ($pageIdentifier) {
+            $hero = $this->rememberNullable("hero:$pageIdentifier", function () use ($pageIdentifier) {
                 return Hero::where('page_identifier', $pageIdentifier)->first();
             });
             View::share('hero', $hero);
 
-            $intro = $this->rememberNullable("intro_block:{$pageIdentifier}", function () use ($pageIdentifier) {
+            $intro = $this->rememberNullable("intro_block:$pageIdentifier", function () use ($pageIdentifier) {
                 return IntroBlock::where('page_identifier', $pageIdentifier)->first();
             });
             View::share('intro', $intro);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             View::share('hero', null);
             View::share('intro', null);
         }
