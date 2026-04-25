@@ -2,10 +2,10 @@
 
 namespace App\Filament\Resources\IntroBlocks\Tables;
 
+use App\Filament\Columns\StyledToggleColumn;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -19,8 +19,8 @@ class IntroBlocksTable
                     ->label('Page')
                     ->searchable()
                     ->sortable(),
-                IconColumn::make('is_active')
-                    ->boolean()
+                StyledToggleColumn::create('is_active')
+                    ->label('Active')
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()

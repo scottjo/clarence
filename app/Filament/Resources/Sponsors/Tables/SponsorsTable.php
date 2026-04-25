@@ -2,12 +2,12 @@
 
 namespace App\Filament\Resources\Sponsors\Tables;
 
+use App\Filament\Columns\StyledToggleColumn;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 
 class SponsorsTable
@@ -25,7 +25,7 @@ class SponsorsTable
                     ->searchable(),
                 TextColumn::make('website')
                     ->searchable(),
-                ToggleColumn::make('is_active'),
+                StyledToggleColumn::create('is_active'),
                 TextColumn::make('sort_order')
                     ->numeric()
                     ->sortable(),

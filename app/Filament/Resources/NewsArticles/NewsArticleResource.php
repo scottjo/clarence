@@ -21,7 +21,7 @@ class NewsArticleResource extends Resource
 
     protected static BackedEnum|null|string $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static null|string|UnitEnum $navigationGroup = 'Content';
+    protected static string|UnitEnum|null $navigationGroup = 'News';
 
     protected static ?int $navigationSort = 302;
 

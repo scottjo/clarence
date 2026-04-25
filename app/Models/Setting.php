@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\GradientDirection;
+use Database\Factories\SettingFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,7 +14,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Setting extends Model implements HasMedia
 {
-    /** @use HasFactory<\Database\Factories\SettingFactory> */
+    /** @use HasFactory<SettingFactory> */
     use HasFactory;
 
     use InteractsWithMedia;
@@ -89,6 +90,9 @@ class Setting extends Model implements HasMedia
         'countdown_message',
         'countdown_target_date',
         'countdown_event_id',
+        'members_password',
+        'members_area_heading',
+        'members_area_intro',
     ];
 
     protected function casts(): array

@@ -14,6 +14,11 @@ class NewsShow extends Component
         if (! $newsArticle->is_active || ($newsArticle->published_at && $newsArticle->published_at->isFuture())) {
             abort(404);
         }
+
+        if ($newsArticle->is_members_only && ! session('members_authenticated')) {
+            return redirect()->route('members');
+        }
+
         $this->newsArticle = $newsArticle;
     }
 

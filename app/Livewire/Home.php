@@ -17,6 +17,7 @@ class Home extends Component
                 ->latest()
                 ->get(),
             'latestNews' => NewsArticle::where('is_active', true)
+                ->where('is_members_only', false)
                 ->where('published_at', '<=', now())
                 ->latest('published_at')
                 ->take(3)

@@ -1,43 +1,33 @@
 <?php
 
-namespace App\Filament\Resources\Officers\Tables;
+namespace App\Filament\Resources\Newsletters\Tables;
 
 use App\Filament\Columns\StyledToggleColumn;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-class OfficersTable
+class NewslettersTable
 {
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
-                SpatieMediaLibraryImageColumn::make('avatar')
-                    ->collection('avatar')
-                    ->circular(),
-                TextColumn::make('name')
+                TextColumn::make('title')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('role')
-                    ->searchable()
-                    ->sortable(),
-                TextColumn::make('sort_order')
-                    ->numeric()
+                TextColumn::make('issue_date')
+                    ->date()
                     ->sortable(),
                 StyledToggleColumn::create('is_active')
-                    ->label('Active')
-                    ->sortable(),
+                    ->label('Active'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->reorderable('sort_order')
-            ->defaultSort('sort_order')
             ->filters([
                 //
             ])

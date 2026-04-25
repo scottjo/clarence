@@ -17,6 +17,7 @@ use App\Livewire\FixtureShow;
 use App\Livewire\FixturesInfo;
 use App\Livewire\FixturesList;
 use App\Livewire\Home;
+use App\Livewire\MembersArea;
 use App\Livewire\NewsList;
 use App\Livewire\NewsShow;
 use App\Livewire\ResultsList;
@@ -49,3 +50,5 @@ Route::get('/events/{event:slug}', EventShow::class)->name('events.show');
 Route::get('/contact', Contact::class)->name('contact')->middleware('throttle:10,1');
 
 Route::get('/search', SearchResults::class)->name('search')->middleware('throttle:60,1');
+
+Route::get('/members', MembersArea::class)->name('members');

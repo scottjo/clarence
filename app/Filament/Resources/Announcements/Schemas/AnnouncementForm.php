@@ -42,6 +42,12 @@ class AnnouncementForm
                         Toggle::make('is_active')
                             ->label('Show Announcement')
                             ->default(false),
+                        Toggle::make('show_on_public')
+                            ->label('Show on Public Site')
+                            ->default(true),
+                        Toggle::make('is_members_only')
+                            ->label('Show in Members Area')
+                            ->default(false),
                         DateTimePicker::make('starts_at')
                             ->label('Show From'),
                         DateTimePicker::make('ends_at')

@@ -30,9 +30,9 @@ class NewsArticleForm
                     ->required()
                     ->columnSpanFull(),
                 SpatieMediaLibraryFileUpload::make('image')
+                    ->label('Images')
                     ->collection('image')
                     ->multiple()
-                    ->maxFiles(1)
                     ->image()
                     ->responsiveImages(),
                 SpatieMediaLibraryFileUpload::make('attachments')
@@ -43,6 +43,10 @@ class NewsArticleForm
                     ->preserveFilenames()
                     ->columnSpanFull(),
                 Toggle::make('is_active')
+                    ->label('Is Active')
+                    ->required(),
+                Toggle::make('is_members_only')
+                    ->label('Is Members Only')
                     ->required(),
                 DateTimePicker::make('published_at'),
             ]);

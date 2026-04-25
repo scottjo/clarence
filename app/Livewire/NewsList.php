@@ -14,10 +14,11 @@ class NewsList extends Component
     {
         return view('livewire.news-list', [
             'articles' => NewsArticle::where('is_active', true)
+                ->where('is_members_only', false)
                 ->where('published_at', '<=', now())
                 ->latest('published_at')
                 ->paginate(9),
-        ])->layout('layouts.app',[
+        ])->layout('layouts.app', [
             'title' => 'Clarence Bowls Club News | Weston-super-Mare',
         ]);
     }

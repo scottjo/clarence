@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Factories\NewsArticleFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
@@ -10,15 +11,14 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class NewsArticle extends Model implements HasMedia
 {
-    /** @use HasFactory<\Database\Factories\NewsArticleFactory> */
+    /** @use HasFactory<NewsArticleFactory> */
     use HasFactory;
 
     use InteractsWithMedia;
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('image')
-            ->singleFile();
+        $this->addMediaCollection('image');
 
         $this->addMediaCollection('attachments');
     }
@@ -36,6 +36,7 @@ class NewsArticle extends Model implements HasMedia
         'slug',
         'content',
         'is_active',
+        'is_members_only',
         'published_at',
     ];
 
@@ -43,6 +44,7 @@ class NewsArticle extends Model implements HasMedia
     {
         return [
             'is_active' => 'boolean',
+            'is_members_only' => 'boolean',
             'published_at' => 'datetime',
         ];
     }

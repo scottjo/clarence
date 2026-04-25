@@ -179,18 +179,17 @@
                     <a href="{{ route('events') }}" class="hover:opacity-75 transition">Events</a>
                     <a href="{{ route('contact') }}" class="hover:opacity-75 transition">Contact</a>
                     <livewire:search-header />
-                    @if($settings?->member_login_url)
-                        <a href="{{ $settings->member_login_url }}" target="_blank" rel="noopener noreferrer"
-                           class="px-4 py-2 rounded-md transition text-sm font-bold shadow-sm hover:shadow-md hover:scale-105 active:scale-95"
-                           style="
-                                background-color: {{ $settings?->menu_text_color ?? '#2563eb' }};
-                                color: #ffffff;
-                                filter: contrast(1.2);
-                            ">
-                             Member Login
-                         </a>
-                     @endif
-                 </div>
+                    <a href="{{ route('members') }}"
+                       class="px-4 py-2 rounded-md transition text-sm font-bold shadow-sm hover:shadow-md hover:scale-105 active:scale-95"
+                       style="
+                            background-color: {{ $settings?->menu_text_color ?? '#2563eb' }};
+                            color: #ffffff;
+                            filter: contrast(1.2);
+                        ">
+                        Members Area
+                    </a>
+
+                </div>
 
                 <!-- Mobile Menu Toggle -->
                 <div class="md:hidden">
@@ -282,19 +281,15 @@
                             </button>
                         </form>
                     </div>
-                    @if($settings?->member_login_url)
-                        <div class="px-2 py-2">
-                            <a href="{{ $settings->member_login_url }}" target="_blank" rel="noopener noreferrer"
-                               class="block w-full text-center px-4 py-3 rounded-md transition text-sm font-bold shadow-sm active:scale-95"
-                               style="
-                                    background-color: {{ $settings?->menu_text_color ?? '#2563eb' }};
-                                    color: #ffffff;
-                                    filter: contrast(1.2);
-                               ">
-                                Member Login
-                            </a>
-                        </div>
-                    @endif
+                    <a href="{{ route('members') }}"
+                       class="mx-2 my-2 block text-center px-4 py-3 rounded-md transition text-sm font-bold shadow-sm active:scale-95"
+                       style="
+                            background-color: {{ $settings?->menu_text_color ?? '#2563eb' }};
+                            color: #ffffff;
+                            filter: contrast(1.2);
+                       ">
+                        Members Area
+                    </a>
                 </div>
             </div>
         </nav>

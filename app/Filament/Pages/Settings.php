@@ -23,6 +23,7 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use UnitEnum;
 
@@ -70,14 +71,26 @@ class Settings extends Page implements HasForms
                             ->tel(),
                         TextInput::make('email')
                             ->email(),
+                    ])->columns(2),
+
+                Section::make('Members Area')
+                    ->schema([
+                        TextInput::make('members_area_heading')
+                            ->label('Heading')
+                            ->placeholder('Members Area'),
+                        Textarea::make('members_area_intro')
+                            ->label('Introduction Text')
+                            ->placeholder('Welcome to the members-only section.')
+                            ->rows(3),
+                        TextInput::make('members_password')
+                            ->label('Password')
+                            ->password()
+                            ->revealable()
+                            ->helperText('The password used to access the members only section.'),
                         TextInput::make('member_login_url')
-                            ->label('Member Login URL')
+                            ->label('External Login URL (e.g. Bowls Hub)')
                             ->url()
-                            ->helperText('The URL for the Member Login button in the menu bar.'),
-                        Textarea::make('useful_contacts_message')
-                            ->label('Useful Contacts Message')
-                            ->rows(3)
-                            ->helperText('The message displayed below the useful contacts on the contact page.'),
+                            ->helperText('The URL for the optional external login button.'),
                     ])->columns(2),
 
                 Section::make('Map Location')
@@ -317,15 +330,15 @@ class Settings extends Page implements HasForms
             $this->record->save();
 
             // Clear all settings-related caches
-            \Illuminate\Support\Facades\Cache::forget('settings');
-            \Illuminate\Support\Facades\Cache::forget('social_links');
+            Cache::forget('settings');
+            Cache::forget('social_links');
 
             // Clear hero and intro block caches for all pages
-            $routes = \Illuminate\Support\Facades\Route::getRoutes()->getRoutesByName();
+            $routes = Route::getRoutes()->getRoutesByName();
             foreach ($routes as $name => $route) {
                 if (! str_starts_with($name, 'filament.') && ! str_starts_with($name, 'horizon.')) {
-                    \Illuminate\Support\Facades\Cache::forget("hero:{$name}");
-                    \Illuminate\Support\Facades\Cache::forget("intro_block:{$name}");
+                    Cache::forget("hero:{$name}");
+                    Cache::forget("intro_block:{$name}");
                 }
             }
 

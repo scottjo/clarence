@@ -2,10 +2,10 @@
 
 namespace App\Filament\Resources\NewsArticles\Tables;
 
+use App\Filament\Columns\StyledToggleColumn;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -23,8 +23,9 @@ class NewsArticlesTable
                 TextColumn::make('slug')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                IconColumn::make('is_active')
-                    ->boolean(),
+                StyledToggleColumn::create('is_active'),
+                StyledToggleColumn::create('is_members_only')
+                    ->toggleable(isToggledHiddenByDefault: false),
                 TextColumn::make('published_at')
                     ->dateTime()
                     ->sortable(),

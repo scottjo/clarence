@@ -3,10 +3,10 @@
 namespace App\Filament\Resources\Users\Tables;
 
 use App\Enums\UserRole;
+use App\Filament\Columns\StyledToggleColumn;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -24,9 +24,8 @@ class UsersTable
                 TextColumn::make('roles')
                     ->badge()
                     ->formatStateUsing(fn (string $state): string => UserRole::from($state)->getLabel()),
-                IconColumn::make('is_admin')
+                StyledToggleColumn::create('is_admin')
                     ->label('Legacy Admin')
-                    ->boolean()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
                     ->dateTime()

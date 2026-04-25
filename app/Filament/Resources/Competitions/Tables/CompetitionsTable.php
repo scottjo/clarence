@@ -2,11 +2,11 @@
 
 namespace App\Filament\Resources\Competitions\Tables;
 
+use App\Filament\Columns\StyledToggleColumn;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -23,8 +23,7 @@ class CompetitionsTable
                     ->sortable(),
                 TextColumn::make('sort_order')
                     ->sortable(),
-                IconColumn::make('is_important')
-                    ->boolean()
+                StyledToggleColumn::create('is_important')
                     ->sortable(),
             ])
             ->filters([

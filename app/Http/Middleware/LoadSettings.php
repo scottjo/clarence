@@ -24,11 +24,11 @@ class LoadSettings
     /**
      * Handle an incoming request.
      *
-     * @param Closure(Request): (Response) $next
+     * @param  Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->is('admin*') || $request->is('livewire*') || $request->is('filament*')) {
+        if ($request->is('admin*') || $request->is('filament*')) {
             return $next($request);
         }
 
@@ -54,7 +54,7 @@ class LoadSettings
         }
 
         try {
-            $announcement = Announcement::active()->first();
+            $announcement = Announcement::forPublic()->first();
             View::share('activeAnnouncement', $announcement);
         } catch (Exception $e) {
             View::share('activeAnnouncement', null);

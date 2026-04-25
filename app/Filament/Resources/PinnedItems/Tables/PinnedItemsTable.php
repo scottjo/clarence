@@ -2,12 +2,12 @@
 
 namespace App\Filament\Resources\PinnedItems\Tables;
 
+use App\Filament\Columns\StyledToggleColumn;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 
 class PinnedItemsTable
@@ -24,7 +24,7 @@ class PinnedItemsTable
                 TextColumn::make('newsArticle.title')
                     ->label('Linked Article')
                     ->placeholder('None'),
-                ToggleColumn::make('is_active')
+                StyledToggleColumn::create('is_active')
                     ->label('Active'),
                 TextColumn::make('created_at')
                     ->dateTime()

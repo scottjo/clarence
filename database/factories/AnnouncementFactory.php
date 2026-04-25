@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Announcement;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Announcement>
+ * @extends Factory<Announcement>
  */
 class AnnouncementFactory extends Factory
 {
@@ -17,7 +18,12 @@ class AnnouncementFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'header' => $this->faker->sentence(),
+            'text' => $this->faker->paragraph(),
+            'type' => $this->faker->randomElement(['info', 'success', 'warning', 'danger']),
+            'is_active' => true,
+            'show_on_public' => true,
+            'is_members_only' => false,
         ];
     }
 }

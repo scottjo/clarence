@@ -2,10 +2,10 @@
 
 namespace App\Filament\Resources\Announcements\Tables;
 
+use App\Filament\Columns\StyledToggleColumn;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -28,9 +28,14 @@ class AnnouncementsTable
                         default => 'gray',
                     })
                     ->sortable(),
-                IconColumn::make('is_active')
+                StyledToggleColumn::create('is_active')
                     ->label('Active')
-                    ->boolean()
+                    ->sortable(),
+                StyledToggleColumn::create('show_on_public')
+                    ->label('Public')
+                    ->sortable(),
+                StyledToggleColumn::create('is_members_only')
+                    ->label('Members Only')
                     ->sortable(),
                 TextColumn::make('starts_at')
                     ->label('From')
