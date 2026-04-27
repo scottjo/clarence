@@ -83,9 +83,13 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             @foreach($newsArticles as $article)
                                 <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-700 flex flex-col">
-                                    @if($article->hasMedia('image'))
+                                    @if($article->hasMedia('title_image'))
                                         <div class="relative h-48">
-                                            <img src="{{ $article->getFirstMediaUrl('image', 'thumb') }}" alt="{{ $article->title }}" class="w-full h-full object-cover">
+                                            {{ $article->getFirstMedia('title_image')->img('thumb', ['class' => 'w-full h-full object-cover', 'alt' => $article->title]) }}
+                                        </div>
+                                    @elseif($article->hasMedia('image'))
+                                        <div class="relative h-48">
+                                            {{ $article->getFirstMedia('image')->img('thumb', ['class' => 'w-full h-full object-cover', 'alt' => $article->title]) }}
                                         </div>
                                     @endif
                                     <div class="p-6 grow">
@@ -132,14 +136,12 @@
                             @foreach($newsletters as $newsletter)
                                 <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 flex items-center gap-4">
                                     @if($newsletter->hasMedia('newsletter_pdf'))
-                                        <div class="w-16 h-20 bg-gray-100 dark:bg-gray-700 rounded overflow-hidden shrink-0 border border-gray-200 dark:border-gray-600">
-                                            @if($newsletter->getFirstMediaUrl('newsletter_pdf', 'thumb'))
-                                                <img src="{{ $newsletter->getFirstMediaUrl('newsletter_pdf', 'thumb') }}" alt="{{ $newsletter->title }}" class="w-full h-full object-cover">
-                                            @else
-                                                <div class="w-full h-full flex items-center justify-center text-gray-400">
-                                                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                                                </div>
-                                            @endif
+                                        <div class="w-16 h-20 bg-blue-50 dark:bg-blue-900/20 rounded overflow-hidden shrink-0 border border-blue-100 dark:border-blue-800 flex items-center justify-center text-blue-600 dark:text-blue-400">
+                                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10l4 4v10a2 2 0 01-2 2z"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 2v4a2 2 0 002 2h4"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h10M7 16h10"></path>
+                                            </svg>
                                         </div>
                                     @endif
                                     <div class="grow">

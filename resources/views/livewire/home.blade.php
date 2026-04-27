@@ -28,7 +28,46 @@
                     </button>
 
                     <div class="relative z-10">
-                        @if($item->hasMedia('image'))
+                        @if($item->hasMedia('title_image'))
+                            <div class="overflow-hidden rounded shadow-sm bg-white/30 dark:bg-black/10 p-0.5">
+                                @php $media = $item->news_article_id ? $item->newsArticle->getFirstMedia('title_image') : $item->getFirstMedia('image'); @endphp
+                                @if(! $media && $item->news_article_id)
+                                    @php $media = $item->newsArticle->getFirstMedia('image'); @endphp
+                                @endif
+                                @if(! $media && ! $item->news_article_id)
+                                    @php $media = $item->getFirstMedia('image'); @endphp
+                                @endif
+
+                                @if($item->news_article_id)
+                                    <a href="{{ route('news.show', $item->newsArticle) }}" class="block">
+                                @endif
+
+                                @if($media && str_contains($media->mime_type, 'pdf'))
+                                    <div class="aspect-[1/1.41] w-full flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-800/50 text-gray-500 rounded border border-gray-200 dark:border-gray-700">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-16 h-16 mb-2 text-red-500/80">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                                        </svg>
+                                        <span class="text-xs font-bold uppercase tracking-widest opacity-60 mb-4">PDF Document</span>
+
+                                        @if($item->news_article_id)
+                                            <span class="px-5 py-2.5 bg-red-600 text-white text-[10px] font-black rounded shadow-md hover:bg-red-700 transition uppercase tracking-widest">
+                                                Open Notice
+                                            </span>
+                                        @else
+                                            <a href="{{ $media->getUrl() }}" target="_blank" class="px-5 py-2.5 bg-red-600 text-white text-[10px] font-black rounded shadow-md hover:bg-red-700 transition uppercase tracking-widest">
+                                                Open Notice
+                                            </a>
+                                        @endif
+                                    </div>
+                                @elseif($media)
+                                    {{ $media->img('', ['class' => 'w-full h-auto object-contain max-h-[70vh] rounded shadow-sm', 'alt' => $item->title]) }}
+                                @endif
+
+                                @if($item->news_article_id)
+                                    </a>
+                                @endif
+                            </div>
+                        @elseif($item->hasMedia('image'))
                             <div class="overflow-hidden rounded shadow-sm bg-white/30 dark:bg-black/10 p-0.5">
                                 @php $media = $item->getFirstMedia('image'); @endphp
 
@@ -85,8 +124,10 @@
             <div class="space-y-6">
                 @foreach($latestNews as $article)
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-100 dark:border-gray-700">
-                        @if($article->hasMedia('image'))
-                            {{ $article->getFirstMedia('image')->img('', ['class' => 'w-full h-48 object-cover']) }}
+                        @if($article->hasMedia('title_image'))
+                            {{ $article->getFirstMedia('title_image')->img('thumb', ['class' => 'w-full h-48 object-cover']) }}
+                        @elseif($article->hasMedia('image'))
+                            {{ $article->getFirstMedia('image')->img('thumb', ['class' => 'w-full h-48 object-cover']) }}
                         @endif
                         <div class="p-6">
                             <h3 class="text-xl font-bold mb-2">{{ $article->title }}</h3>

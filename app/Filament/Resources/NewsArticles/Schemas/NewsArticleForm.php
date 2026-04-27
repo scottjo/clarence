@@ -29,12 +29,18 @@ class NewsArticleForm
                 RichEditor::make('content')
                     ->required()
                     ->columnSpanFull(),
-                SpatieMediaLibraryFileUpload::make('image')
-                    ->label('Images')
-                    ->collection('image')
-                    ->multiple()
+                SpatieMediaLibraryFileUpload::make('title_image')
+                    ->label('Title Image')
+                    ->collection('title_image')
                     ->image()
                     ->responsiveImages(),
+                SpatieMediaLibraryFileUpload::make('gallery')
+                    ->label('Gallery Images')
+                    ->collection('gallery')
+                    ->multiple()
+                    ->image()
+                    ->responsiveImages()
+                    ->columnSpanFull(),
                 SpatieMediaLibraryFileUpload::make('attachments')
                     ->collection('attachments')
                     ->multiple()

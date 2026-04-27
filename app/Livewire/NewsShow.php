@@ -3,13 +3,14 @@
 namespace App\Livewire;
 
 use App\Models\NewsArticle;
+use Illuminate\View\View;
 use Livewire\Component;
 
 class NewsShow extends Component
 {
     public NewsArticle $newsArticle;
 
-    public function mount(NewsArticle $newsArticle)
+    public function mount(NewsArticle $newsArticle): null
     {
         if (! $newsArticle->is_active || ($newsArticle->published_at && $newsArticle->published_at->isFuture())) {
             abort(404);
@@ -20,9 +21,11 @@ class NewsShow extends Component
         }
 
         $this->newsArticle = $newsArticle;
+
+        return null;
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.news-show')->layout('layouts.app', [
             'title' => $this->newsArticle->title,

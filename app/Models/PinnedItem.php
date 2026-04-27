@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Factories\PinnedItemFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,7 +12,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class PinnedItem extends Model implements HasMedia
 {
-    /** @use HasFactory<\Database\Factories\PinnedItemFactory> */
+    /** @use HasFactory<PinnedItemFactory> */
     use HasFactory;
 
     use InteractsWithMedia;

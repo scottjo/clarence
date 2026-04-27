@@ -18,7 +18,10 @@ class NewsArticle extends Model implements HasMedia
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('image');
+        $this->addMediaCollection('title_image')
+            ->singleFile();
+
+        $this->addMediaCollection('gallery');
 
         $this->addMediaCollection('attachments');
     }
@@ -28,7 +31,13 @@ class NewsArticle extends Model implements HasMedia
         $this->addMediaConversion('thumb')
             ->width(368)
             ->height(232)
-            ->sharpen(10);
+            ->sharpen(10)
+            ->performOnCollections('title_image', 'gallery');
+
+        $this->addMediaConversion('large')
+            ->width(1200)
+            ->height(800)
+            ->performOnCollections('gallery');
     }
 
     protected $fillable = [

@@ -41,10 +41,7 @@ class NewsletterPreviewTest extends TestCase
             ->call('login')
             ->assertSee('Test Newsletter')
             ->assertSee('April 2026')
-            // Check for the presence of the placeholder SVG or image tag
-            // Since it's a fake PDF in a test environment, the thumb might not be generated
-            // unless Ghostscript is present and working.
-            // But we should at least see the newsletter container.
-            ->assertSeeHtml('<div class="w-16 h-20 bg-gray-100 dark:bg-gray-700 rounded overflow-hidden flex-shrink-0 border border-gray-200 dark:border-gray-600">');
+            // Check for the presence of the blue background placeholder with newspaper icon
+            ->assertSeeHtml('bg-blue-50 dark:bg-blue-900/20 rounded overflow-hidden shrink-0 border border-blue-100 dark:border-blue-800 flex items-center justify-center text-blue-600 dark:text-blue-400');
     }
 }
