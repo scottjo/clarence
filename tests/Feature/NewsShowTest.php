@@ -39,4 +39,30 @@ class NewsShowTest extends TestCase
             ->assertSee(route('members'))
             ->assertDontSee(route('news'));
     }
+
+    public function test_it_shows_the_legacy_image_if_no_title_image_is_present(): void
+    {
+        $article = NewsArticle::factory()->create([
+            'is_active' => true,
+            'published_at' => now()->subDay(),
+        ]);
+
+        $article->addMediaFromUrl('https://placehold.co/600x400.png')->toMediaCollection('image');
+
+        Livewire::test(NewsShow::class, ['newsArticle' => $article])
+            ->assertSee($article->getFirstMediaUrl('image'));
+    }
+
+    public function test_it_shows_the_title_image_if_present(): void
+    {
+        $article = NewsArticle::factory()->create([
+            'is_active' => true,
+            'published_at' => now()->subDay(),
+        ]);
+
+        $article->addMediaFromUrl('https://placehold.co/600x400.png')->toMediaCollection('title_image');
+
+        Livewire::test(NewsShow::class, ['newsArticle' => $article])
+            ->assertSee($article->getFirstMediaUrl('title_image'));
+    }
 }

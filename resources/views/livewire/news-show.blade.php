@@ -8,6 +8,10 @@
                 <div class="rounded-2xl overflow-hidden shadow-2xl mb-12">
                     {{ $newsArticle->getFirstMedia('title_image')->img('', ['class' => 'w-full object-cover max-h-[500px]']) }}
                 </div>
+            @elseif($newsArticle->hasMedia('image'))
+                <div class="rounded-2xl overflow-hidden shadow-2xl mb-12">
+                    {{ $newsArticle->getFirstMedia('image')->img('', ['class' => 'w-full object-cover max-h-[500px]']) }}
+                </div>
             @endif
         </header>
 
