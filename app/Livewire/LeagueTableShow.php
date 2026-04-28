@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\League;
+use Illuminate\Support\Carbon;
 use Illuminate\View\View;
 use Livewire\Component;
 
@@ -24,9 +25,12 @@ class LeagueTableShow extends Component
 
     public function render(): View
     {
-        $standings = $this->league->standings()
-            ->where('season', $this->season)
-            ->get();
+        $standingsQuery = $this->league->standings()
+            ->where('season', $this->season);
+
+        $standings = $standingsQuery->get();
+
+        $lastUpdated = $standingsQuery->max('updated_at');
 
         $allSeasons = $this->league->standings()
             ->select('season')
@@ -38,6 +42,7 @@ class LeagueTableShow extends Component
         return view('livewire.league-table-show', [
             'standings' => $standings,
             'allSeasons' => $allSeasons,
+            'lastUpdated' => $lastUpdated ? Carbon::parse($lastUpdated) : null,
         ])->layout('layouts.app', [
             'title' => $this->league->name.($this->season ? " ({$this->season})" : '').' - League Table',
         ]);

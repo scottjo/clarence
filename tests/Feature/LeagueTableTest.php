@@ -7,6 +7,7 @@ use App\Models\League;
 use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -179,6 +180,31 @@ class LeagueTableTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee('This is a test league message.');
+    }
+
+    public function test_can_view_standings_last_updated_time(): void
+    {
+        $league = League::factory()->create([
+            'is_active' => true,
+            'slug' => 'test-league',
+        ]);
+
+        $standing = $league->standings()->create([
+            'team_name' => 'Team A',
+            'season' => '2024',
+            'played' => 1,
+            'won' => 1,
+            'points' => 2,
+        ]);
+
+        // Manually set updated_at to a known value
+        $standing->updated_at = Carbon::parse('2026-04-28 10:00:00');
+        $standing->save();
+
+        $response = $this->get(route('league-tables.show', ['league' => 'test-league']));
+
+        $response->assertStatus(200);
+        $response->assertSee('Standings last updated: 28th Apr 2026 @ 10:00');
     }
 
     public function test_can_import_standings_in_filament(): void

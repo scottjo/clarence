@@ -133,6 +133,11 @@
                         {!! nl2br(e($league->message)) !!}
                     </div>
                 @endif
+                @if($lastUpdated)
+                    <div class="mt-3 text-[10px] text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+                        Standings last updated: {{ $lastUpdated->format('jS M Y @ H:i') }}
+                    </div>
+                @endif
             </div>
         </div>
     </div>
