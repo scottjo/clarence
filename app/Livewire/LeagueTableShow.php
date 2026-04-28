@@ -31,6 +31,7 @@ class LeagueTableShow extends Component
         $allSeasons = $this->league->standings()
             ->select('season')
             ->distinct()
+            ->reorder()
             ->orderByDesc('season')
             ->pluck('season');
 
