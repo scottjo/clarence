@@ -13,6 +13,7 @@ class LeagueTableIndex extends Component
         $leagues = League::where('is_active', true)
             ->with(['standings' => function ($query) {
                 $query->select('league_id', 'season')
+                    ->reorder()
                     ->distinct()
                     ->orderByDesc('season');
             }])
