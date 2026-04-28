@@ -61,6 +61,50 @@ class LeagueTableTest extends TestCase
         $response->assertDontSee('Very Long League Name That Does Not Fit');
     }
 
+    public function test_league_cache_refreshes_when_league_is_saved(): void
+    {
+        Cache::forget('active_leagues');
+
+        $league = League::factory()->create([
+            'name' => 'Initial League',
+            'is_active' => true,
+        ]);
+
+        $response = $this->get(route('home'));
+        $response->assertSee('Initial League');
+
+        // Update the league name
+        $league->update(['name' => 'Updated League']);
+
+        $response = $this->get(route('home'));
+        $response->assertSee('Updated League');
+        $response->assertDontSee('Initial League');
+
+        // Deleting should also refresh
+        $league->delete();
+        $response = $this->get(route('home'));
+        $response->assertDontSee('Updated League');
+    }
+
+    public function test_league_cache_refreshes_when_setting_is_saved(): void
+    {
+        Cache::forget('settings');
+        Cache::forget('active_leagues');
+
+        $settings = Setting::first();
+        $settings->update(['show_league_tables' => true]);
+
+        League::factory()->create(['name' => 'Men\'s League', 'is_active' => true]);
+
+        $response = $this->get(route('home'));
+        $response->assertSee('Men\'s League');
+
+        $settings->update(['show_league_tables' => false]);
+
+        $response = $this->get(route('home'));
+        $response->assertDontSee('Men\'s League');
+    }
+
     public function test_can_view_league_tables_index(): void
     {
         $league1 = League::factory()->create(['name' => 'Men\'s League', 'is_active' => true]);

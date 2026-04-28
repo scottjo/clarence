@@ -44,8 +44,14 @@ class Setting extends Model implements HasMedia
 
     protected static function booted(): void
     {
-        static::saved(fn () => Cache::forget('settings'));
-        static::deleted(fn () => Cache::forget('settings'));
+        static::saved(function () {
+            Cache::forget('settings');
+            Cache::forget('active_leagues');
+        });
+        static::deleted(function () {
+            Cache::forget('settings');
+            Cache::forget('active_leagues');
+        });
     }
 
     protected $fillable = [
