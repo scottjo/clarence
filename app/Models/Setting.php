@@ -93,6 +93,7 @@ class Setting extends Model implements HasMedia
         'members_password',
         'members_area_heading',
         'members_area_intro',
+        'show_league_tables',
     ];
 
     protected function casts(): array
@@ -103,6 +104,7 @@ class Setting extends Model implements HasMedia
             'sponsor_panel_show_on_all_pages' => 'boolean',
             'sponsor_panel_pages' => 'array',
             'show_fixtures_results' => 'boolean',
+            'show_league_tables' => 'boolean',
             'countdown_active' => 'boolean',
             'countdown_target_date' => 'datetime',
         ];

@@ -127,6 +127,32 @@
                         </div>
                     </div>
 
+                    @if($settings?->show_league_tables && count($navLeagues) > 0)
+                        <div class="relative" x-data="{ open: false }" @mouseenter="open = true" @mouseleave.debounce.100ms="open = false">
+                            <button type="button" @click="open = !open" class="flex items-center gap-1 hover:opacity-75 transition focus:outline-none">
+                                Leagues
+                                <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                                    <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
+                                </svg>
+                            </button>
+                            <div x-show="open"
+                                 x-cloak
+                                 x-transition:enter="transition ease-out duration-100"
+                                 x-transition:enter-start="opacity-0 scale-95"
+                                 x-transition:enter-end="opacity-100 scale-100"
+                                 x-transition:leave="transition ease-in duration-75"
+                                 x-transition:leave-start="opacity-100 scale-100"
+                                 x-transition:leave-end="opacity-0 scale-95"
+                                 class="absolute left-0 mt-0 w-56 bg-white dark:bg-gray-800 rounded-md shadow-lg py-2 z-50 border border-gray-100 dark:border-gray-700">
+                                @foreach($navLeagues as $league)
+                                    <a href="{{ route('league-tables.show', $league->slug) }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">{{ $league->short_name ?: $league->name }}</a>
+                                @endforeach
+                                <hr class="my-1 border-gray-100 dark:border-gray-700">
+                                <a href="{{ route('league-tables.index') }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100 italic">All League Tables</a>
+                            </div>
+                        </div>
+                    @endif
+
                     @if($settings?->show_fixtures_results ?? true)
                         <div class="relative" x-data="{ open: false }" @mouseenter="open = true" @mouseleave.debounce.100ms="open = false">
                             <button type="button" @click="open = !open" class="flex items-center gap-1 hover:opacity-75 transition focus:outline-none">
@@ -236,6 +262,23 @@
                             <a href="{{ route('about.competition-winners') }}" class="px-2 py-1.5 hover:text-blue-600 transition">Club Competition Winners</a>
                         </div>
                     </div>
+
+                    @if($settings?->show_league_tables && count($navLeagues) > 0)
+                        <div x-data="{ open: false }">
+                            <button type="button" @click="open = !open" class="w-full flex items-center justify-between px-2 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 rounded transition">
+                                <span>Leagues</span>
+                                <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+                            <div x-show="open" x-cloak class="pl-4 mt-1 flex flex-col gap-1 border-l-2 border-gray-100 dark:border-gray-700 ml-2">
+                                @foreach($navLeagues as $league)
+                                    <a href="{{ route('league-tables.show', $league->slug) }}" class="px-2 py-1.5 hover:text-blue-600 transition">{{ $league->short_name ?: $league->name }}</a>
+                                @endforeach
+                                <a href="{{ route('league-tables.index') }}" class="px-2 py-1.5 hover:text-blue-600 transition italic">All League Tables</a>
+                            </div>
+                        </div>
+                    @endif
 
                     @if($settings?->show_fixtures_results ?? true)
                         <div x-data="{ open: false }">

@@ -17,6 +17,8 @@ use App\Livewire\FixtureShow;
 use App\Livewire\FixturesInfo;
 use App\Livewire\FixturesList;
 use App\Livewire\Home;
+use App\Livewire\LeagueTableIndex;
+use App\Livewire\LeagueTableShow;
 use App\Livewire\MembersArea;
 use App\Livewire\NewsList;
 use App\Livewire\NewsShow;
@@ -45,6 +47,10 @@ Route::middleware(['web'])->group(function () {
 
 Route::get('/news', NewsList::class)->name('news');
 Route::get('/news/{newsArticle:slug}', NewsShow::class)->name('news.show');
+
+Route::get('/league-tables', LeagueTableIndex::class)->name('league-tables.index');
+Route::get('/league-tables/{league:slug}/{season?}', LeagueTableShow::class)->name('league-tables.show');
+
 Route::get('/events', EventsList::class)->name('events');
 Route::get('/events/{event:slug}', EventShow::class)->name('events.show');
 Route::get('/contact', Contact::class)->name('contact')->middleware('throttle:10,1');

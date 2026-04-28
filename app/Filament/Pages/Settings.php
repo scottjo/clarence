@@ -237,6 +237,10 @@ class Settings extends Page implements HasForms
                             ->label('Show Fixtures and Results')
                             ->helperText('When disabled, Fixtures and Results will be hidden from the website.')
                             ->default(true),
+                        Toggle::make('show_league_tables')
+                            ->label('Show League Tables')
+                            ->helperText('When disabled, League Tables will be hidden from the website.')
+                            ->default(false),
                     ]),
 
                 Section::make('Membership')
@@ -332,6 +336,7 @@ class Settings extends Page implements HasForms
             // Clear all settings-related caches
             Cache::forget('settings');
             Cache::forget('social_links');
+            Cache::forget('active_leagues');
 
             // Clear hero and intro block caches for all pages
             $routes = Route::getRoutes()->getRoutesByName();

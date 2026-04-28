@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Models\Announcement;
 use App\Models\Hero;
 use App\Models\IntroBlock;
+use App\Models\League;
 use App\Models\Setting;
 use App\Models\SocialMediaLink;
 use Closure;
@@ -38,8 +39,21 @@ class LoadSettings
             });
             config(['settings' => $settings]);
             View::share('settings', $settings);
+
+            if ($settings?->show_league_tables) {
+                $leagues = Cache::rememberForever('active_leagues', function () {
+                    return League::where('is_active', true)
+                        ->orderBy('sort_order')
+                        ->orderBy('name')
+                        ->get();
+                });
+                View::share('navLeagues', $leagues);
+            } else {
+                View::share('navLeagues', collect());
+            }
         } catch (Exception) {
             View::share('settings', null);
+            View::share('navLeagues', collect());
         }
 
         try {
