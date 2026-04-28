@@ -16,7 +16,7 @@ class LeagueResource extends Resource
 
     protected static \BackedEnum|null|string $navigationIcon = Heroicon::TableCells;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Site Management';
+    protected static string|\UnitEnum|null $navigationGroup = 'League Management';
 
     public static function form(Schema $schema): Schema
     {
