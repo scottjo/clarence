@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\CheckFixturesEnabled;
+use App\Http\Middleware\CheckMatchReportsEnabled;
 use App\Livewire\About;
 use App\Livewire\About\Competition;
 use App\Livewire\About\CompetitionWinners;
@@ -19,6 +20,8 @@ use App\Livewire\FixturesList;
 use App\Livewire\Home;
 use App\Livewire\LeagueTableIndex;
 use App\Livewire\LeagueTableShow;
+use App\Livewire\MatchReportShow;
+use App\Livewire\MatchReportsList;
 use App\Livewire\MembersArea;
 use App\Livewire\NewsList;
 use App\Livewire\NewsShow;
@@ -42,6 +45,10 @@ Route::middleware(['web'])->group(function () {
         Route::get('/fixtures/info', FixturesInfo::class)->name('fixtures.info');
         Route::get('/fixtures/{fixture}', FixtureShow::class)->name('fixtures.show');
         Route::get('/results', ResultsList::class)->name('results');
+    });
+    Route::middleware([CheckMatchReportsEnabled::class])->group(function () {
+        Route::get('/match-reports', MatchReportsList::class)->name('match-reports.index');
+        Route::get('/match-reports/{report}', MatchReportShow::class)->name('match-reports.show');
     });
 });
 

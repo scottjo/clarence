@@ -201,6 +201,9 @@
                             </div>
                         </div>
                     @endif
+                    @if($settings?->show_match_reports ?? false)
+                        <a href="{{ route('match-reports.index') }}" class="hover:opacity-75 transition">Match Reports</a>
+                    @endif
                     <a href="{{ route('news') }}" class="hover:opacity-75 transition">News</a>
                     <a href="{{ route('events') }}" class="hover:opacity-75 transition">Events</a>
                     <a href="{{ route('contact') }}" class="hover:opacity-75 transition">Contact</a>

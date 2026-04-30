@@ -241,6 +241,10 @@ class Settings extends Page implements HasForms
                             ->label('Show League Tables')
                             ->helperText('When disabled, League Tables will be hidden from the website.')
                             ->default(false),
+                        Toggle::make('show_match_reports')
+                            ->label('Show Match Reports')
+                            ->helperText('When disabled, Match Reports will be hidden from the website.')
+                            ->default(false),
                     ]),
 
                 Section::make('Membership')
