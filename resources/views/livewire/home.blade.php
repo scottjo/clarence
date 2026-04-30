@@ -119,70 +119,109 @@
         @endif
 
         <div class="grid md:grid-cols-2 gap-12 mb-16">
-        <section>
-            <h2 class="text-3xl font-bold mb-6">Latest News</h2>
-            <div class="space-y-6">
-                @foreach($latestNews as $article)
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-100 dark:border-gray-700">
-                        @if($article->hasMedia('title_image'))
-                            {{ $article->getFirstMedia('title_image')->img('thumb', ['class' => 'w-full h-48 object-cover']) }}
-                        @elseif($article->hasMedia('image'))
-                            {{ $article->getFirstMedia('image')->img('thumb', ['class' => 'w-full h-48 object-cover']) }}
-                        @endif
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">{{ $article->title }}</h3>
-                            <p class="text-gray-600 dark:text-gray-400 mb-4">{{ Str::limit(html_entity_decode(strip_tags($article->content), ENT_QUOTES, 'UTF-8'), 150) }}</p>
-                            <a href="{{ route('news.show', $article) }}" class="text-blue-600 font-semibold hover:underline">Read More &rarr;</a>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-            <div class="mt-8">
-                <a href="{{ route('news') }}" class="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">View All News</a>
-            </div>
-        </section>
-
-        <section>
-            <h2 class="text-3xl font-bold mb-6">Upcoming Events</h2>
-            <div class="space-y-6">
-                @foreach($upcomingEvents as $event)
-                    <div class="relative overflow-hidden bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-100 dark:border-gray-700">
-                        @if($event->overlay_label && $event->overlay_active)
-                            <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
-                                <div class="bg-yellow-300 dark:bg-yellow-400 text-gray-900 px-6 py-2 font-black text-2xl md:text-3xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)] transform -rotate-12 border-4 border-yellow-400 dark:border-yellow-500 uppercase tracking-widest whitespace-nowrap opacity-90">
-                                    {{ $event->overlay_label }}
-                                </div>
-                            </div>
-                        @endif
-
-                        @if($event->hasMedia('image'))
-                            <div class="absolute inset-y-0 right-0 w-3/5">
-                                {{ $event->getFirstMedia('image')->img('', ['class' => 'absolute inset-0 w-full h-full object-cover']) }}
-                                <div class="absolute inset-0 bg-gradient-to-r from-white via-white to-transparent dark:from-gray-800 dark:via-gray-800"></div>
-                            </div>
-                        @endif
-                        <div class="relative z-10 p-6">
-                            <div class="flex items-start gap-4">
-                                <div class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 p-3 rounded-lg text-center min-w-[80px]">
-                                    <span class="block text-2xl font-bold">{{ $event->start_time->format('d') }}</span>
-                                    <span class="text-sm uppercase">{{ $event->start_time->format('M') }}</span>
-                                </div>
-                                <div class="flex-1">
-                                    <h3 class="text-xl font-bold mb-1">{{ $event->title }}</h3>
-                                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-2">
-                                        {{ $event->start_time->format('H:i') }} @ {{ $event->location ?? 'The Club' }}
-                                    </p>
-                                    <a href="{{ route('events.show', $event) }}" class="text-blue-600 font-semibold hover:underline">Event Details</a>
-                                </div>
+            <section>
+                <h2 class="text-3xl font-bold mb-6">Latest News</h2>
+                <div class="space-y-6">
+                    @foreach($latestNews as $article)
+                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-100 dark:border-gray-700">
+                            @if($article->hasMedia('title_image'))
+                                {{ $article->getFirstMedia('title_image')->img('thumb', ['class' => 'w-full h-48 object-cover']) }}
+                            @elseif($article->hasMedia('image'))
+                                {{ $article->getFirstMedia('image')->img('thumb', ['class' => 'w-full h-48 object-cover']) }}
+                            @endif
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold mb-2">{{ $article->title }}</h3>
+                                <p class="text-gray-600 dark:text-gray-400 mb-4">{{ Str::limit(html_entity_decode(strip_tags($article->content), ENT_QUOTES, 'UTF-8'), 150) }}</p>
+                                <a href="{{ route('news.show', $article) }}" class="text-blue-600 font-semibold hover:underline">Read More &rarr;</a>
                             </div>
                         </div>
+                    @endforeach
+                </div>
+                <div class="mt-8">
+                    <a href="{{ route('news') }}" class="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">View All News</a>
+                </div>
+            </section>
+
+            <div class="space-y-16">
+                <section>
+                    <h2 class="text-3xl font-bold mb-6">Upcoming Events</h2>
+                    <div class="space-y-6">
+                        @foreach($upcomingEvents as $event)
+                            <div class="relative overflow-hidden bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-100 dark:border-gray-700">
+                                @if($event->overlay_label && $event->overlay_active)
+                                    <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
+                                        <div class="bg-yellow-300 dark:bg-yellow-400 text-gray-900 px-6 py-2 font-black text-2xl md:text-3xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)] transform -rotate-12 border-4 border-yellow-400 dark:border-yellow-500 uppercase tracking-widest whitespace-nowrap opacity-90">
+                                            {{ $event->overlay_label }}
+                                        </div>
+                                    </div>
+                                @endif
+
+                                @if($event->hasMedia('image'))
+                                    <div class="absolute inset-y-0 right-0 w-3/5">
+                                        {{ $event->getFirstMedia('image')->img('', ['class' => 'absolute inset-0 w-full h-full object-cover']) }}
+                                        <div class="absolute inset-0 bg-gradient-to-r from-white via-white to-transparent dark:from-gray-800 dark:via-gray-800"></div>
+                                    </div>
+                                @endif
+                                <div class="relative z-10 p-6">
+                                    <div class="flex items-start gap-4">
+                                        <div class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 p-3 rounded-lg text-center min-w-[80px]">
+                                            <span class="block text-2xl font-bold">{{ $event->start_time->format('d') }}</span>
+                                            <span class="text-sm uppercase">{{ $event->start_time->format('M') }}</span>
+                                        </div>
+                                        <div class="flex-1">
+                                            <h3 class="text-xl font-bold mb-1">{{ $event->title }}</h3>
+                                            <p class="text-gray-600 dark:text-gray-400 text-sm mb-2">
+                                                {{ $event->start_time->format('H:i') }} @ {{ $event->location ?? 'The Club' }}
+                                            </p>
+                                            <a href="{{ route('events.show', $event) }}" class="text-blue-600 font-semibold hover:underline">Event Details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
-                @endforeach
+                    <div class="mt-8">
+                        <a href="{{ route('events') }}" class="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">View All Events</a>
+                    </div>
+                </section>
+
+                @if($latestMatchReports->isNotEmpty())
+                    <section>
+                        <h2 class="text-3xl font-bold mb-6">Latest Match Reports</h2>
+                        <div class="space-y-4">
+                            @foreach($latestMatchReports as $report)
+                                <a href="{{ route('match-reports.show', $report) }}" class="group relative flex bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-100 dark:border-gray-700 hover:shadow-lg transition-all duration-300">
+                                    <div class="relative w-1/4 overflow-hidden bg-gray-200 dark:bg-gray-700">
+                                        @if($report->hasMedia('header_image'))
+                                            {{ $report->getFirstMedia('header_image')->img('thumb', ['class' => 'absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500']) }}
+                                        @else
+                                            <div class="w-full h-full flex items-center justify-center">
+                                                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10l4 4v10a2 2 0 01-2 2zM14 2v4h4"></path></svg>
+                                            </div>
+                                        @endif
+                                        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-white dark:to-gray-800 opacity-20 group-hover:opacity-0 transition-opacity"></div>
+                                    </div>
+                                    <div class="p-4 flex-1">
+                                        <div class="flex justify-between items-start mb-1">
+                                            <div class="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-widest">{{ $report->created_at->format('M d') }} • {{ $report->team }}</div>
+                                            <span class="px-1.5 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider bg-{{ $report->getResultBadgeColor() }}-100 text-{{ $report->getResultBadgeColor() }}-800 dark:bg-{{ $report->getResultBadgeColor() }}-900 dark:text-{{ $report->getResultBadgeColor() }}-200 shadow-sm">
+                                                {{ $report->getResultStatus() }}
+                                            </span>
+                                        </div>
+                                        <h3 class="font-bold text-sm mb-1 line-clamp-2 group-hover:text-blue-600 transition-colors dark:text-white">{{ $report->title }}</h3>
+                                        <div class="text-xs text-gray-600 dark:text-gray-400 line-clamp-1">
+                                            {{ strip_tags($report->description) }}
+                                        </div>
+                                    </div>
+                                </a>
+                            @endforeach
+                        </div>
+                        <div class="mt-8">
+                            <a href="{{ route('match-reports.index') }}" class="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">View All Match Reports</a>
+                        </div>
+                    </section>
+                @endif
             </div>
-            <div class="mt-8">
-                <a href="{{ route('events') }}" class="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">View All Events</a>
-            </div>
-        </section>
+        </div>
     </div>
-</div>
 </div>
