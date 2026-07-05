@@ -37,6 +37,7 @@ class AdminPanelProvider extends PanelProvider
             ->path(config('filament.admin_path', 'admin'))
             ->brandName('Clarence Bowling Club')
             ->login()
+            ->passwordReset()
             ->navigationGroups([
                 NavigationGroup::make()
                     ->label('Media'),
