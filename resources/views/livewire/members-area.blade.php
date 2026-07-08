@@ -3,7 +3,9 @@
         <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
             <div>
                 <h1 class="text-4xl font-bold text-gray-900 dark:text-white">{{ $settings?->members_area_heading ?: 'Members Area' }}</h1>
-                <p class="text-gray-600 dark:text-gray-400 mt-2">{{ $settings?->members_area_intro ?: 'Welcome to the members-only section.' }}</p>
+                <p class="text-gray-700 dark:text-gray-300 mt-2">
+                    Welcome {{ auth()->user()?->name }} to the members only section.
+                </p>
             </div>
             <div class="flex flex-wrap gap-4">
                 @if($settings?->member_login_url)

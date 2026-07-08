@@ -3,8 +3,9 @@
 namespace Tests\Feature;
 
 use App\Livewire\MembersArea;
-use App\Models\Setting;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Livewire;
 use Tests\TestCase;
 
@@ -12,59 +13,96 @@ class MemberLoginPasswordTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_member_can_login_with_correct_password(): void
+    public function test_member_can_login_with_email_address_and_password(): void
     {
-        // Setup setting with a password
-        $password = 'secret123';
-        Setting::factory()->create([
-            'members_password' => $password,
+        $user = User::factory()->create([
+            'email' => 'member@example.com',
         ]);
 
-        // Simulated config as set by middleware
-        $settings = Setting::first();
-        config(['settings' => $settings]);
-        view()->share('settings', $settings);
-
         Livewire::test(MembersArea::class)
-            ->set('password', $password)
+            ->set('loginIdentifier', 'Member@Example.com')
+            ->set('loginPassword', 'password')
             ->call('login')
             ->assertHasNoErrors()
             ->assertSet('isAuthenticated', true);
+
+        $this->assertAuthenticatedAs($user);
     }
 
-    public function test_member_can_login_with_correct_password_when_config_is_null(): void
+    public function test_members_login_page_loads_livewire_assets_and_login_form(): void
     {
-        // Setup setting with a password
-        $password = 'secret123';
-        Setting::factory()->create([
-            'members_password' => $password,
+        $this->get(route('members'))
+            ->assertOk()
+            ->assertSee('livewire.js', false)
+            ->assertSee('wire:submit.prevent="login"', false)
+            ->assertSee('wire:model="loginIdentifier"', false);
+    }
+
+    public function test_member_can_login_with_eight_character_numeric_password(): void
+    {
+        $user = User::factory()->create([
+            'email' => 'jon_scott@mac.com',
+            'password' => Hash::make('12345678'),
         ]);
 
-        // Clear config to simulate a fresh state
-        config(['settings' => null]);
-        view()->share('settings', null);
-
         Livewire::test(MembersArea::class)
-            ->set('password', $password)
+            ->set('loginIdentifier', 'jon_scott@mac.com')
+            ->set('loginPassword', '12345678')
             ->call('login')
             ->assertHasNoErrors()
             ->assertSet('isAuthenticated', true);
+
+        $this->assertAuthenticatedAs($user);
     }
 
-    public function test_member_cannot_login_with_incorrect_password(): void
+    public function test_member_can_login_with_name_and_password(): void
     {
-        Setting::factory()->create([
-            'members_password' => 'secret123',
+        $user = User::factory()->create([
+            'name' => 'Jane Member',
         ]);
 
-        $settings = Setting::first();
-        config(['settings' => $settings]);
-        view()->share('settings', $settings);
+        Livewire::test(MembersArea::class)
+            ->set('loginIdentifier', 'Jane Member')
+            ->set('loginPassword', 'password')
+            ->call('login')
+            ->assertHasNoErrors()
+            ->assertSet('isAuthenticated', true);
+
+        $this->assertAuthenticatedAs($user);
+    }
+
+    public function test_member_cannot_login_with_incorrect_credentials(): void
+    {
+        User::factory()->create([
+            'email' => 'member@example.com',
+        ]);
 
         Livewire::test(MembersArea::class)
-            ->set('password', 'wrong-password')
+            ->set('loginIdentifier', 'member@example.com')
+            ->set('loginPassword', 'wrong-password')
             ->call('login')
-            ->assertHasErrors(['password'])
+            ->assertHasErrors(['loginIdentifier'])
             ->assertSet('isAuthenticated', false);
+
+        $this->assertGuest();
+    }
+
+    public function test_member_can_register_and_access_members_area(): void
+    {
+        Livewire::test(MembersArea::class)
+            ->call('showRegister')
+            ->set('name', 'New Member')
+            ->set('email', 'new-member@example.com')
+            ->set('password', 'secret-password')
+            ->set('passwordConfirmation', 'secret-password')
+            ->call('register')
+            ->assertHasNoErrors()
+            ->assertSet('isAuthenticated', true);
+
+        $this->assertDatabaseHas(User::class, [
+            'name' => 'New Member',
+            'email' => 'new-member@example.com',
+        ]);
+        $this->assertAuthenticated();
     }
 }

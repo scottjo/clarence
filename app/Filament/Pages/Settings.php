@@ -82,11 +82,6 @@ class Settings extends Page implements HasForms
                             ->label('Introduction Text')
                             ->placeholder('Welcome to the members-only section.')
                             ->rows(3),
-                        TextInput::make('members_password')
-                            ->label('Password')
-                            ->password()
-                            ->revealable()
-                            ->helperText('The password used to access the members only section.'),
                         TextInput::make('member_login_url')
                             ->label('External Login URL (e.g. Bowls Hub)')
                             ->url()

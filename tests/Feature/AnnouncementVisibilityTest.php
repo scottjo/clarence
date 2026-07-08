@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Livewire\MembersArea;
 use App\Models\Announcement;
 use App\Models\Setting;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -63,10 +64,8 @@ class AnnouncementVisibilityTest extends TestCase
             'is_members_only' => true,
         ]);
 
-        // Authenticate for members area
-        session(['members_authenticated' => true]);
-
-        Livewire::test(MembersArea::class)
+        Livewire::actingAs(User::factory()->create())
+            ->test(MembersArea::class)
             ->assertSee('Secret Announcement');
     }
 
@@ -79,10 +78,8 @@ class AnnouncementVisibilityTest extends TestCase
             'is_members_only' => false,
         ]);
 
-        // Authenticate for members area
-        session(['members_authenticated' => true]);
-
-        Livewire::test(MembersArea::class)
+        Livewire::actingAs(User::factory()->create())
+            ->test(MembersArea::class)
             ->assertDontSee('Public Only Announcement');
     }
 
@@ -98,9 +95,8 @@ class AnnouncementVisibilityTest extends TestCase
         $this->get(route('home'))
             ->assertSee('Global Announcement');
 
-        session(['members_authenticated' => true]);
-
-        Livewire::test(MembersArea::class)
+        Livewire::actingAs(User::factory()->create())
+            ->test(MembersArea::class)
             ->assertSee('Global Announcement');
     }
 }

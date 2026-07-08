@@ -41,12 +41,11 @@ class NewsImageRefreshTest extends TestCase
             'published_at' => now()->subDay(),
         ]);
 
-        session(['members_authenticated' => true]);
-
         // Mock settings for view share
         View::share('settings', null);
 
-        Livewire::test(MembersArea::class)
+        Livewire::actingAs(User::factory()->create())
+            ->test(MembersArea::class)
             ->assertStatus(200);
     }
 }

@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Livewire\MembersArea;
 use App\Models\Newsletter;
 use App\Models\Setting;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -17,6 +18,7 @@ class NewsletterPreviewTest extends TestCase
 
     public function test_members_area_displays_newsletter_with_preview_placeholder(): void
     {
+        config(['media-library.disk_name' => 'public']);
         Storage::fake('public');
 
         $newsletter = Newsletter::factory()->create([
@@ -28,17 +30,14 @@ class NewsletterPreviewTest extends TestCase
         $file = UploadedFile::fake()->create('newsletter.pdf', 100, 'application/pdf');
         $newsletter->addMedia($file)->toMediaCollection('newsletter_pdf');
 
-        $settings = Setting::factory()->create([
-            'members_password' => 'secret',
-        ]);
+        $settings = Setting::factory()->create();
 
         // Simulate middleware sharing
         config(['settings' => $settings]);
         view()->share('settings', $settings);
 
-        Livewire::test(MembersArea::class)
-            ->set('password', 'secret')
-            ->call('login')
+        Livewire::actingAs(User::factory()->create())
+            ->test(MembersArea::class)
             ->assertSee('Test Newsletter')
             ->assertSee('April 2026')
             // Check for the presence of the blue background placeholder with newspaper icon

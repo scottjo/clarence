@@ -1,0 +1,16 @@
+[mcp_servers.herd]
+command = "php"
+args = ["/Applications/Herd.app/Contents/Resources/herd-mcp.phar"]
+
+[mcp_servers.herd.env]
+SITE_PATH = "/Users/jon/Herd/clarence"
+
+[mcp_servers.laravel-boost]
+command = "php"
+args = [
+    "artisan",
+    "boost:mcp",
+]
+
+[mcp_servers.laravel-boost.tools.search-docs]
+approval_mode = "approve"

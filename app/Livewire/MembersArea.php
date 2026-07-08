@@ -6,7 +6,9 @@ use App\Models\Announcement;
 use App\Models\NewsArticle;
 use App\Models\Newsletter;
 use App\Models\Setting;
-use Illuminate\Support\Facades\Session;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -14,42 +16,103 @@ class MembersArea extends Component
 {
     use WithPagination;
 
+    public string $formMode = 'login';
+
+    public string $loginIdentifier = '';
+
+    public string $loginPassword = '';
+
+    public string $name = '';
+
+    public string $email = '';
+
     public string $password = '';
+
+    public string $passwordConfirmation = '';
 
     public bool $isAuthenticated = false;
 
     public function mount(): void
     {
-        if (Session::get('members_authenticated')) {
-            $this->isAuthenticated = true;
-        }
+        $this->isAuthenticated = Auth::check();
+    }
+
+    public function showLogin(): void
+    {
+        $this->formMode = 'login';
+        $this->resetValidation();
+    }
+
+    public function showRegister(): void
+    {
+        $this->formMode = 'register';
+        $this->resetValidation();
     }
 
     public function login(): void
     {
-        $settings = config('settings');
+        $this->validate([
+            'loginIdentifier' => ['required', 'string'],
+            'loginPassword' => ['required', 'string'],
+        ]);
 
-        if (! $settings instanceof Setting) {
-            $settings = Setting::first();
-        }
+        $login = trim($this->loginIdentifier);
 
-        $correctPassword = $settings?->members_password;
+        $user = User::query()
+            ->whereRaw('lower(email) = ?', [strtolower($login)])
+            ->orWhere('name', $login)
+            ->get()
+            ->first(fn (User $user): bool => Hash::check($this->loginPassword, $user->password));
 
-        if ($this->password && $this->password === $correctPassword) {
+        if ($user instanceof User) {
+            Auth::login($user);
+            if (request()->hasSession()) {
+                request()->session()->regenerate();
+            }
+
             $this->isAuthenticated = true;
-            Session::put('members_authenticated', true);
+            $this->reset('loginIdentifier', 'loginPassword');
         } else {
-            $this->addError('password', 'Incorrect password.');
+            $this->addError('loginIdentifier', 'These credentials do not match our records.');
         }
+    }
+
+    public function register(): void
+    {
+        $validated = $this->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'password' => ['required', 'string', 'min:8', 'same:passwordConfirmation'],
+        ]);
+
+        $user = User::query()->create([
+            'name' => trim($validated['name']),
+            'email' => strtolower($validated['email']),
+            'password' => $validated['password'],
+        ]);
+
+        Auth::login($user);
+        if (request()->hasSession()) {
+            request()->session()->regenerate();
+        }
+
+        $this->isAuthenticated = true;
+        $this->reset('name', 'email', 'password', 'passwordConfirmation');
     }
 
     public function logout(): void
     {
+        Auth::logout();
+        if (request()->hasSession()) {
+            request()->session()->invalidate();
+            request()->session()->regenerateToken();
+        }
+
         $this->isAuthenticated = false;
-        Session::forget('members_authenticated');
+        $this->showLogin();
     }
 
-    public function render()
+    public function render(): mixed
     {
         if (! $this->isAuthenticated) {
             return view('livewire.members-area-login')
@@ -67,11 +130,17 @@ class MembersArea extends Component
             ->get();
 
         $announcements = Announcement::forMembers()->latest()->get();
+        $settings = config('settings');
+
+        if (! $settings instanceof Setting) {
+            $settings = Setting::query()->first();
+        }
 
         return view('livewire.members-area', [
             'newsArticles' => $newsArticles,
             'newsletters' => $newsletters,
             'announcements' => $announcements,
+            'settings' => $settings,
         ])->layout('layouts.app', ['title' => 'Members Area']);
     }
 }

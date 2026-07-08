@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Livewire\MembersArea;
 use App\Models\Newsletter;
 use App\Models\Setting;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -34,17 +35,14 @@ class NewsletterNewBadgeTest extends TestCase
             'created_at' => now(),
         ]);
 
-        $settings = Setting::factory()->create([
-            'members_password' => 'secret',
-        ]);
+        $settings = Setting::factory()->create();
 
         // Simulate middleware sharing
         config(['settings' => $settings]);
         view()->share('settings', $settings);
 
-        Livewire::test(MembersArea::class)
-            ->set('password', 'secret')
-            ->call('login')
+        Livewire::actingAs(User::factory()->create())
+            ->test(MembersArea::class)
             ->assertSee('Recent Newsletter')
             ->assertSeeHtml('x-show="!seenNewsletters.includes('.$newsletter->id.')"')
             ->assertSee('New');
@@ -57,17 +55,14 @@ class NewsletterNewBadgeTest extends TestCase
             'created_at' => now()->subDays(15),
         ]);
 
-        $settings = Setting::factory()->create([
-            'members_password' => 'secret',
-        ]);
+        $settings = Setting::factory()->create();
 
         // Simulate middleware sharing
         config(['settings' => $settings]);
         view()->share('settings', $settings);
 
-        Livewire::test(MembersArea::class)
-            ->set('password', 'secret')
-            ->call('login')
+        Livewire::actingAs(User::factory()->create())
+            ->test(MembersArea::class)
             ->assertSee('Old Newsletter')
             ->assertDontSeeHtml('<span x-show="!seenNewsletters.includes('.$newsletter->id.')"');
     }

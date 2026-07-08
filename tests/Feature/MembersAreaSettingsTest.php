@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Livewire\MembersArea;
 use App\Models\Setting;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -16,40 +17,39 @@ class MembersAreaSettingsTest extends TestCase
     {
         $heading = 'Custom Heading';
         $intro = 'Custom Intro Text';
+        $user = User::factory()->create([
+            'name' => 'Jane Member',
+        ]);
 
         $settings = Setting::factory()->create([
             'members_area_heading' => $heading,
             'members_area_intro' => $intro,
-            'members_password' => 'secret',
         ]);
 
         // Simulate middleware sharing
         config(['settings' => $settings]);
         view()->share('settings', $settings);
 
-        Livewire::test(MembersArea::class)
-            ->set('password', 'secret')
-            ->call('login')
+        Livewire::actingAs($user)
+            ->test(MembersArea::class)
+            ->assertSee('Welcome Jane Member to the members only section.')
             ->assertSee($heading)
             ->assertSee($intro);
     }
 
-    public function test_members_area_uses_default_heading_and_intro_when_not_set(): void
+    public function test_members_area_uses_default_heading_when_not_set(): void
     {
         $settings = Setting::factory()->create([
             'members_area_heading' => null,
             'members_area_intro' => null,
-            'members_password' => 'secret',
         ]);
 
         // Simulate middleware sharing
         config(['settings' => $settings]);
         view()->share('settings', $settings);
 
-        Livewire::test(MembersArea::class)
-            ->set('password', 'secret')
-            ->call('login')
-            ->assertSee('Members Area')
-            ->assertSee('Welcome to the members-only section.');
+        Livewire::actingAs(User::factory()->create())
+            ->test(MembersArea::class)
+            ->assertSee('Members Area');
     }
 }

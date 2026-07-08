@@ -52,6 +52,7 @@
     </script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
     @cookieconsentscripts
 </head>
 <!-- Google tag (gtag.js) -->
@@ -440,5 +441,6 @@
         </div>
     </footer>
     @cookieconsentview
+    @livewireScripts
 </body>
 </html>

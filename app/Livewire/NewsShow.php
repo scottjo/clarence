@@ -10,13 +10,13 @@ class NewsShow extends Component
 {
     public NewsArticle $newsArticle;
 
-    public function mount(NewsArticle $newsArticle): null
+    public function mount(NewsArticle $newsArticle): mixed
     {
         if (! $newsArticle->is_active || ($newsArticle->published_at && $newsArticle->published_at->isFuture())) {
             abort(404);
         }
 
-        if ($newsArticle->is_members_only && ! session('members_authenticated')) {
+        if ($newsArticle->is_members_only && ! auth()->check()) {
             return redirect()->route('members');
         }
 

@@ -5,27 +5,89 @@
                 Members Only Area
             </h2>
             <p class="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
-                Please enter the password to access this section.
+                Sign in with your name or email address, or create a member account.
             </p>
         </div>
-        <form class="mt-8 space-y-6" wire:submit="login">
-            <div class="rounded-md shadow-sm -space-y-px">
-                <div>
-                    <label for="password" class="sr-only">Password</label>
-                    <input wire:model="password" id="password" name="password" type="password" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm bg-white dark:bg-gray-700" placeholder="Password">
+
+        <div class="grid grid-cols-2 gap-2 rounded-lg bg-gray-100 p-1 dark:bg-gray-900">
+            <button type="button" wire:click="showLogin" class="rounded-md px-3 py-2 text-sm font-medium transition {{ $formMode === 'login' ? 'bg-white text-blue-700 shadow-sm dark:bg-gray-700 dark:text-white' : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white' }}">
+                Sign in
+            </button>
+            <button type="button" wire:click="showRegister" class="rounded-md px-3 py-2 text-sm font-medium transition {{ $formMode === 'register' ? 'bg-white text-blue-700 shadow-sm dark:bg-gray-700 dark:text-white' : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white' }}">
+                Register
+            </button>
+        </div>
+
+        @if($formMode === 'login')
+            <form class="mt-8 space-y-6" wire:submit.prevent="login">
+                <div class="space-y-4">
+                    <div>
+                        <label for="loginIdentifier" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Name or email address</label>
+                        <input wire:model="loginIdentifier" id="loginIdentifier" name="loginIdentifier" type="text" autocomplete="username" required class="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 sm:text-sm">
+                        @error('loginIdentifier')
+                            <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <label for="loginPassword" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+                        <input wire:model="loginPassword" id="loginPassword" name="loginPassword" type="password" autocomplete="current-password" required class="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 sm:text-sm">
+                        @error('loginPassword')
+                            <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                        @enderror
+                    </div>
                 </div>
-            </div>
 
-            @error('password')
-                <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
-            @enderror
+                <div>
+                    <button type="submit" wire:loading.attr="disabled" wire:target="login" class="group relative flex w-full justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white transition duration-150 ease-in-out hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-70">
+                        <span wire:loading.remove wire:target="login">Login</span>
+                        <span wire:loading wire:target="login">Checking details...</span>
+                    </button>
+                </div>
+            </form>
+        @else
+            <form class="mt-8 space-y-6" wire:submit.prevent="register">
+                <div class="space-y-4">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
+                        <input wire:model="name" id="name" name="name" type="text" autocomplete="name" required class="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 sm:text-sm">
+                        @error('name')
+                            <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                        @enderror
+                    </div>
 
-            <div>
-                <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">
-                    Access Members Area
-                </button>
-            </div>
-        </form>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email address</label>
+                        <input wire:model="email" id="email" name="email" type="email" autocomplete="email" required class="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 sm:text-sm">
+                        @error('email')
+                            <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+                        <input wire:model="password" id="password" name="password" type="password" autocomplete="new-password" required class="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 sm:text-sm">
+                        @error('password')
+                            <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <label for="passwordConfirmation" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Confirm password</label>
+                        <input wire:model="passwordConfirmation" id="passwordConfirmation" name="passwordConfirmation" type="password" autocomplete="new-password" required class="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 sm:text-sm">
+                        @error('passwordConfirmation')
+                            <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" class="group relative flex w-full justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white transition duration-150 ease-in-out hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                        Create Account
+                    </button>
+                </div>
+            </form>
+        @endif
 
         <div class="mt-4 text-center">
             <a href="{{ route('home') }}" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
