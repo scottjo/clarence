@@ -10,6 +10,8 @@ enum UserRole: string implements HasLabel
     case Administrator = 'administrator';
     case ContentMaintainer = 'content_maintainer';
     case MediaUser = 'media_user';
+    case QuestionModerator = 'question_moderator';
+    case QuestionAnswerer = 'question_answerer';
 
     public function getLabel(): ?string
     {
@@ -18,6 +20,8 @@ enum UserRole: string implements HasLabel
             self::Administrator => 'Administrator',
             self::ContentMaintainer => 'Content Maintainer',
             self::MediaUser => 'Media User',
+            self::QuestionModerator => 'Question & Answer Moderator',
+            self::QuestionAnswerer => 'Question Answerer',
         };
     }
 }

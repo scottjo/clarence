@@ -25,14 +25,6 @@ class User extends Authenticatable implements FilamentUser
         'name',
         'email',
         'password',
-    ];
-
-    /**
-     * The attributes that aren't mass assignable.
-     *
-     * @var list<string>
-     */
-    protected $guarded = [
         'is_admin',
         'roles',
     ];
@@ -85,6 +77,16 @@ class User extends Authenticatable implements FilamentUser
     public function isMediaUser(): bool
     {
         return $this->hasRole(UserRole::MediaUser) || $this->isSuperUser();
+    }
+
+    public function canAnswerMemberQuestions(): bool
+    {
+        return $this->hasRole(UserRole::QuestionAnswerer) || $this->isAdministrator();
+    }
+
+    public function canModerateMemberQuestions(): bool
+    {
+        return $this->hasRole(UserRole::QuestionModerator) || $this->isSuperUser();
     }
 
     /**

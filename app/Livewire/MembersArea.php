@@ -32,6 +32,8 @@ class MembersArea extends Component
 
     public bool $isAuthenticated = false;
 
+    public string $activeMembersTab = 'news';
+
     public function mount(): void
     {
         $this->isAuthenticated = Auth::check();
@@ -110,6 +112,16 @@ class MembersArea extends Component
 
         $this->isAuthenticated = false;
         $this->showLogin();
+    }
+
+    public function showNewsAndNewsletters(): void
+    {
+        $this->activeMembersTab = 'news';
+    }
+
+    public function showQuestionsAndAnswers(): void
+    {
+        $this->activeMembersTab = 'questions';
     }
 
     public function render(): mixed

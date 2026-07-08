@@ -44,6 +44,8 @@ class AdminPanelProvider extends PanelProvider
                 NavigationGroup::make()
                     ->label('Content'),
                 NavigationGroup::make()
+                    ->label('Members'),
+                NavigationGroup::make()
                     ->label('Configuration'),
             ])
             ->colors([

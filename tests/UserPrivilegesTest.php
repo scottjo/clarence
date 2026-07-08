@@ -6,6 +6,10 @@ use App\Enums\UserRole;
 use App\Filament\Pages\Settings;
 use App\Models\Competition;
 use App\Models\Event;
+use App\Models\Media;
+use App\Models\MemberAnswer;
+use App\Models\MemberQuestion;
+use App\Models\MemberQuestionComment;
 use App\Models\Sponsor;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -120,7 +124,7 @@ class UserPrivilegesTest extends TestCase
 
         $this->actingAs($mediaUser);
 
-        $this->assertTrue($mediaUser->can('viewAny', \App\Models\Media::class));
+        $this->assertTrue($mediaUser->can('viewAny', Media::class));
     }
 
     public function test_content_maintainer_cannot_access_media_resource(): void
@@ -132,7 +136,7 @@ class UserPrivilegesTest extends TestCase
 
         $this->actingAs($contentUser);
 
-        $this->assertFalse($contentUser->can('viewAny', \App\Models\Media::class));
+        $this->assertFalse($contentUser->can('viewAny', Media::class));
     }
 
     public function test_emergency_email_acts_as_super_user(): void
@@ -147,6 +151,46 @@ class UserPrivilegesTest extends TestCase
 
         $this->assertTrue($user->isSuperUser());
         $this->assertTrue($user->can('viewAny', User::class));
+        $this->assertTrue($user->can('delete', User::factory()->create()));
+        $this->assertTrue($user->can('viewAny', MemberQuestion::class));
+        $this->assertTrue($user->can('update', MemberAnswer::factory()->create()));
+        $this->assertTrue($user->can('delete', MemberQuestionComment::factory()->create()));
+    }
+
+    public function test_question_moderator_can_censor_member_questions_answers_and_comments(): void
+    {
+        $moderator = User::factory()->create([
+            'is_admin' => false,
+            'roles' => [UserRole::QuestionModerator->value],
+        ]);
+
+        $this->actingAs($moderator);
+
+        $this->assertTrue($moderator->canModerateMemberQuestions());
+        $this->assertTrue($moderator->can('viewAny', MemberQuestion::class));
+        $this->assertTrue($moderator->can('update', MemberQuestion::factory()->create()));
+        $this->assertTrue($moderator->can('delete', MemberQuestion::factory()->create()));
+        $this->assertTrue($moderator->can('viewAny', MemberAnswer::class));
+        $this->assertTrue($moderator->can('update', MemberAnswer::factory()->create()));
+        $this->assertTrue($moderator->can('delete', MemberQuestionComment::factory()->create()));
+        $this->assertFalse($moderator->can('viewAny', User::class));
+    }
+
+    public function test_question_answerer_can_answer_but_not_censor_member_questions(): void
+    {
+        $answerer = User::factory()->create([
+            'is_admin' => false,
+            'roles' => [UserRole::QuestionAnswerer->value],
+        ]);
+
+        $this->actingAs($answerer);
+
+        $this->assertTrue($answerer->canAnswerMemberQuestions());
+        $this->assertTrue($answerer->can('viewAny', MemberAnswer::class));
+        $this->assertTrue($answerer->can('create', MemberAnswer::class));
+        $this->assertFalse($answerer->can('viewAny', MemberQuestion::class));
+        $this->assertFalse($answerer->can('update', MemberAnswer::factory()->create()));
+        $this->assertFalse($answerer->can('delete', MemberQuestionComment::factory()->create()));
     }
 
     public function test_super_user_can_access_horizon(): void

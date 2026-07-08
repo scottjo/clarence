@@ -13,17 +13,15 @@ class MembersAreaSettingsTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_members_area_uses_custom_heading_and_intro_from_settings(): void
+    public function test_members_area_uses_custom_heading_from_settings(): void
     {
         $heading = 'Custom Heading';
-        $intro = 'Custom Intro Text';
         $user = User::factory()->create([
             'name' => 'Jane Member',
         ]);
 
         $settings = Setting::factory()->create([
             'members_area_heading' => $heading,
-            'members_area_intro' => $intro,
         ]);
 
         // Simulate middleware sharing
@@ -32,9 +30,12 @@ class MembersAreaSettingsTest extends TestCase
 
         Livewire::actingAs($user)
             ->test(MembersArea::class)
+            ->assertSet('activeMembersTab', 'news')
+            ->assertSee('News & Newsletters', false)
+            ->assertSee('Questions & Answers', false)
+            ->assertDontSee('member-questions', false)
             ->assertSee('Welcome Jane Member to the members only section.')
-            ->assertSee($heading)
-            ->assertSee($intro);
+            ->assertSee($heading);
     }
 
     public function test_members_area_uses_default_heading_when_not_set(): void
@@ -50,6 +51,10 @@ class MembersAreaSettingsTest extends TestCase
 
         Livewire::actingAs(User::factory()->create())
             ->test(MembersArea::class)
-            ->assertSee('Members Area');
+            ->assertSee('Members Area')
+            ->assertDontSee('member-questions', false)
+            ->call('showQuestionsAndAnswers')
+            ->assertSet('activeMembersTab', 'questions')
+            ->assertSee('member-questions', false);
     }
 }
