@@ -5,7 +5,7 @@
                 Members Only Area
             </h2>
             <p class="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
-                Sign in with your name or email address, or request a member account.
+                Sign in with your name or email address, or request a member account. If you can please use the same email address as your Bowls-hub account.
             </p>
         </div>
 
