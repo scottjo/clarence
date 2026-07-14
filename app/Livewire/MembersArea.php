@@ -3,12 +3,17 @@
 namespace App\Livewire;
 
 use App\Models\Announcement;
+use App\Models\KnownMemberEmail;
 use App\Models\NewsArticle;
 use App\Models\Newsletter;
 use App\Models\Setting;
 use App\Models\User;
+use App\Notifications\NewUserApprovalRequested;
+use App\Notifications\RegistrationAwaitingApproval;
+use App\Notifications\UserApprovedNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -34,6 +39,10 @@ class MembersArea extends Component
 
     public string $activeMembersTab = 'news';
 
+    public bool $registrationSubmitted = false;
+
+    public bool $registrationApproved = false;
+
     public function mount(): void
     {
         $this->isAuthenticated = Auth::check();
@@ -48,6 +57,8 @@ class MembersArea extends Component
     public function showRegister(): void
     {
         $this->formMode = 'register';
+        $this->registrationSubmitted = false;
+        $this->registrationApproved = false;
         $this->resetValidation();
     }
 
@@ -66,7 +77,7 @@ class MembersArea extends Component
             ->get()
             ->first(fn (User $user): bool => Hash::check($this->loginPassword, $user->password));
 
-        if ($user instanceof User) {
+        if ($user instanceof User && $user->isApproved()) {
             Auth::login($user);
             if (request()->hasSession()) {
                 request()->session()->regenerate();
@@ -74,6 +85,8 @@ class MembersArea extends Component
 
             $this->isAuthenticated = true;
             $this->reset('loginIdentifier', 'loginPassword');
+        } elseif ($user instanceof User) {
+            $this->addError('loginIdentifier', 'Your registration is awaiting approval. We will email you once your account has been approved.');
         } else {
             $this->addError('loginIdentifier', 'These credentials do not match our records.');
         }
@@ -87,18 +100,28 @@ class MembersArea extends Component
             'password' => ['required', 'string', 'min:8', 'same:passwordConfirmation'],
         ]);
 
+        $email = strtolower($validated['email']);
+        $isKnownMember = KnownMemberEmail::recognises($email);
+
         $user = User::query()->create([
             'name' => trim($validated['name']),
-            'email' => strtolower($validated['email']),
+            'email' => $email,
             'password' => $validated['password'],
+            'approved_at' => $isKnownMember ? now() : null,
         ]);
 
-        Auth::login($user);
-        if (request()->hasSession()) {
-            request()->session()->regenerate();
+        if ($isKnownMember) {
+            $user->notify(new UserApprovedNotification);
+        } else {
+            $user->notify(new RegistrationAwaitingApproval);
+
+            User::superUserEmails()
+                ->each(fn (string $email) => Notification::route('mail', $email)->notify(new NewUserApprovalRequested($user)));
         }
 
-        $this->isAuthenticated = true;
+        $this->registrationSubmitted = true;
+        $this->registrationApproved = $isKnownMember;
+        $this->formMode = 'login';
         $this->reset('name', 'email', 'password', 'passwordConfirmation');
     }
 

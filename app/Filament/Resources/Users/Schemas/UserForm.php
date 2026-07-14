@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Users\Schemas;
 
 use App\Enums\UserRole;
 use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
@@ -27,6 +28,10 @@ class UserForm
                     ->dehydrateStateUsing(fn ($state) => Hash::make($state))
                     ->dehydrated(fn ($state) => filled($state))
                     ->required(fn (string $context): bool => $context === 'create'),
+                DateTimePicker::make('approved_at')
+                    ->label('Approved at')
+                    ->default(now())
+                    ->seconds(false),
                 Toggle::make('is_admin')
                     ->label('Legacy Admin')
                     ->required(),

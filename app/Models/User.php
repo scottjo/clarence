@@ -10,6 +10,7 @@ use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 
 class User extends Authenticatable implements FilamentUser
 {
@@ -25,6 +26,7 @@ class User extends Authenticatable implements FilamentUser
         'name',
         'email',
         'password',
+        'approved_at',
         'is_admin',
         'roles',
     ];
@@ -48,6 +50,7 @@ class User extends Authenticatable implements FilamentUser
     {
         return [
             'email_verified_at' => 'datetime',
+            'approved_at' => 'datetime',
             'password' => 'hashed',
             'is_admin' => 'boolean',
             'roles' => 'array',
@@ -61,7 +64,34 @@ class User extends Authenticatable implements FilamentUser
 
     public function isSuperUser(): bool
     {
-        return $this->hasRole(UserRole::SuperUser) || $this->email === config('app.super_user_email');
+        return $this->hasRole(UserRole::SuperUser) || self::superUserEmails()->contains(strtolower($this->email));
+    }
+
+    /**
+     * @return Collection<int, string>
+     */
+    public static function superUserEmails(): Collection
+    {
+        return collect(explode(',', (string) config('app.super_user_email')))
+            ->map(fn (string $email): string => strtolower(trim($email)))
+            ->filter()
+            ->values();
+    }
+
+    public function isApproved(): bool
+    {
+        return filled($this->approved_at) || $this->isSuperUser();
+    }
+
+    public function approve(): void
+    {
+        if ($this->isApproved()) {
+            return;
+        }
+
+        $this->forceFill([
+            'approved_at' => now(),
+        ])->save();
     }
 
     public function isAdministrator(): bool

@@ -5,7 +5,7 @@
                 Members Only Area
             </h2>
             <p class="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
-                Sign in with your name or email address, or create a member account.
+                Sign in with your name or email address, or request a member account.
             </p>
         </div>
 
@@ -19,6 +19,16 @@
         </div>
 
         @if($formMode === 'login')
+            @if($registrationSubmitted)
+                <div class="rounded-md border {{ $registrationApproved ? 'border-green-200 bg-green-50 text-green-800 dark:border-green-800 dark:bg-green-900/20 dark:text-green-300' : 'border-amber-200 bg-amber-50 text-amber-800 dark:border-amber-800 dark:bg-amber-900/20 dark:text-amber-300' }} p-4 text-sm">
+                    @if($registrationApproved)
+                        Your registration has been approved automatically. You can now log in.
+                    @else
+                        Your registration has been sent for approval. We will email you once your account has been approved.
+                    @endif
+                </div>
+            @endif
+
             <form class="mt-8 space-y-6" wire:submit.prevent="login">
                 <div class="space-y-4">
                     <div>
@@ -83,7 +93,7 @@
 
                 <div>
                     <button type="submit" class="group relative flex w-full justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white transition duration-150 ease-in-out hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                        Create Account
+                        Request Account
                     </button>
                 </div>
             </form>
