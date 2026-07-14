@@ -13,7 +13,9 @@ use App\Models\User;
 use App\Notifications\UserApprovedNotification;
 use Filament\Actions\Testing\TestAction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Tests\TestCase;
 
@@ -118,6 +120,50 @@ class UserManagementFilamentTest extends TestCase
         $this->assertDatabaseHas(KnownMemberEmail::class, [
             'email' => 'known-member@example.com',
             'name' => 'Known Member',
+        ]);
+    }
+
+    public function test_env_super_user_can_import_known_member_emails_from_csv(): void
+    {
+        config(['app.super_user_email' => 'super@example.com']);
+
+        $superUser = User::factory()->create([
+            'email' => 'super@example.com',
+            'is_admin' => false,
+            'roles' => [],
+        ]);
+        KnownMemberEmail::factory()->create([
+            'email' => 'existing@example.com',
+            'name' => 'Old Name',
+        ]);
+
+        Storage::fake('local');
+
+        $csvContent = "Name,Email\n";
+        $csvContent .= "Updated Existing,EXISTING@example.com\n";
+        $csvContent .= "New Member,new-member@example.com\n";
+        $csvContent .= "Missing Email,\n";
+
+        $file = UploadedFile::fake()->createWithContent('known-members.csv', $csvContent);
+
+        Livewire::actingAs($superUser)
+            ->test(ListKnownMemberEmails::class)
+            ->callAction('importCsv', [
+                'csv_file' => $file,
+            ])
+            ->assertHasNoActionErrors();
+
+        $this->assertDatabaseCount(KnownMemberEmail::class, 2);
+        $this->assertDatabaseHas(KnownMemberEmail::class, [
+            'email' => 'existing@example.com',
+            'name' => 'Updated Existing',
+        ]);
+        $this->assertDatabaseHas(KnownMemberEmail::class, [
+            'email' => 'new-member@example.com',
+            'name' => 'New Member',
+        ]);
+        $this->assertDatabaseMissing(KnownMemberEmail::class, [
+            'name' => 'Missing Email',
         ]);
     }
 
