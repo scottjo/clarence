@@ -19,6 +19,12 @@
         </div>
 
         @if($formMode === 'login')
+            @if(session('passwordResetStatus'))
+                <div class="rounded-md border border-green-200 bg-green-50 p-4 text-sm text-green-800 dark:border-green-800 dark:bg-green-900/20 dark:text-green-300">
+                    {{ session('passwordResetStatus') }}
+                </div>
+            @endif
+
             @if($registrationSubmitted)
                 <div class="rounded-md border {{ $registrationApproved ? 'border-green-200 bg-green-50 text-green-800 dark:border-green-800 dark:bg-green-900/20 dark:text-green-300' : 'border-amber-200 bg-amber-50 text-amber-800 dark:border-amber-800 dark:bg-amber-900/20 dark:text-amber-300' }} p-4 text-sm">
                     @if($registrationApproved)
@@ -53,6 +59,12 @@
                         <span wire:loading.remove wire:target="login">Login</span>
                         <span wire:loading wire:target="login">Checking details...</span>
                     </button>
+                </div>
+
+                <div class="text-center">
+                    <a href="{{ route('members.password.request') }}" class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-400">
+                        Forgotten password?
+                    </a>
                 </div>
             </form>
         @else

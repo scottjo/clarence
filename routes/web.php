@@ -17,6 +17,7 @@ use App\Livewire\EventsList;
 use App\Livewire\FixtureShow;
 use App\Livewire\FixturesInfo;
 use App\Livewire\FixturesList;
+use App\Livewire\ForgotMemberPassword;
 use App\Livewire\Home;
 use App\Livewire\LeagueTableIndex;
 use App\Livewire\LeagueTableShow;
@@ -25,6 +26,7 @@ use App\Livewire\MatchReportsList;
 use App\Livewire\MembersArea;
 use App\Livewire\NewsList;
 use App\Livewire\NewsShow;
+use App\Livewire\ResetMemberPassword;
 use App\Livewire\ResultsList;
 use App\Livewire\SearchResults;
 use Illuminate\Support\Facades\Route;
@@ -65,3 +67,5 @@ Route::get('/contact', Contact::class)->name('contact')->middleware('throttle:10
 Route::get('/search', SearchResults::class)->name('search')->middleware('throttle:60,1');
 
 Route::get('/members', MembersArea::class)->name('members');
+Route::get('/members/forgot-password', ForgotMemberPassword::class)->name('members.password.request');
+Route::get('/members/reset-password/{token}', ResetMemberPassword::class)->name('password.reset');
