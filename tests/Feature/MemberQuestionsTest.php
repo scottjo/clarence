@@ -6,6 +6,7 @@ use App\Enums\UserRole;
 use App\Models\MemberAnswer;
 use App\Models\MemberQuestion;
 use App\Models\MemberQuestionComment;
+use App\Models\MemberQuestionDirectComment;
 use App\Models\MemberQuestionPollOption;
 use App\Models\MemberQuestionPollVote;
 use App\Models\MemberQuestionVote;
@@ -298,6 +299,61 @@ class MemberQuestionsTest extends TestCase
             'member_answer_id' => $answer->id,
             'user_id' => $member->id,
             'body' => 'Thanks, that helps.',
+        ]);
+    }
+
+    public function test_comment_only_question_shows_direct_comments_without_answer_status_or_answer_form(): void
+    {
+        $member = User::factory()->create([
+            'name' => 'Comment Member',
+        ]);
+        $question = MemberQuestion::factory()->create([
+            'title' => 'Should we change the social night?',
+            'is_comment_only' => true,
+            'allow_member_answers' => true,
+        ]);
+        MemberAnswer::factory()->create([
+            'member_question_id' => $question->id,
+            'body' => 'This answer should not be shown on a comment-only question.',
+        ]);
+        MemberQuestionDirectComment::factory()->create([
+            'member_question_id' => $question->id,
+            'body' => 'This direct comment should be shown.',
+        ]);
+
+        Livewire::actingAs($member)
+            ->test('member-questions')
+            ->assertSee('Should we change the social night?')
+            ->assertSee('Comments only')
+            ->assertSee('This direct comment should be shown.')
+            ->assertDontSee('Answered')
+            ->assertDontSee('Unanswered')
+            ->assertDontSee('Answer this question')
+            ->assertDontSee('This answer should not be shown on a comment-only question.');
+    }
+
+    public function test_member_can_add_comment_to_comment_only_question(): void
+    {
+        $member = User::factory()->create([
+            'name' => 'Commenting Member',
+        ]);
+        $question = MemberQuestion::factory()->create([
+            'title' => 'Comment-only topic',
+            'is_comment_only' => true,
+        ]);
+
+        Livewire::actingAs($member)
+            ->test('member-questions')
+            ->set("questionCommentBodies.{$question->id}", 'I prefer comments on this.')
+            ->call('addQuestionComment', $question->id)
+            ->assertHasNoErrors()
+            ->assertSee('I prefer comments on this.')
+            ->assertSee('Commenting Member');
+
+        $this->assertDatabaseHas(MemberQuestionDirectComment::class, [
+            'member_question_id' => $question->id,
+            'user_id' => $member->id,
+            'body' => 'I prefer comments on this.',
         ]);
     }
 

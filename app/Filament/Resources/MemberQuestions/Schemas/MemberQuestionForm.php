@@ -52,6 +52,10 @@ class MemberQuestionForm
                                     ->label('Allow any member to answer')
                                     ->helperText('When off, only members with the answerer role can answer.')
                                     ->required(),
+                                Toggle::make('is_comment_only')
+                                    ->label('Comments only')
+                                    ->helperText('Comment-only questions do not show answer status or the answer form.')
+                                    ->required(),
                             ]),
                     ])
                     ->columnSpanFull(),

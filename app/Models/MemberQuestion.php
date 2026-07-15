@@ -21,6 +21,7 @@ class MemberQuestion extends Model
         'is_anonymous',
         'is_locked',
         'allow_member_answers',
+        'is_comment_only',
         'display_name',
     ];
 
@@ -33,6 +34,7 @@ class MemberQuestion extends Model
             'is_anonymous' => 'boolean',
             'is_locked' => 'boolean',
             'allow_member_answers' => 'boolean',
+            'is_comment_only' => 'boolean',
         ];
     }
 
@@ -59,6 +61,11 @@ class MemberQuestion extends Model
     public function pollVotes(): HasMany
     {
         return $this->hasMany(MemberQuestionPollVote::class);
+    }
+
+    public function directComments(): HasMany
+    {
+        return $this->hasMany(MemberQuestionDirectComment::class)->latest();
     }
 
     public function upVotes(): HasMany
@@ -93,6 +100,15 @@ class MemberQuestion extends Model
 
     public function canBeAnsweredBy(User $user): bool
     {
-        return $this->allow_member_answers || $user->canAnswerMemberQuestions();
+        return ! $this->is_comment_only && ($this->allow_member_answers || $user->canAnswerMemberQuestions());
+    }
+
+    public function visibleCommentsCount(): int
+    {
+        if ($this->is_comment_only) {
+            return (int) ($this->direct_comments_count ?? $this->directComments()->count());
+        }
+
+        return (int) ($this->comments_count ?? $this->comments()->count());
     }
 }

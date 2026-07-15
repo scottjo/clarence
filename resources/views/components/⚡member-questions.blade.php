@@ -3,6 +3,7 @@
 use App\Models\MemberAnswer;
 use App\Models\MemberQuestion;
 use App\Models\MemberQuestionComment;
+use App\Models\MemberQuestionDirectComment;
 use App\Models\MemberQuestionPollOption;
 use App\Models\MemberQuestionPollVote;
 use App\Models\MemberQuestionVote;
@@ -24,6 +25,8 @@ new class extends Component
     public bool $isAnonymous = false;
 
     public bool $allowMemberAnswers = false;
+
+    public bool $isCommentOnly = false;
 
     public bool $hasPoll = false;
 
@@ -48,6 +51,9 @@ new class extends Component
 
     /** @var array<int, string> */
     public array $commentBodies = [];
+
+    /** @var array<int, string> */
+    public array $questionCommentBodies = [];
 
     public function mount(): void
     {
@@ -86,9 +92,9 @@ new class extends Component
 
     public function closeQuestionForm(): void
     {
-        $this->reset('title', 'body', 'isAnonymous', 'allowMemberAnswers', 'hasPoll');
+        $this->reset('title', 'body', 'isAnonymous', 'allowMemberAnswers', 'isCommentOnly', 'hasPoll');
         $this->pollOptions = ['', ''];
-        $this->resetValidation(['title', 'body', 'isAnonymous', 'allowMemberAnswers', 'hasPoll', 'pollOptions', 'pollOptions.*']);
+        $this->resetValidation(['title', 'body', 'isAnonymous', 'allowMemberAnswers', 'isCommentOnly', 'hasPoll', 'pollOptions', 'pollOptions.*']);
 
         $this->showQuestionForm = false;
     }
@@ -115,6 +121,7 @@ new class extends Component
             'body' => ['nullable', 'string', 'max:3000'],
             'isAnonymous' => ['boolean'],
             'allowMemberAnswers' => ['boolean'],
+            'isCommentOnly' => ['boolean'],
             'hasPoll' => ['boolean'],
             'pollOptions' => ['array'],
             'pollOptions.*' => ['nullable', 'string', 'max:120'],
@@ -151,7 +158,8 @@ new class extends Component
             'title' => $validated['title'],
             'body' => filled($validated['body'] ?? null) ? $validated['body'] : null,
             'is_anonymous' => $validated['isAnonymous'],
-            'allow_member_answers' => $validated['allowMemberAnswers'],
+            'allow_member_answers' => $validated['isCommentOnly'] ? false : $validated['allowMemberAnswers'],
+            'is_comment_only' => $validated['isCommentOnly'],
             'display_name' => $validated['isAnonymous'] ? null : $user->name,
         ]);
 
@@ -165,7 +173,7 @@ new class extends Component
             });
         }
 
-        $this->reset('title', 'body', 'isAnonymous', 'allowMemberAnswers', 'hasPoll');
+        $this->reset('title', 'body', 'isAnonymous', 'allowMemberAnswers', 'isCommentOnly', 'hasPoll');
         $this->pollOptions = ['', ''];
         $this->showQuestionForm = false;
         $this->resetPage();
@@ -269,9 +277,61 @@ new class extends Component
         unset($this->commentBodies[$answerId]);
     }
 
+    public function addQuestionComment(int $questionId): void
+    {
+        $field = "questionCommentBodies.$questionId";
+        $body = trim($this->questionCommentBodies[$questionId] ?? '');
+
+        if ($body === '') {
+            $this->addError($field, 'Please enter a comment.');
+
+            return;
+        }
+
+        if (mb_strlen($body) > 1200) {
+            $this->addError($field, 'Comments may not be greater than 1200 characters.');
+
+            return;
+        }
+
+        if ($this->containsBlockedLanguage($body)) {
+            $this->addError($field, 'Please remove inappropriate language before posting.');
+
+            return;
+        }
+
+        $question = MemberQuestion::query()->findOrFail($questionId);
+
+        if ($question->is_locked) {
+            $this->addError($field, 'This question is locked.');
+
+            return;
+        }
+
+        $user = Auth::user();
+        $comment = new MemberQuestionDirectComment;
+        $comment->user_id = $user->id;
+        $comment->body = $body;
+        $comment->is_anonymous = false;
+        $comment->display_name = $user->name;
+
+        $question->directComments()->save($comment);
+
+        unset($this->questionCommentBodies[$questionId]);
+    }
+
     public function deleteComment(int $commentId): void
     {
         $comment = MemberQuestionComment::query()->findOrFail($commentId);
+
+        abort_unless($comment->user_id === Auth::id(), 403);
+
+        $comment->delete();
+    }
+
+    public function deleteQuestionComment(int $commentId): void
+    {
+        $comment = MemberQuestionDirectComment::query()->findOrFail($commentId);
 
         abort_unless($comment->user_id === Auth::id(), 403);
 
@@ -359,6 +419,7 @@ new class extends Component
                 'user',
                 'answers.user',
                 'answers.comments.user',
+                'directComments.user',
                 'pollOptions' => fn ($query) => $query
                     ->withCount('votes')
                     ->with(['votes' => fn ($query) => $query->where('user_id', Auth::id())]),
@@ -367,6 +428,7 @@ new class extends Component
             ->withCount([
                 'answers',
                 'comments',
+                'directComments as direct_comments_count',
             ])
             ->withSum('votes as vote_score', 'value')
             ->when(trim($this->search) !== '', function (Builder $query): void {
@@ -378,6 +440,7 @@ new class extends Component
                         ->orWhere('body', 'like', $search)
                         ->orWhere('display_name', 'like', $search)
                         ->orWhereHas('pollOptions', fn (Builder $query) => $query->where('label', 'like', $search))
+                        ->orWhereHas('directComments', fn (Builder $query) => $query->where('body', 'like', $search)->orWhere('display_name', 'like', $search))
                         ->orWhereHas('answers', fn (Builder $query) => $query->where('body', 'like', $search))
                         ->orWhereHas('answers.comments', fn (Builder $query) => $query->where('body', 'like', $search)->orWhere('display_name', 'like', $search));
                 });
@@ -490,9 +553,15 @@ new class extends Component
                             Ask anonymously
                         </label>
                         <label class="inline-flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                            <input wire:model="allowMemberAnswers" type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                            Allow any member to answer
+                            <input wire:model.live="isCommentOnly" type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                            Comments only
                         </label>
+                        @if(! $isCommentOnly)
+                            <label class="inline-flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+                                <input wire:model="allowMemberAnswers" type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                Allow any member to answer
+                            </label>
+                        @endif
                     </div>
 
                     <div class="space-y-3 rounded-md border border-gray-200 p-4 dark:border-gray-700">
@@ -558,6 +627,7 @@ new class extends Component
                 $isAnswered = $question->answers_count > 0;
                 $voteScore = (int) $question->vote_score;
                 $canAnswerThisQuestion = $question->canBeAnsweredBy(auth()->user());
+                $visibleCommentsCount = $question->visibleCommentsCount();
                 $pollVoteCount = $question->pollOptions->sum('votes_count');
             @endphp
             <article wire:key="member-question-{{ $question->id }}" class="rounded-lg border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800">
@@ -592,15 +662,20 @@ new class extends Component
                                     @if($question->allow_member_answers)
                                         <span class="rounded-full bg-blue-100 px-2.5 py-1 text-xs font-semibold text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">Open answers</span>
                                     @endif
+                                    @if($question->is_comment_only)
+                                        <span class="rounded-full bg-purple-100 px-2.5 py-1 text-xs font-semibold text-purple-700 dark:bg-purple-900/30 dark:text-purple-300">Comments only</span>
+                                    @endif
                                 </div>
                                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
                                     Asked by {{ $question->displayAuthor() }} on {{ $question->created_at->format('j M Y') }}
                                 </p>
                             </div>
                             <div class="flex flex-wrap gap-2">
-                                <span class="w-fit rounded-full {{ $isAnswered ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300' : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300' }} px-3 py-1 text-xs font-semibold">
-                                    {{ $isAnswered ? 'Answered' : 'Unanswered' }}
-                                </span>
+                                @if(! $question->is_comment_only)
+                                    <span class="w-fit rounded-full {{ $isAnswered ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300' : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300' }} px-3 py-1 text-xs font-semibold">
+                                        {{ $isAnswered ? 'Answered' : 'Unanswered' }}
+                                    </span>
+                                @endif
                                 @if($canAnswerQuestions)
                                     <button type="button" wire:click="toggleLocked({{ $question->id }})" class="inline-flex size-8 items-center justify-center rounded-full border transition {{ $question->is_locked ? 'border-red-300 bg-red-50 text-red-700 hover:bg-red-100 dark:border-red-800 dark:bg-red-900/30 dark:text-red-300 dark:hover:bg-red-900/50' : 'border-gray-300 text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-700' }}" title="{{ $question->is_locked ? 'Unlock question' : 'Lock question' }}" aria-label="{{ $question->is_locked ? 'Unlock question' : 'Lock question' }}">
                                         @if($question->is_locked)
@@ -614,7 +689,7 @@ new class extends Component
                                         @endif
                                     </button>
                                 @endif
-                                <span class="w-fit rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-600 dark:bg-gray-700 dark:text-gray-300">{{ $question->comments_count }} {{ $question->comments_count === 1 ? 'comment' : 'comments' }}</span>
+                                <span class="w-fit rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-600 dark:bg-gray-700 dark:text-gray-300">{{ $visibleCommentsCount }} {{ $visibleCommentsCount === 1 ? 'comment' : 'comments' }}</span>
                                 <button type="button" wire:click="toggleCollapsed({{ $question->id }})" class="group inline-flex size-8 items-center justify-center rounded-full border border-gray-300 text-gray-700 shadow-sm transition duration-200 ease-out hover:-translate-y-0.5 hover:bg-gray-50 hover:shadow-md active:translate-y-0 active:scale-95 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-700 motion-reduce:transition-none motion-reduce:hover:translate-y-0" title="{{ $isCollapsed ? 'Expand question' : 'Minimise question' }}" aria-label="{{ $isCollapsed ? 'Expand question' : 'Minimise question' }}">
                                     <svg class="size-4 transition-transform duration-300 ease-out group-hover:scale-110 motion-reduce:transition-none {{ $isCollapsed ? 'rotate-180' : 'rotate-0' }}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6" />
@@ -625,8 +700,10 @@ new class extends Component
 
                         @if($isCollapsed)
                             <div class="mt-4 rounded-md bg-gray-50 p-3 text-sm text-gray-600 dark:bg-gray-900/40 dark:text-gray-300">
-                                {{ $isAnswered ? 'This question has been answered.' : 'This question has not been answered yet.' }}
-                                It has {{ $question->comments_count }} {{ $question->comments_count === 1 ? 'comment' : 'comments' }}.
+                                @if(! $question->is_comment_only)
+                                    {{ $isAnswered ? 'This question has been answered.' : 'This question has not been answered yet.' }}
+                                @endif
+                                It has {{ $visibleCommentsCount }} {{ $visibleCommentsCount === 1 ? 'comment' : 'comments' }}.
                             </div>
                         @else
                             @if($question->hasBody())
@@ -656,7 +733,38 @@ new class extends Component
                                 </div>
                             @endif
 
-                            @if($canAnswerThisQuestion && ! $question->is_locked)
+                            @if($question->is_comment_only)
+                                <div class="mt-6 space-y-3">
+                                    @foreach($question->directComments as $comment)
+                                        <div wire:key="member-question-direct-comment-{{ $comment->id }}" class="border-l-2 border-purple-200 pl-3 dark:border-purple-800">
+                                            <p class="text-sm text-gray-700 dark:text-gray-300">{{ $comment->body }}</p>
+                                            <div class="mt-1 flex flex-wrap items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+                                                <p>{{ $comment->displayAuthor() }} · {{ $comment->created_at->format('j M Y') }}</p>
+                                                @if($comment->user_id === auth()->id())
+                                                    <button type="button" wire:click="deleteQuestionComment({{ $comment->id }})" wire:confirm="Delete this comment?" class="inline-flex size-6 items-center justify-center rounded-full text-red-600 transition hover:bg-red-50 hover:text-red-700 dark:text-red-400 dark:hover:bg-red-900/30 dark:hover:text-red-300" title="Delete comment" aria-label="Delete comment">
+                                                        <svg class="size-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673A2.25 2.25 0 0 1 15.916 21.75H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                                        </svg>
+                                                    </button>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @endforeach
+
+                                    @if(! $question->is_locked)
+                                        <form wire:submit.prevent="addQuestionComment({{ $question->id }})" class="flex flex-col gap-2 md:flex-row">
+                                            <label for="question-comment-{{ $question->id }}" class="sr-only">Comment on this question</label>
+                                            <input wire:model="questionCommentBodies.{{ $question->id }}" id="question-comment-{{ $question->id }}" type="text" maxlength="1200" class="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white" placeholder="Comment on this question...">
+                                            <button type="submit" class="rounded-md border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 transition hover:bg-white dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-800">Comment</button>
+                                        </form>
+                                        @error('questionCommentBodies.'.$question->id)
+                                            <p class="text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                        @enderror
+                                    @endif
+                                </div>
+                            @endif
+
+                            @if(! $question->is_comment_only && $canAnswerThisQuestion && ! $question->is_locked)
                                 <form wire:submit.prevent="answerQuestion({{ $question->id }})" class="mt-5 space-y-3 rounded-md bg-blue-50 p-4 dark:bg-blue-900/20">
                                     <label for="answer-{{ $question->id }}" class="block text-sm font-semibold text-blue-900 dark:text-blue-200">Answer this question</label>
                                     <textarea wire:model="answerBodies.{{ $question->id }}" id="answer-{{ $question->id }}" rows="3" class="block w-full rounded-md border border-blue-200 bg-white px-3 py-2 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-blue-500 dark:border-blue-800 dark:bg-gray-800 dark:text-white" placeholder="Write an answer for members to see..."></textarea>
@@ -674,7 +782,7 @@ new class extends Component
                                 </div>
                             @endif
 
-                            @if($question->answers->isNotEmpty())
+                            @if(! $question->is_comment_only && $question->answers->isNotEmpty())
                                 <div class="mt-6 space-y-4">
                                     @foreach($question->answers as $answer)
                                         <div wire:key="member-answer-{{ $answer->id }}" class="rounded-md border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/40">

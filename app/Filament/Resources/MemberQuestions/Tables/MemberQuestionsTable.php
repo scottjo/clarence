@@ -42,6 +42,9 @@ class MemberQuestionsTable
                 IconColumn::make('allow_member_answers')
                     ->label('Open answers')
                     ->boolean(),
+                IconColumn::make('is_comment_only')
+                    ->label('Comments only')
+                    ->boolean(),
                 TextColumn::make('answers_count')
                     ->label('Answers')
                     ->counts('answers')
@@ -64,6 +67,8 @@ class MemberQuestionsTable
                     ->label('Locked'),
                 TernaryFilter::make('allow_member_answers')
                     ->label('Open answers'),
+                TernaryFilter::make('is_comment_only')
+                    ->label('Comments only'),
                 TernaryFilter::make('is_anonymous')
                     ->label('Anonymous'),
             ])

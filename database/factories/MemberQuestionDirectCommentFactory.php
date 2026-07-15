@@ -3,13 +3,14 @@
 namespace Database\Factories;
 
 use App\Models\MemberQuestion;
+use App\Models\MemberQuestionDirectComment;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<MemberQuestion>
+ * @extends Factory<MemberQuestionDirectComment>
  */
-class MemberQuestionFactory extends Factory
+class MemberQuestionDirectCommentFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,13 +20,10 @@ class MemberQuestionFactory extends Factory
     public function definition(): array
     {
         return [
+            'member_question_id' => MemberQuestion::factory(),
             'user_id' => User::factory(),
-            'title' => fake()->sentence(6),
-            'body' => fake()->paragraph(),
+            'body' => fake()->sentence(),
             'is_anonymous' => false,
-            'is_locked' => false,
-            'allow_member_answers' => false,
-            'is_comment_only' => false,
             'display_name' => fake()->name(),
         ];
     }
