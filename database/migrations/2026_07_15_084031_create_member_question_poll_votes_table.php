@@ -11,14 +11,28 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::dropIfExists('member_question_poll_votes');
+
         Schema::create('member_question_poll_votes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('member_question_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('member_question_poll_option_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('member_question_id');
+            $table->foreignId('member_question_poll_option_id');
+            $table->foreignId('user_id');
             $table->timestamps();
 
-            $table->unique(['member_question_id', 'user_id']);
+            $table->foreign('member_question_id', 'mqpv_question_fk')
+                ->references('id')
+                ->on('member_questions')
+                ->cascadeOnDelete();
+            $table->foreign('member_question_poll_option_id', 'mqpv_option_fk')
+                ->references('id')
+                ->on('member_question_poll_options')
+                ->cascadeOnDelete();
+            $table->foreign('user_id', 'mqpv_user_fk')
+                ->references('id')
+                ->on('users')
+                ->cascadeOnDelete();
+            $table->unique(['member_question_id', 'user_id'], 'mqpv_question_user_unique');
             $table->index(['member_question_poll_option_id', 'created_at'], 'poll_option_votes_created_at_index');
         });
     }
