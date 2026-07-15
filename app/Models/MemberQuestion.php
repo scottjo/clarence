@@ -20,6 +20,7 @@ class MemberQuestion extends Model
         'body',
         'is_anonymous',
         'is_locked',
+        'allow_member_answers',
         'display_name',
     ];
 
@@ -31,6 +32,7 @@ class MemberQuestion extends Model
         return [
             'is_anonymous' => 'boolean',
             'is_locked' => 'boolean',
+            'allow_member_answers' => 'boolean',
         ];
     }
 
@@ -47,6 +49,16 @@ class MemberQuestion extends Model
     public function votes(): HasMany
     {
         return $this->hasMany(MemberQuestionVote::class);
+    }
+
+    public function pollOptions(): HasMany
+    {
+        return $this->hasMany(MemberQuestionPollOption::class)->orderBy('sort_order');
+    }
+
+    public function pollVotes(): HasMany
+    {
+        return $this->hasMany(MemberQuestionPollVote::class);
     }
 
     public function upVotes(): HasMany
@@ -77,5 +89,10 @@ class MemberQuestion extends Model
     public function hasBody(): bool
     {
         return filled($this->body);
+    }
+
+    public function canBeAnsweredBy(User $user): bool
+    {
+        return $this->allow_member_answers || $user->canAnswerMemberQuestions();
     }
 }

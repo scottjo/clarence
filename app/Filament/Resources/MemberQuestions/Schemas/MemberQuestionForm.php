@@ -48,6 +48,10 @@ class MemberQuestionForm
                                     ->label('Locked')
                                     ->helperText('Locked questions cannot receive new answers or comments.')
                                     ->required(),
+                                Toggle::make('allow_member_answers')
+                                    ->label('Allow any member to answer')
+                                    ->helperText('When off, only members with the answerer role can answer.')
+                                    ->required(),
                             ]),
                     ])
                     ->columnSpanFull(),

@@ -24,6 +24,7 @@ class MemberQuestionFactory extends Factory
             'body' => fake()->paragraph(),
             'is_anonymous' => false,
             'is_locked' => false,
+            'allow_member_answers' => false,
             'display_name' => fake()->name(),
         ];
     }

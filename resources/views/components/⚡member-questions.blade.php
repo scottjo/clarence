@@ -3,6 +3,8 @@
 use App\Models\MemberAnswer;
 use App\Models\MemberQuestion;
 use App\Models\MemberQuestionComment;
+use App\Models\MemberQuestionPollOption;
+use App\Models\MemberQuestionPollVote;
 use App\Models\MemberQuestionVote;
 use App\Support\MemberContentModerator;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -20,6 +22,13 @@ new class extends Component
     public string $body = '';
 
     public bool $isAnonymous = false;
+
+    public bool $allowMemberAnswers = false;
+
+    public bool $hasPoll = false;
+
+    /** @var array<int, string> */
+    public array $pollOptions = ['', ''];
 
     public string $search = '';
 
@@ -77,10 +86,26 @@ new class extends Component
 
     public function closeQuestionForm(): void
     {
-        $this->reset('title', 'body', 'isAnonymous');
-        $this->resetValidation(['title', 'body', 'isAnonymous']);
+        $this->reset('title', 'body', 'isAnonymous', 'allowMemberAnswers', 'hasPoll');
+        $this->pollOptions = ['', ''];
+        $this->resetValidation(['title', 'body', 'isAnonymous', 'allowMemberAnswers', 'hasPoll', 'pollOptions', 'pollOptions.*']);
 
         $this->showQuestionForm = false;
+    }
+
+    public function addPollOption(): void
+    {
+        $this->pollOptions[] = '';
+    }
+
+    public function removePollOption(int $index): void
+    {
+        if (count($this->pollOptions) <= 2) {
+            return;
+        }
+
+        unset($this->pollOptions[$index]);
+        $this->pollOptions = array_values($this->pollOptions);
     }
 
     public function askQuestion(): void
@@ -89,6 +114,10 @@ new class extends Component
             'title' => ['required', 'string', 'max:160'],
             'body' => ['nullable', 'string', 'max:3000'],
             'isAnonymous' => ['boolean'],
+            'allowMemberAnswers' => ['boolean'],
+            'hasPoll' => ['boolean'],
+            'pollOptions' => ['array'],
+            'pollOptions.*' => ['nullable', 'string', 'max:120'],
         ]);
 
         if ($this->containsBlockedLanguage($validated['title']) || $this->containsBlockedLanguage($validated['body'] ?? '')) {
@@ -97,30 +126,60 @@ new class extends Component
             return;
         }
 
+        $pollOptions = collect($validated['pollOptions'] ?? [])
+            ->map(fn (?string $option): string => trim((string) $option))
+            ->filter()
+            ->unique(fn (string $option): string => mb_strtolower($option))
+            ->values();
+
+        if ($validated['hasPoll'] && $pollOptions->count() < 2) {
+            $this->addError('pollOptions', 'Please add at least two poll answers.');
+
+            return;
+        }
+
+        if ($pollOptions->contains(fn (string $option): bool => $this->containsBlockedLanguage($option))) {
+            $this->addError('pollOptions', 'Please remove inappropriate language before posting.');
+
+            return;
+        }
+
         $user = Auth::user();
 
-        MemberQuestion::query()->create([
+        $question = MemberQuestion::query()->create([
             'user_id' => $user->id,
             'title' => $validated['title'],
             'body' => filled($validated['body'] ?? null) ? $validated['body'] : null,
             'is_anonymous' => $validated['isAnonymous'],
+            'allow_member_answers' => $validated['allowMemberAnswers'],
             'display_name' => $validated['isAnonymous'] ? null : $user->name,
         ]);
 
-        $this->reset('title', 'body', 'isAnonymous');
+        if ($validated['hasPoll']) {
+            $pollOptions->each(function (string $option, int $index) use ($question): void {
+                $pollOption = new MemberQuestionPollOption;
+                $pollOption->label = $option;
+                $pollOption->sort_order = $index;
+
+                $question->pollOptions()->save($pollOption);
+            });
+        }
+
+        $this->reset('title', 'body', 'isAnonymous', 'allowMemberAnswers', 'hasPoll');
+        $this->pollOptions = ['', ''];
         $this->showQuestionForm = false;
         $this->resetPage();
     }
 
     public function answerQuestion(int $questionId): void
     {
-        if (! Auth::user()?->canAnswerMemberQuestions()) {
-            $this->addError('answerAuthorization', 'Only designated club members can answer questions.');
+        $question = MemberQuestion::query()->findOrFail($questionId);
+
+        if (! $question->canBeAnsweredBy(Auth::user())) {
+            $this->addError('answerAuthorization', 'Only designated club members can answer this question.');
 
             return;
         }
-
-        $question = MemberQuestion::query()->findOrFail($questionId);
 
         if ($question->is_locked) {
             $this->addError("answerBodies.$questionId", 'This question is locked.');
@@ -199,12 +258,13 @@ new class extends Component
             return;
         }
 
-        $answer->comments()->create([
-            'user_id' => $user->id,
-            'body' => $body,
-            'is_anonymous' => false,
-            'display_name' => $user->name,
-        ]);
+        $comment = new MemberQuestionComment;
+        $comment->user_id = $user->id;
+        $comment->body = $body;
+        $comment->is_anonymous = false;
+        $comment->display_name = $user->name;
+
+        $answer->comments()->save($comment);
 
         unset($this->commentBodies[$answerId]);
     }
@@ -270,6 +330,23 @@ new class extends Component
         ]);
     }
 
+    public function votePollOption(int $optionId): void
+    {
+        $option = MemberQuestionPollOption::query()
+            ->with('question')
+            ->findOrFail($optionId);
+
+        MemberQuestionPollVote::query()->updateOrCreate(
+            [
+                'member_question_id' => $option->member_question_id,
+                'user_id' => Auth::id(),
+            ],
+            [
+                'member_question_poll_option_id' => $option->id,
+            ],
+        );
+    }
+
     public function canAnswerQuestions(): bool
     {
         return Auth::user()?->canAnswerMemberQuestions() ?? false;
@@ -282,6 +359,9 @@ new class extends Component
                 'user',
                 'answers.user',
                 'answers.comments.user',
+                'pollOptions' => fn ($query) => $query
+                    ->withCount('votes')
+                    ->with(['votes' => fn ($query) => $query->where('user_id', Auth::id())]),
                 'votes' => fn ($query) => $query->where('user_id', Auth::id()),
             ])
             ->withCount([
@@ -297,6 +377,7 @@ new class extends Component
                         ->where('title', 'like', $search)
                         ->orWhere('body', 'like', $search)
                         ->orWhere('display_name', 'like', $search)
+                        ->orWhereHas('pollOptions', fn (Builder $query) => $query->where('label', 'like', $search))
                         ->orWhereHas('answers', fn (Builder $query) => $query->where('body', 'like', $search))
                         ->orWhereHas('answers.comments', fn (Builder $query) => $query->where('body', 'like', $search)->orWhere('display_name', 'like', $search));
                 });
@@ -408,6 +489,55 @@ new class extends Component
                             <input wire:model="isAnonymous" type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
                             Ask anonymously
                         </label>
+                        <label class="inline-flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+                            <input wire:model="allowMemberAnswers" type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                            Allow any member to answer
+                        </label>
+                    </div>
+
+                    <div class="space-y-3 rounded-md border border-gray-200 p-4 dark:border-gray-700">
+                        <label class="inline-flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
+                            <input wire:model.live="hasPoll" type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                            Add a poll
+                        </label>
+
+                        @if($hasPoll)
+                            <div class="space-y-2">
+                                @foreach($pollOptions as $index => $pollOption)
+                                    <div wire:key="poll-option-input-{{ $index }}" class="flex gap-2">
+                                        <label for="poll-option-{{ $index }}" class="sr-only">Poll answer {{ $index + 1 }}</label>
+                                        <input wire:model="pollOptions.{{ $index }}" id="poll-option-{{ $index }}" type="text" maxlength="120" class="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-700 dark:text-white" placeholder="Poll answer {{ $index + 1 }}">
+                                        @if(count($pollOptions) > 2)
+                                            <button type="button" wire:click="removePollOption({{ $index }})" class="inline-flex size-10 shrink-0 items-center justify-center rounded-md border border-gray-300 text-gray-700 transition hover:bg-gray-50 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-700" title="Remove poll answer" aria-label="Remove poll answer">
+                                                <svg class="size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+                                                </svg>
+                                            </button>
+                                        @endif
+                                    </div>
+                                    @error('pollOptions.'.$index)
+                                        <p class="text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                    @enderror
+                                @endforeach
+
+                                @error('pollOptions')
+                                    <p class="text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                @enderror
+
+                                <button type="button" wire:click="addPollOption" class="inline-flex items-center gap-2 rounded-md border border-gray-300 px-3 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-50 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-700">
+                                    <svg class="size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                    </svg>
+                                    Add poll answer
+                                </button>
+                            </div>
+                        @endif
+                    </div>
+
+                    <div class="flex flex-col gap-3 border-t border-gray-200 pt-4 dark:border-gray-700 sm:flex-row sm:items-center sm:justify-between">
+                        <div class="text-sm text-gray-500 dark:text-gray-400">
+                            Questions are visible to all signed-in members.
+                        </div>
                         <div class="flex flex-col gap-2 sm:flex-row">
                             <button type="button" wire:click="closeQuestionForm" class="rounded-md border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-50 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-700">Cancel</button>
                             <button type="submit" wire:loading.attr="disabled" wire:target="askQuestion" class="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70">
@@ -427,6 +557,8 @@ new class extends Component
                 $isCollapsed = $collapsedQuestions[$question->id] ?? false;
                 $isAnswered = $question->answers_count > 0;
                 $voteScore = (int) $question->vote_score;
+                $canAnswerThisQuestion = $question->canBeAnsweredBy(auth()->user());
+                $pollVoteCount = $question->pollOptions->sum('votes_count');
             @endphp
             <article wire:key="member-question-{{ $question->id }}" class="rounded-lg border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800">
                 <div class="flex flex-col gap-4 md:flex-row md:items-start">
@@ -456,6 +588,9 @@ new class extends Component
                                     <h3 class="text-xl font-bold text-gray-900 dark:text-white">{{ $question->title }}</h3>
                                     @if($question->is_locked)
                                         <span class="rounded-full bg-red-100 px-2.5 py-1 text-xs font-semibold text-red-700 dark:bg-red-900/30 dark:text-red-300">Locked</span>
+                                    @endif
+                                    @if($question->allow_member_answers)
+                                        <span class="rounded-full bg-blue-100 px-2.5 py-1 text-xs font-semibold text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">Open answers</span>
                                     @endif
                                 </div>
                                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
@@ -498,7 +633,30 @@ new class extends Component
                                 <p class="mt-4 whitespace-pre-line text-gray-700 dark:text-gray-300">{{ $question->body }}</p>
                             @endif
 
-                            @if($canAnswerQuestions && ! $question->is_locked)
+                            @if($question->pollOptions->isNotEmpty())
+                                <div class="mt-5 space-y-3 rounded-md border border-blue-100 bg-blue-50 p-4 dark:border-blue-900/60 dark:bg-blue-900/20">
+                                    <h4 class="text-sm font-semibold text-blue-950 dark:text-blue-100">Poll</h4>
+                                    <div class="space-y-2">
+                                        @foreach($question->pollOptions as $option)
+                                            @php
+                                                $hasCurrentPollVote = $option->votes->isNotEmpty();
+                                                $percentage = $pollVoteCount > 0 ? (int) round(($option->votes_count / $pollVoteCount) * 100) : 0;
+                                            @endphp
+                                            <button type="button" wire:key="poll-option-{{ $option->id }}" wire:click="votePollOption({{ $option->id }})" class="w-full rounded-md border bg-white p-3 text-left transition hover:border-blue-300 hover:bg-blue-50 dark:bg-gray-900 dark:hover:bg-gray-800 {{ $hasCurrentPollVote ? 'border-blue-500 ring-2 ring-blue-200 dark:border-blue-400 dark:ring-blue-900' : 'border-gray-200 dark:border-gray-700' }}">
+                                                <span class="flex items-center justify-between gap-3 text-sm">
+                                                    <span class="font-semibold text-gray-900 dark:text-white">{{ $option->label }}</span>
+                                                    <span class="shrink-0 text-xs font-semibold text-gray-500 dark:text-gray-400">{{ $option->votes_count }} {{ $option->votes_count === 1 ? 'vote' : 'votes' }}</span>
+                                                </span>
+                                                <span class="mt-2 block h-2 overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800">
+                                                    <span class="block h-full rounded-full bg-blue-600" style="width: {{ $percentage }}%"></span>
+                                                </span>
+                                            </button>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endif
+
+                            @if($canAnswerThisQuestion && ! $question->is_locked)
                                 <form wire:submit.prevent="answerQuestion({{ $question->id }})" class="mt-5 space-y-3 rounded-md bg-blue-50 p-4 dark:bg-blue-900/20">
                                     <label for="answer-{{ $question->id }}" class="block text-sm font-semibold text-blue-900 dark:text-blue-200">Answer this question</label>
                                     <textarea wire:model="answerBodies.{{ $question->id }}" id="answer-{{ $question->id }}" rows="3" class="block w-full rounded-md border border-blue-200 bg-white px-3 py-2 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-blue-500 dark:border-blue-800 dark:bg-gray-800 dark:text-white" placeholder="Write an answer for members to see..."></textarea>

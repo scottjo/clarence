@@ -6,6 +6,8 @@ use App\Enums\UserRole;
 use App\Models\MemberAnswer;
 use App\Models\MemberQuestion;
 use App\Models\MemberQuestionComment;
+use App\Models\MemberQuestionPollOption;
+use App\Models\MemberQuestionPollVote;
 use App\Models\MemberQuestionVote;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -176,6 +178,102 @@ class MemberQuestionsTest extends TestCase
         $this->assertDatabaseMissing(MemberAnswer::class, [
             'member_question_id' => $question->id,
             'body' => 'I should not be able to answer officially.',
+        ]);
+    }
+
+    public function test_question_can_allow_any_member_to_answer(): void
+    {
+        $member = User::factory()->create([
+            'name' => 'Helpful Member',
+        ]);
+        $question = MemberQuestion::factory()->create([
+            'title' => 'Open answer question',
+            'allow_member_answers' => true,
+        ]);
+
+        Livewire::actingAs($member)
+            ->test('member-questions')
+            ->assertSee('Open answers')
+            ->set("answerBodies.{$question->id}", 'Any member can answer this one.')
+            ->call('answerQuestion', $question->id)
+            ->assertHasNoErrors()
+            ->assertSee('Any member can answer this one.')
+            ->assertSee('Helpful Member');
+
+        $this->assertDatabaseHas(MemberAnswer::class, [
+            'member_question_id' => $question->id,
+            'user_id' => $member->id,
+            'body' => 'Any member can answer this one.',
+        ]);
+    }
+
+    public function test_member_can_create_question_with_poll_options(): void
+    {
+        $member = User::factory()->create();
+
+        Livewire::actingAs($member)
+            ->test('member-questions')
+            ->set('title', 'Which social night should we run?')
+            ->set('hasPoll', true)
+            ->set('pollOptions', ['Friday bowls', 'Saturday quiz', ''])
+            ->call('askQuestion')
+            ->assertHasNoErrors()
+            ->assertSee('Which social night should we run?')
+            ->assertSee('Friday bowls')
+            ->assertSee('Saturday quiz');
+
+        $question = MemberQuestion::query()
+            ->where('title', 'Which social night should we run?')
+            ->firstOrFail();
+
+        $this->assertDatabaseHas(MemberQuestionPollOption::class, [
+            'member_question_id' => $question->id,
+            'label' => 'Friday bowls',
+            'sort_order' => 0,
+        ]);
+        $this->assertDatabaseHas(MemberQuestionPollOption::class, [
+            'member_question_id' => $question->id,
+            'label' => 'Saturday quiz',
+            'sort_order' => 1,
+        ]);
+        $this->assertSame(2, $question->pollOptions()->count());
+    }
+
+    public function test_member_can_vote_on_question_poll(): void
+    {
+        $member = User::factory()->create();
+        $question = MemberQuestion::factory()->create([
+            'title' => 'Preferred green speed',
+        ]);
+        $slow = MemberQuestionPollOption::factory()->create([
+            'member_question_id' => $question->id,
+            'label' => 'Slower',
+            'sort_order' => 0,
+        ]);
+        $fast = MemberQuestionPollOption::factory()->create([
+            'member_question_id' => $question->id,
+            'label' => 'Faster',
+            'sort_order' => 1,
+        ]);
+
+        Livewire::actingAs($member)
+            ->test('member-questions')
+            ->assertSee('Preferred green speed')
+            ->assertSee('Slower')
+            ->call('votePollOption', $slow->id)
+            ->assertHasNoErrors()
+            ->call('votePollOption', $fast->id)
+            ->assertHasNoErrors();
+
+        $this->assertDatabaseHas(MemberQuestionPollVote::class, [
+            'member_question_id' => $question->id,
+            'member_question_poll_option_id' => $fast->id,
+            'user_id' => $member->id,
+        ]);
+        $this->assertDatabaseMissing(MemberQuestionPollVote::class, [
+            'member_question_id' => $question->id,
+            'member_question_poll_option_id' => $slow->id,
+            'user_id' => $member->id,
         ]);
     }
 

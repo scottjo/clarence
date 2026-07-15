@@ -39,6 +39,9 @@ class MemberQuestionsTable
                 IconColumn::make('is_locked')
                     ->label('Locked')
                     ->boolean(),
+                IconColumn::make('allow_member_answers')
+                    ->label('Open answers')
+                    ->boolean(),
                 TextColumn::make('answers_count')
                     ->label('Answers')
                     ->counts('answers')
@@ -59,6 +62,8 @@ class MemberQuestionsTable
             ->filters([
                 TernaryFilter::make('is_locked')
                     ->label('Locked'),
+                TernaryFilter::make('allow_member_answers')
+                    ->label('Open answers'),
                 TernaryFilter::make('is_anonymous')
                     ->label('Anonymous'),
             ])
