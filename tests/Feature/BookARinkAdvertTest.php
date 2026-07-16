@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\IntroBlock;
 use App\Models\Setting;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -47,5 +48,27 @@ class BookARinkAdvertTest extends TestCase
             ->assertOk()
             ->assertDontSee('Book a rink')
             ->assertDontSee('Turn up and play');
+    }
+
+    public function test_book_a_rink_advert_appears_before_the_home_intro_block(): void
+    {
+        Setting::factory()->create();
+        IntroBlock::query()->create([
+            'page_identifier' => 'home',
+            'content' => '<h2>Welcome to Clarence Bowls Club</h2>',
+            'font_color' => '#111827',
+            'is_active' => true,
+        ]);
+
+        $response = $this->get(route('home'));
+
+        $response->assertOk();
+
+        $content = $response->getContent();
+
+        $this->assertLessThan(
+            strpos($content, 'Welcome to Clarence Bowls Club'),
+            strpos($content, 'Book a rink'),
+        );
     }
 }
