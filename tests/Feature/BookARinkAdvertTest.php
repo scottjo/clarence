@@ -27,12 +27,16 @@ class BookARinkAdvertTest extends TestCase
     public function test_home_page_uses_configured_book_a_rink_advert_details(): void
     {
         Setting::factory()->create([
+            'book_a_rink_title' => 'Try bowls today',
+            'book_a_rink_description' => 'Reserve a rink for a friendly roll-up.',
             'book_a_rink_price' => '£7.50 per visitor',
             'book_a_rink_phone' => '01934 123456',
         ]);
 
         $this->get(route('home'))
             ->assertOk()
+            ->assertSee('Try bowls today')
+            ->assertSee('Reserve a rink for a friendly roll-up.')
             ->assertSee('£7.50 per visitor')
             ->assertSee('01934 123456')
             ->assertSee('tel:01934123456', false);

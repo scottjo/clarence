@@ -358,6 +358,8 @@
 
         @if(\Illuminate\Support\Facades\Route::currentRouteName() === 'home' && ($settings?->book_a_rink_advert_enabled ?? true))
             @php
+                $bookARinkTitle = filled($settings?->book_a_rink_title) ? $settings->book_a_rink_title : 'Turn up and play';
+                $bookARinkDescription = filled($settings?->book_a_rink_description) ? $settings->book_a_rink_description : 'Fancy a casual game? Book a rink and enjoy a session at Clarence Bowls Club. Equipment can be provided. Just wear flat soled shoes';
                 $bookARinkPrice = filled($settings?->book_a_rink_price) ? $settings->book_a_rink_price : '£5 per person per session';
                 $bookARinkPhone = filled($settings?->book_a_rink_phone) ? $settings->book_a_rink_phone : '07895 255006';
                 $bookARinkPhoneLink = preg_replace('/[^\d+]/', '', $bookARinkPhone);
@@ -376,9 +378,9 @@
                                 </div>
                                 <div>
                                     <p class="text-sm font-semibold uppercase text-emerald-700 dark:text-emerald-300">Book a rink</p>
-                                    <h2 class="mt-1 text-3xl font-black text-gray-900 dark:text-white">Turn up and play</h2>
+                                    <h2 class="mt-1 text-3xl font-black text-gray-900 dark:text-white">{{ $bookARinkTitle }}</h2>
                                     <p class="mt-2 max-w-2xl text-base text-gray-600 dark:text-gray-300">
-                                        Fancy a casual game? Book a rink and enjoy a session at Clarence Bowls Club.
+                                        {{ $bookARinkDescription }}
                                     </p>
                                 </div>
                             </div>

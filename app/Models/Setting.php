@@ -102,6 +102,8 @@ class Setting extends Model implements HasMedia
         'show_league_tables',
         'show_match_reports',
         'book_a_rink_advert_enabled',
+        'book_a_rink_title',
+        'book_a_rink_description',
         'book_a_rink_price',
         'book_a_rink_phone',
     ];

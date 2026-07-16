@@ -158,6 +158,17 @@ class Settings extends Page implements HasForms
                             ->label('Show advert')
                             ->default(true)
                             ->live(),
+                        TextInput::make('book_a_rink_title')
+                            ->label('Title')
+                            ->placeholder('Turn up and play')
+                            ->maxLength(255)
+                            ->visible(fn (Get $get) => $get('book_a_rink_advert_enabled')),
+                        Textarea::make('book_a_rink_description')
+                            ->label('Description')
+                            ->placeholder('Fancy a casual game? Book a rink and enjoy a session at Clarence Bowls Club. Equipment can be provided. Just wear flat soled shoes')
+                            ->rows(3)
+                            ->columnSpanFull()
+                            ->visible(fn (Get $get) => $get('book_a_rink_advert_enabled')),
                         TextInput::make('book_a_rink_price')
                             ->label('Price text')
                             ->placeholder('£5 per person per session')
@@ -372,6 +383,8 @@ class Settings extends Page implements HasForms
                 'show_league_tables' => false,
                 'show_match_reports' => false,
                 'book_a_rink_advert_enabled' => true,
+                'book_a_rink_title' => 'Turn up and play',
+                'book_a_rink_description' => 'Fancy a casual game? Book a rink and enjoy a session at Clarence Bowls Club. Equipment can be provided. Just wear flat soled shoes',
                 'book_a_rink_price' => '£5 per person per session',
                 'book_a_rink_phone' => '07895 255006',
             ], array_filter($regularData, fn ($value): bool => $value !== null));
