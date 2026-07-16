@@ -34,9 +34,7 @@ class SettingsPageTest extends TestCase
         $this->actingAs($user);
 
         Livewire::test(Settings::class)
-            ->fillForm([
-                'club_name' => 'Updated Club Name',
-            ])
+            ->set('data.club_name', 'Updated Club Name')
             ->call('save')
             ->assertHasNoFormErrors();
 

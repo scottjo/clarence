@@ -139,10 +139,36 @@ class Settings extends Page implements HasForms
                             ->visible(fn (Get $get) => $get('countdown_active')),
                         Select::make('countdown_event_id')
                             ->label('Link to Event')
-                            ->options(Event::query()->where('is_active', true)->where('start_time', '>', now())->pluck('title', 'id'))
+                            ->options(fn (Get $get) => Event::query()
+                                ->where(function ($query) use ($get): void {
+                                    $query
+                                        ->where(fn ($query) => $query->where('is_active', true)->where('start_time', '>', now()))
+                                        ->when($get('countdown_event_id'), fn ($query, $eventId) => $query->orWhere('id', $eventId));
+                                })
+                                ->pluck('title', 'id'))
                             ->searchable()
                             ->visible(fn (Get $get) => $get('countdown_active'))
                             ->helperText('Optional: link the countdown to a specific event page.'),
+                    ])->columns(3),
+
+                Section::make('Book a Rink Advert')
+                    ->description('Manage the home page advert below the hero image.')
+                    ->schema([
+                        Toggle::make('book_a_rink_advert_enabled')
+                            ->label('Show advert')
+                            ->default(true)
+                            ->live(),
+                        TextInput::make('book_a_rink_price')
+                            ->label('Price text')
+                            ->placeholder('£5 per person per session')
+                            ->maxLength(255)
+                            ->visible(fn (Get $get) => $get('book_a_rink_advert_enabled')),
+                        TextInput::make('book_a_rink_phone')
+                            ->label('Booking phone number')
+                            ->tel()
+                            ->placeholder('07895 255006')
+                            ->maxLength(255)
+                            ->visible(fn (Get $get) => $get('book_a_rink_advert_enabled')),
                     ])->columns(3),
 
                 Section::make('Footer Appearance')
@@ -329,6 +355,27 @@ class Settings extends Page implements HasForms
             $mediaFields = ['header_logo', 'footer_logo_left', 'footer_logo_right', 'membership_application_form'];
             $regularData = array_diff_key($data, array_flip($mediaFields));
 
+            $regularData = array_replace([
+                'menu_color' => '#ffffff',
+                'footer_color' => '#ffffff',
+                'menu_text_color' => '#2563eb',
+                'footer_text_color' => '#6b7280',
+                'page_bg_color' => '#f9fafb',
+                'header_gradient_direction' => GradientDirection::LeftToRight,
+                'footer_gradient_direction' => GradientDirection::LeftToRight,
+                'pinstripe_width' => 'medium',
+                'pinstripe_style' => 'single',
+                'sponsor_panel_pinstripe_width' => 'medium',
+                'sponsor_panel_pinstripe_style' => 'single',
+                'sponsor_panel_show_on_all_pages' => true,
+                'show_fixtures_results' => true,
+                'show_league_tables' => false,
+                'show_match_reports' => false,
+                'book_a_rink_advert_enabled' => true,
+                'book_a_rink_price' => '£5 per person per session',
+                'book_a_rink_phone' => '07895 255006',
+            ], array_filter($regularData, fn ($value): bool => $value !== null));
+
             $this->record->fill($regularData);
             $this->record->save();
 
@@ -351,6 +398,12 @@ class Settings extends Page implements HasForms
                 ->success()
                 ->send();
         } catch (\Exception $e) {
+            report($e);
+
+            if (app()->runningUnitTests()) {
+                throw $e;
+            }
+
             Notification::make()
                 ->title('Error saving settings')
                 ->body($e->getMessage())

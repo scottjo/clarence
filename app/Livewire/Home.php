@@ -26,6 +26,7 @@ class Home extends Component
         }
 
         return view('livewire.home', [
+            'settings' => $settings,
             'pinnedItems' => PinnedItem::where('is_active', true)
                 ->with(['newsArticle', 'media'])
                 ->latest()

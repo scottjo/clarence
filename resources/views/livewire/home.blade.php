@@ -1,5 +1,53 @@
 <div>
     <div class="container mx-auto px-4 py-12">
+        @if($settings?->book_a_rink_advert_enabled ?? true)
+            @php
+                $bookARinkPrice = filled($settings?->book_a_rink_price) ? $settings->book_a_rink_price : '£5 per person per session';
+                $bookARinkPhone = filled($settings?->book_a_rink_phone) ? $settings->book_a_rink_phone : '07895 255006';
+                $bookARinkPhoneLink = preg_replace('/[^\d+]/', '', $bookARinkPhone);
+            @endphp
+
+            <section class="mb-12 overflow-hidden rounded-lg border border-emerald-200 bg-white shadow-lg dark:border-emerald-900/60 dark:bg-gray-800">
+                <div class="grid gap-0 lg:grid-cols-[1.15fr_0.85fr]">
+                    <div class="relative p-6 sm:p-8">
+                        <div class="absolute inset-y-0 left-0 w-1.5 bg-emerald-600"></div>
+                        <div class="flex flex-col gap-5 sm:flex-row sm:items-center">
+                            <div class="flex size-16 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
+                                <svg class="size-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3.75 17.25 20.25M17.25 3.75 6.75 20.25M4.5 12h15" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm font-semibold uppercase text-emerald-700 dark:text-emerald-300">Book a rink</p>
+                                <h2 class="mt-1 text-3xl font-black text-gray-900 dark:text-white">Turn up and play</h2>
+                                <p class="mt-2 max-w-2xl text-base text-gray-600 dark:text-gray-300">
+                                    Fancy a casual game? Book a rink and enjoy a session at Clarence Bowls Club.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-emerald-700 p-6 text-white sm:p-8">
+                        <div class="grid h-full gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                            <div class="rounded-md bg-white/10 p-4 ring-1 ring-white/20">
+                                <p class="text-xs font-semibold uppercase text-emerald-100">Price</p>
+                                <p class="mt-1 text-2xl font-black">{{ $bookARinkPrice }}</p>
+                            </div>
+                            <div class="rounded-md bg-white/10 p-4 ring-1 ring-white/20">
+                                <p class="text-xs font-semibold uppercase text-emerald-100">To book</p>
+                                <a href="tel:{{ $bookARinkPhoneLink }}" class="mt-1 inline-flex items-center gap-2 text-2xl font-black underline decoration-white/40 underline-offset-4 transition hover:decoration-white">
+                                    <svg class="size-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106a1.125 1.125 0 0 0-1.173.417l-.97 1.293a1.125 1.125 0 0 1-1.21.38 12.035 12.035 0 0 1-7.143-7.143 1.125 1.125 0 0 1 .38-1.21l1.293-.97c.36-.27.527-.733.417-1.173L6.963 3.102A1.125 1.125 0 0 0 5.872 2.25H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
+                                    </svg>
+                                    {{ $bookARinkPhone }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        @endif
+
         @if($pinnedItems->isNotEmpty())
             @foreach($pinnedItems as $item)
                 <div

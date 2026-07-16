@@ -101,6 +101,9 @@ class Setting extends Model implements HasMedia
         'members_area_intro',
         'show_league_tables',
         'show_match_reports',
+        'book_a_rink_advert_enabled',
+        'book_a_rink_price',
+        'book_a_rink_phone',
     ];
 
     protected function casts(): array
@@ -113,6 +116,7 @@ class Setting extends Model implements HasMedia
             'show_fixtures_results' => 'boolean',
             'show_league_tables' => 'boolean',
             'show_match_reports' => 'boolean',
+            'book_a_rink_advert_enabled' => 'boolean',
             'countdown_active' => 'boolean',
             'countdown_target_date' => 'datetime',
         ];
