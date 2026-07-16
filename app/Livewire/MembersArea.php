@@ -161,6 +161,12 @@ class MembersArea extends Component
             ->paginate(6);
 
         $newsletters = Newsletter::where('is_active', true)
+            ->where('type', Newsletter::TYPE_NEWSLETTER)
+            ->latest('issue_date')
+            ->get();
+
+        $committeeMinutes = Newsletter::where('is_active', true)
+            ->where('type', Newsletter::TYPE_MINUTES)
             ->latest('issue_date')
             ->get();
 
@@ -174,6 +180,7 @@ class MembersArea extends Component
         return view('livewire.members-area', [
             'newsArticles' => $newsArticles,
             'newsletters' => $newsletters,
+            'committeeMinutes' => $committeeMinutes,
             'announcements' => $announcements,
             'settings' => $settings,
         ])->layout('layouts.app', ['title' => 'Members Area']);

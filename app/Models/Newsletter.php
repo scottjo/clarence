@@ -18,9 +18,33 @@ class Newsletter extends Model implements HasMedia
 
     protected $fillable = [
         'title',
+        'type',
         'issue_date',
         'is_active',
     ];
+
+    public const TYPE_NEWSLETTER = 'newsletter';
+
+    public const TYPE_MINUTES = 'minutes';
+
+    public const TYPE_OTHER = 'other';
+
+    /**
+     * @return array<string, string>
+     */
+    public static function typeOptions(): array
+    {
+        return [
+            self::TYPE_NEWSLETTER => 'Newsletter',
+            self::TYPE_MINUTES => 'Committee Minutes',
+            self::TYPE_OTHER => 'Other',
+        ];
+    }
+
+    public function typeLabel(): string
+    {
+        return self::typeOptions()[$this->type] ?? ucfirst((string) $this->type);
+    }
 
     protected function casts(): array
     {

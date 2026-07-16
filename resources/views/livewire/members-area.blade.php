@@ -39,7 +39,17 @@
         @if($activeMembersTab === 'news')
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8" x-data="{
                 seenNewsletters: JSON.parse(localStorage.getItem('seen_newsletters') || '[]'),
-                markAsSeen(id) {
+                seenCommitteeMinutes: JSON.parse(localStorage.getItem('seen_committee_minutes') || '[]'),
+                markAsSeen(collection, id) {
+                    if (collection === 'minutes') {
+                        if (!this.seenCommitteeMinutes.includes(id)) {
+                            this.seenCommitteeMinutes.push(id);
+                            localStorage.setItem('seen_committee_minutes', JSON.stringify(this.seenCommitteeMinutes));
+                        }
+
+                        return;
+                    }
+
                     if (!this.seenNewsletters.includes(id)) {
                         this.seenNewsletters.push(id);
                         localStorage.setItem('seen_newsletters', JSON.stringify(this.seenNewsletters));
@@ -139,7 +149,7 @@
                     </section>
                 </div>
 
-                <!-- Newsletters Section -->
+                <!-- Member Documents Section -->
                 <div class="space-y-8">
                     <section>
                         <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
@@ -180,7 +190,58 @@
                                     @if($newsletter->hasMedia('newsletter_pdf'))
                                         <a href="{{ $newsletter->getFirstMediaUrl('newsletter_pdf') }}"
                                            target="_blank"
-                                           @click="markAsSeen({{ $newsletter->id }})"
+                                           @click="markAsSeen('newsletter', {{ $newsletter->id }})"
+                                           class="p-2 text-blue-600 hover:bg-blue-50 dark:hover:bg-gray-700 rounded-lg transition"
+                                           title="Download PDF">
+                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                                        </a>
+                                    @endif
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+                    </section>
+
+                    <section>
+                        <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414A1 1 0 0119 9.414V19a2 2 0 01-2 2z"></path></svg>
+                            Committee Minutes
+                        </h2>
+
+                    @if($committeeMinutes->isEmpty())
+                        <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 text-center">
+                            <p class="text-gray-500">No committee minutes available.</p>
+                        </div>
+                    @else
+                        <div class="space-y-4">
+                            @foreach($committeeMinutes as $minutes)
+                                <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 flex items-center gap-4">
+                                    @if($minutes->hasMedia('newsletter_pdf'))
+                                        <div class="w-16 h-20 bg-blue-50 dark:bg-blue-900/20 rounded overflow-hidden shrink-0 border border-blue-100 dark:border-blue-800 flex items-center justify-center text-blue-600 dark:text-blue-400">
+                                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10l4 4v10a2 2 0 01-2 2z"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 2v4a2 2 0 002 2h4"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h10M7 16h10"></path>
+                                            </svg>
+                                        </div>
+                                    @endif
+                                    <div class="grow">
+                                        <div class="flex items-center gap-2">
+                                            <h3 class="font-bold text-gray-900 dark:text-white">{{ $minutes->title }}</h3>
+                                            @if($minutes->isRecent())
+                                                <span x-show="!seenCommitteeMinutes.includes({{ $minutes->id }})"
+                                                      class="px-2 py-0.5 text-[10px] font-bold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 rounded-full uppercase tracking-wider"
+                                                      x-cloak>
+                                                    New
+                                                </span>
+                                            @endif
+                                        </div>
+                                        <p class="text-sm text-gray-500">{{ $minutes->issue_date?->format('F Y') }}</p>
+                                    </div>
+                                    @if($minutes->hasMedia('newsletter_pdf'))
+                                        <a href="{{ $minutes->getFirstMediaUrl('newsletter_pdf') }}"
+                                           target="_blank"
+                                           @click="markAsSeen('minutes', {{ $minutes->id }})"
                                            class="p-2 text-blue-600 hover:bg-blue-50 dark:hover:bg-gray-700 rounded-lg transition"
                                            title="Download PDF">
                                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>

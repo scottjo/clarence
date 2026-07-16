@@ -19,6 +19,7 @@ class NewsletterFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence(3),
+            'type' => Newsletter::TYPE_NEWSLETTER,
             'issue_date' => $this->faker->date(),
             'is_active' => true,
         ];
