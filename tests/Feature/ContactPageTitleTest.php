@@ -14,7 +14,7 @@ class ContactPageTitleTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $settings = Setting::factory()->create(['club_name' => 'Clarence Bowls Club']);
+        $settings = Setting::factory()->create(['club_name' => 'Clarence Bowling Club']);
         View::share('settings', $settings);
     }
 
@@ -22,6 +22,6 @@ class ContactPageTitleTest extends TestCase
     {
         $this->get(route('contact'))
             ->assertStatus(200)
-            ->assertSee('<title>Contact Clarence Bowls Club | Weston-super-Mare</title>', false);
+            ->assertSee('<title>Contact Clarence Bowling Club | Weston-super-Mare</title>', false);
     }
 }

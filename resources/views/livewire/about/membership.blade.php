@@ -2,7 +2,7 @@
     <h1 class="text-4xl font-bold mb-6">Membership</h1>
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
         <div class="p-8">
-            <h2 class="text-2xl font-bold mb-4">Join Clarence Bowls Club</h2>
+            <h2 class="text-2xl font-bold mb-4">Join Clarence Bowling Club</h2>
             <p class="text-lg mb-6">We welcome new members of all ages and abilities, whether you're an experienced bowler or a complete beginner.</p>
 
             <h3 class="text-xl font-bold mb-4">Membership Types ({{ date('Y') }} Season)</h3>

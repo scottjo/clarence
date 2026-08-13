@@ -19,7 +19,7 @@ class NewsList extends Component
                 ->latest('published_at')
                 ->paginate(9),
         ])->layout('layouts.app', [
-            'title' => 'Clarence Bowls Club News | Weston-super-Mare',
+            'title' => 'Clarence Bowling Club News | Weston-super-Mare',
         ]);
     }
 }

@@ -15,7 +15,7 @@ class HeroSeeder extends Seeder
         Hero::create([
             'page_identifier' => 'home',
             'image' => 'https://images.unsplash.com/photo-1594132176008-012920f3404c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80',
-            'title' => 'Welcome to Clarence Bowls Club',
+            'title' => 'Welcome to Clarence Bowling Club',
             'subtitle' => 'Experience the joy of lawn bowls in a friendly and welcoming environment.',
             'intro_text' => "Join us for competition, fun, and community.\n\nWhether you're a seasoned pro or a complete beginner, we have something for everyone.",
             'title_color' => '#ffffff',
@@ -32,7 +32,7 @@ class HeroSeeder extends Seeder
             'image' => 'https://images.unsplash.com/photo-1510563354640-27712558444c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80',
             'title' => 'About Our Club',
             'subtitle' => 'A century of bowling excellence in Clarence Park.',
-            'intro_text' => 'Learn about our history, our values, and the people who make Clarence Bowls Club special.',
+            'intro_text' => 'Learn about our history, our values, and the people who make Clarence Bowling Club special.',
             'title_color' => '#ffffff',
             'title_size' => 'text-5xl md:text-7xl',
             'subtitle_color' => '#e2e8f0',

@@ -10,7 +10,7 @@ class PlayLearn extends Component
     public function render(): View
     {
         return view('livewire.about.play-learn')->layout('layouts.app', [
-            'title' => 'Play & Learn Lawn Bowls at Clarence Bowls Club | Weston-super-Mare',
+            'title' => 'Play & Learn Lawn Bowls at Clarence Bowling Club | Weston-super-Mare',
         ]);
     }
 }

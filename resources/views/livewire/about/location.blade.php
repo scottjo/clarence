@@ -18,7 +18,7 @@
         </div>
         <div class="mt-6">
             <h2 class="text-2xl font-semibold mb-2">Address</h2>
-            <p class="font-semibold">{{ $settings?->club_name ?? 'Clarence Bowls Club' }}</p>
+            <p class="font-semibold">{{ $settings?->club_name ?? 'Clarence Bowling Club' }}</p>
             @if($settings?->address)
                 <p class="whitespace-pre-line">{{ $settings->address }}</p>
             @else

@@ -3,11 +3,12 @@
 namespace App\Livewire\About;
 
 use App\Models\Officer;
+use Illuminate\View\View;
 use Livewire\Component;
 
 class Officers extends Component
 {
-    public function render(): \Illuminate\View\View
+    public function render(): View
     {
         $officers = Officer::query()
             ->with('classification')
@@ -24,8 +25,8 @@ class Officers extends Component
 
         return view('livewire.about.officers', [
             'groups' => $groups,
-        ])->layout('layouts.app',[
-            'title' => 'Officers of Clarence Bowls Club | Weston-super-Mare',
+        ])->layout('layouts.app', [
+            'title' => 'Officers of Clarence Bowling Club | Weston-super-Mare',
         ]);
     }
 }

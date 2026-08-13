@@ -2,7 +2,7 @@
     <h1 class="text-4xl font-bold mb-6">Club History</h1>
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8">
         <div class="prose dark:prose-invert max-w-none">
-            <p class="text-lg mb-6">Clarence Bowls Club has a rich and storied history, dating back over a century. Founded in 1907, the club has been a cornerstone of the local sporting community for generations.</p>
+            <p class="text-lg mb-6">Clarence Bowling Club has a rich and storied history, dating back over a century. Founded in 1907, the club has been a cornerstone of the local sporting community for generations.</p>
 
             <h2 class="text-2xl font-bold mb-4">The Early Years</h2>
             <p>Clarence Bowling Club was founded in 1907, followed in 1926 by Clarence Ladies’ Bowling Club. In 1965, Wessex Ladies’ Bowling Club was formed, and continued to share our facilities.</p>

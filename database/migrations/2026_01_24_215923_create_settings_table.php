@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->string('club_name')->default('Clarence Bowls Club');
+            $table->string('club_name')->default('Clarence Bowling Club');
             $table->text('address')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->nullable();

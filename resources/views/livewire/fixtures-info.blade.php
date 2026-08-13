@@ -6,7 +6,7 @@
         <section class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
             <h2 class="text-2xl font-bold mb-4 text-blue-600 dark:text-blue-400">General Match Info</h2>
             <div class="prose dark:prose-invert max-w-none text-gray-600 dark:text-gray-400 leading-relaxed">
-                <p>Clarence Bowls Club participates in various leagues and friendly matches throughout the season, which typically runs from April to September. Our fixtures are categorized into Men's, Women's, and Mixed Competitions.</p>
+                <p>Clarence Bowling Club participates in various leagues and friendly matches throughout the season, which typically runs from April to September. Our fixtures are categorized into Men's, Women's, and Mixed Competitions.</p>
                 <p>All home matches are played at our main green located at Clarence Park. Visitors are always welcome to come and watch our teams in action.</p>
             </div>
         </section>

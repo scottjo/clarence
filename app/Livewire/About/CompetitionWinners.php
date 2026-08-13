@@ -83,8 +83,8 @@ class CompetitionWinners extends Component
     {
         return view('livewire.about.competition-winners')
             ->layout('layouts.app', [
-                'title' => "Clarence Bowls Club Competition Winners {$this->year} | Weston-super-Mare",
-                'metaDescription' => "View the club competition winners for {$this->year} at Clarence Bowls Club.",
+                'title' => "Clarence Bowling Club Competition Winners {$this->year} | Weston-super-Mare",
+                'metaDescription' => "View the club competition winners for {$this->year} at Clarence Bowling Club.",
             ]);
     }
 }

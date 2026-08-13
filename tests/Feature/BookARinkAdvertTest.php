@@ -59,7 +59,7 @@ class BookARinkAdvertTest extends TestCase
         Setting::factory()->create();
         IntroBlock::query()->create([
             'page_identifier' => 'home',
-            'content' => '<h2>Welcome to Clarence Bowls Club</h2>',
+            'content' => '<h2>Welcome to Clarence Bowling Club</h2>',
             'font_color' => '#111827',
             'is_active' => true,
         ]);
@@ -71,7 +71,7 @@ class BookARinkAdvertTest extends TestCase
         $content = $response->getContent();
 
         $this->assertLessThan(
-            strpos($content, 'Welcome to Clarence Bowls Club'),
+            strpos($content, 'Welcome to Clarence Bowling Club'),
             strpos($content, 'Book a rink'),
         );
     }

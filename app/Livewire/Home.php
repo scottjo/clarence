@@ -44,7 +44,7 @@ class Home extends Component
                 ->get(),
             'latestMatchReports' => $latestMatchReports,
         ])->layout('layouts.app', [
-            'title' => 'Lawn Bowls Club in Weston-super-Mare | Clarence Bowls Club',
+            'title' => 'Lawn Bowls Club in Weston-super-Mare | Clarence Bowling Club',
         ]);
     }
 }

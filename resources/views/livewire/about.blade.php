@@ -1,10 +1,10 @@
 <div class="container mx-auto px-4 py-12">
     <div class="max-w-4xl mx-auto">
-        <h1 class="text-4xl font-bold mb-8 text-center">About Clarence Bowls Club</h1>
+        <h1 class="text-4xl font-bold mb-8 text-center">About Clarence Bowling Club</h1>
 
         <div class="prose prose-lg dark:prose-invert mx-auto">
             <p class="text-xl text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
-                Founded in 1907, Clarence Bowls Club has been a cornerstone of our local community for decades.
+                Founded in 1907, Clarence Bowling Club has been a cornerstone of our local community for decades.
                 Our club is more than just a place to play bowls; it's a vibrant hub for social interaction,
                 personal growth, and healthy competition.
             </p>
@@ -27,7 +27,7 @@
                 <h3 class="text-xl font-bold mb-2">Want to join us?</h3>
                 <p>
                     We're always looking for new members! Whether you're a pro or have never held a bowl
-                    in your life, you'll find a warm welcome at Clarence Bowls Club.
+                    in your life, you'll find a warm welcome at Clarence Bowling Club.
                 </p>
                 <div class="mt-4">
                     <a href="{{ route('contact') }}" class="text-blue-600 font-bold hover:underline">Contact us today to find out more &rarr;</a>

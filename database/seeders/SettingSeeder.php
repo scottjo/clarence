@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Setting;
 use Illuminate\Database\Seeder;
 
 class SettingSeeder extends Seeder
@@ -11,8 +12,8 @@ class SettingSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\Setting::create([
-            'club_name' => 'Clarence Bowls Club',
+        Setting::create([
+            'club_name' => 'Clarence Bowling Club',
             'address' => "Clarence Park\nWeston-super-Mare\nBS23 1PA",
             'phone' => '01934 123456',
             'email' => 'info@clarencebowls.co.uk',

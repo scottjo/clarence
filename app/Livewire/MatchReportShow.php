@@ -31,7 +31,7 @@ class MatchReportShow extends Component
         return view('livewire.match-report-show', [
             'report' => $this->report,
         ])->layout('layouts.app', [
-            'title' => $this->report->title.' | Match Report | Clarence Bowls Club',
+            'title' => $this->report->title.' | Match Report | Clarence Bowling Club',
         ]);
     }
 }

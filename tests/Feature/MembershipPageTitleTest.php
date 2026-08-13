@@ -14,7 +14,7 @@ class MembershipPageTitleTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $settings = Setting::factory()->create(['club_name' => 'Clarence Bowls Club']);
+        $settings = Setting::factory()->create(['club_name' => 'Clarence Bowling Club']);
         View::share('settings', $settings);
     }
 
@@ -22,6 +22,6 @@ class MembershipPageTitleTest extends TestCase
     {
         $this->get(route('about.membership'))
             ->assertStatus(200)
-            ->assertSee('<title>Join Clarence Bowls Club | Lawn Bowls in Weston-super-Mare</title>', false);
+            ->assertSee('<title>Join Clarence Bowling Club | Lawn Bowls in Weston-super-Mare</title>', false);
     }
 }

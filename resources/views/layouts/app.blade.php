@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{{ $title ?? ($settings?->club_name ?? 'Clarence Bowls Club') }}</title>
-    <meta name="description" content="{{ $metaDescription ?? ($settings?->description ?? 'Clarence Bowls Club is a friendly lawn bowls club located in Clarence Park, Weston-super-Mare. Join us for competitive and social bowling.') }}">
+    <title>{{ $title ?? ($settings?->club_name ?? 'Clarence Bowling Club') }}</title>
+    <meta name="description" content="{{ $metaDescription ?? ($settings?->description ?? 'Clarence Bowling Club is a friendly lawn bowls club located in Clarence Park, Weston-super-Mare. Join us for competitive and social bowling.') }}">
     <link rel="canonical" href="{{ url()->current() }}">
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -13,8 +13,8 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:title" content="{{ $title ?? ($settings?->club_name ?? 'Clarence Bowls Club') }}">
-    <meta property="og:description" content="{{ $metaDescription ?? ($settings?->description ?? 'Join Clarence Bowls Club in Weston-super-Mare.') }}">
+    <meta property="og:title" content="{{ $title ?? ($settings?->club_name ?? 'Clarence Bowling Club') }}">
+    <meta property="og:description" content="{{ $metaDescription ?? ($settings?->description ?? 'Join Clarence Bowling Club in Weston-super-Mare.') }}">
     @if($settings?->hasMedia('header_logo'))
         <meta property="og:image" content="{{ $settings->getFirstMediaUrl('header_logo') }}">
     @elseif($settings?->header_logo)
@@ -24,8 +24,8 @@
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="{{ url()->current() }}">
-    <meta property="twitter:title" content="{{ $title ?? ($settings?->club_name ?? 'Clarence Bowls Club') }}">
-    <meta property="twitter:description" content="{{ $metaDescription ?? ($settings?->description ?? 'Join Clarence Bowls Club in Weston-super-Mare.') }}">
+    <meta property="twitter:title" content="{{ $title ?? ($settings?->club_name ?? 'Clarence Bowling Club') }}">
+    <meta property="twitter:description" content="{{ $metaDescription ?? ($settings?->description ?? 'Join Clarence Bowling Club in Weston-super-Mare.') }}">
     @if($settings?->hasMedia('header_logo'))
         <meta property="twitter:image" content="{{ $settings->getFirstMediaUrl('header_logo') }}">
     @elseif($settings?->header_logo)
@@ -37,7 +37,7 @@
     {
         "@@context": "https://schema.org",
         "@@type": "SportsOrganization",
-        "name": "{{ $settings?->club_name ?? 'Clarence Bowls Club' }}",
+        "name": "{{ $settings?->club_name ?? 'Clarence Bowling Club' }}",
         "url": "{{ config('app.url') }}",
         {!! $settings?->hasMedia('header_logo') ? '"logo": "' . $settings->getFirstMediaUrl('header_logo') . '",' : ($settings?->header_logo ? '"logo": "' . Storage::url($settings->header_logo) . '",' : '') !!}
         "address": {
@@ -91,9 +91,9 @@
                     @elseif($settings?->header_logo)
                         <img src="{{ Storage::url($settings->header_logo) }}" alt="{{ $settings->club_name }} Logo" class="h-10 w-auto object-contain">
                     @else
-                        <img src="{{ asset('images/logo.png') }}" alt="Clarence Bowls Club Logo" class="h-10 w-auto object-contain">
+                        <img src="{{ asset('images/logo.png') }}" alt="Clarence Bowling Club Logo" class="h-10 w-auto object-contain">
                     @endif
-                    <span>{{ $settings?->club_name ?? 'Clarence Bowls Club' }}</span>
+                    <span>{{ $settings?->club_name ?? 'Clarence Bowling Club' }}</span>
                 </a>
 
                 <!-- Desktop Menu -->
@@ -359,7 +359,7 @@
         @if(\Illuminate\Support\Facades\Route::currentRouteName() === 'home' && ($settings?->book_a_rink_advert_enabled ?? true))
             @php
                 $bookARinkTitle = filled($settings?->book_a_rink_title) ? $settings->book_a_rink_title : 'Turn up and play';
-                $bookARinkDescription = filled($settings?->book_a_rink_description) ? $settings->book_a_rink_description : 'Fancy a casual game? Book a rink and enjoy a session at Clarence Bowls Club. Equipment can be provided. Just wear flat soled shoes';
+                $bookARinkDescription = filled($settings?->book_a_rink_description) ? $settings->book_a_rink_description : 'Fancy a casual game? Book a rink and enjoy a session at Clarence Bowling Club. Equipment can be provided. Just wear flat soled shoes';
                 $bookARinkPrice = filled($settings?->book_a_rink_price) ? $settings->book_a_rink_price : '£5 per person per session';
                 $bookARinkPhone = filled($settings?->book_a_rink_phone) ? $settings->book_a_rink_phone : '07895 255006';
                 $bookARinkPhoneLink = preg_replace('/[^\d+]/', '', $bookARinkPhone);
@@ -453,7 +453,7 @@
                     @endif
                 </div>
                 <div class="text-center">
-                    <h3 class="text-xl font-bold mb-4">{{ $settings?->club_name ?? 'Clarence Bowls Club' }}</h3>
+                    <h3 class="text-xl font-bold mb-4">{{ $settings?->club_name ?? 'Clarence Bowling Club' }}</h3>
                     @if($settings?->address)
                         <p class="whitespace-pre-line" style="color: {{ $settings?->footer_text_color ?? 'inherit' }}">{{ $settings->address }}</p>
                     @endif
@@ -488,7 +488,7 @@
 
             <div class="text-center pt-8 border-t"
                  style="border-color: {{ $settings?->pinstripe_color ? $settings->pinstripe_color : 'rgb(243 244 246)' }}">
-                <p class="text-sm opacity-75">&copy; {{ date('Y') }} {{ $settings?->club_name ?? 'Clarence Bowls Club' }}. All rights reserved.</p>
+                <p class="text-sm opacity-75">&copy; {{ date('Y') }} {{ $settings?->club_name ?? 'Clarence Bowling Club' }}. All rights reserved.</p>
             </div>
         </div>
     </footer>

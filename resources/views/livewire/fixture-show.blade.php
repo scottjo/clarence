@@ -49,7 +49,7 @@
                                     <div class="text-2xl font-bold">{{ $fixture->venue }}</div>
                                     <div class="text-gray-500">
                                         @if($fixture->venue === 'Home')
-                                            Clarence Bowls Club, Beach Road
+                                            Clarence Bowling Club, Beach Road
                                         @else
                                             Traveling to {{ $fixture->opponent }}
                                         @endif

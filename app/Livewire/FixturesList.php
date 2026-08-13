@@ -42,8 +42,8 @@ class FixturesList extends Component
                 ->where('date', '>=', now())
                 ->orderBy('date')
                 ->paginate($this->perPage),
-        ])->layout('layouts.app',[
-            'title' => 'Fixtures at Clarence Bowls Club | Weston-super-Mare',
+        ])->layout('layouts.app', [
+            'title' => 'Fixtures at Clarence Bowling Club | Weston-super-Mare',
         ]);
     }
 }

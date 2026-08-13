@@ -1,7 +1,7 @@
 <div class="container mx-auto px-4 py-8">
     <h1 class="text-4xl font-bold mb-6">Club Competitions</h1>
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8">
-        <p class="text-lg mb-8">Clarence Bowls Club hosts a variety of internal competitions throughout the season, catering to all skill levels and providing opportunities for friendly competition among members.</p>
+        <p class="text-lg mb-8">Clarence Bowling Club hosts a variety of internal competitions throughout the season, catering to all skill levels and providing opportunities for friendly competition among members.</p>
 
         <div class="space-y-8">
             <section>

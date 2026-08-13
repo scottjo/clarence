@@ -123,8 +123,8 @@ class Contact extends Component
     public function render(): Factory|View|\Illuminate\View\View
     {
         return view('livewire.contact')->layout('layouts.app', [
-            'title' => 'Contact Clarence Bowls Club | Weston-super-Mare',
-            'metaDescription' => 'Get in touch with Clarence Bowls Club. Contact us for membership inquiries, facility bookings, or any other questions.',
+            'title' => 'Contact Clarence Bowling Club | Weston-super-Mare',
+            'metaDescription' => 'Get in touch with Clarence Bowling Club. Contact us for membership inquiries, facility bookings, or any other questions.',
         ]);
     }
 

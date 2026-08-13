@@ -69,7 +69,7 @@
                         @endif
                     </div>
                     <div class="text-gray-600 dark:text-gray-400">
-                        <p class="font-bold">{{ $settings?->club_name ?? 'Clarence Bowls Club' }}</p>
+                        <p class="font-bold">{{ $settings?->club_name ?? 'Clarence Bowling Club' }}</p>
                         @if($settings?->address)
                             <p class="whitespace-pre-line">{{ $settings->address }}</p>
                         @else

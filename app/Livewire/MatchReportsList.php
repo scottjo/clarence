@@ -54,7 +54,7 @@ class MatchReportsList extends Component
             'years' => MatchReport::query()->where('is_published', true)->distinct()->pluck('year')->sortDesc(),
             'viewedReports' => $viewedReports,
         ])->layout('layouts.app', [
-            'title' => 'Match Reports | Clarence Bowls Club',
+            'title' => 'Match Reports | Clarence Bowling Club',
         ]);
     }
 }
