@@ -21,6 +21,12 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use RalphJSmit\Filament\Explore\Filament\Actions\DeleteAction;
+use RalphJSmit\Filament\Explore\Filament\Actions\DownloadAction;
+use RalphJSmit\Filament\Explore\Filament\Actions\MoveAction;
+use RalphJSmit\Filament\Explore\Filament\Actions\PreviewAction;
+use RalphJSmit\Filament\Explore\Filament\Actions\RenameAction;
+use RalphJSmit\Filament\Explore\Filament\Actions\ReplaceAction;
 use RalphJSmit\Filament\MediaLibrary\Filament\Pages\MediaLibrary as MediaLibraryPage;
 use RalphJSmit\Filament\MediaLibrary\FilamentMediaLibrary;
 use ShuvroRoy\FilamentSpatieLaravelHealth\FilamentSpatieLaravelHealthPlugin;
@@ -57,6 +63,14 @@ class AdminPanelProvider extends PanelProvider
                     ->navigationGroup('Monitoring'),
                 FilamentMediaLibrary::make()
                     ->registerNavigation(false)
+                    ->fileInfoActions(fn (): array => [
+                        PreviewAction::make(),
+                        DownloadAction::make(),
+                        MoveAction::make(),
+                        RenameAction::make(),
+                        ReplaceAction::make(),
+                        DeleteAction::make(),
+                    ])
                     ->acceptImage(false)
                     ->additionalAcceptedFileTypes([
                         'image/jpeg',
