@@ -14,8 +14,7 @@ class NewsArticleAttachmentTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function it_displays_attachments_on_news_article_page()
+    public function test_it_displays_attachments_on_news_article_page(): void
     {
         Storage::fake('public');
 

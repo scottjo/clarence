@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Mail\Enquiry;
+use App\Mail\EnquiryConfirmation;
 use App\Models\Setting;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
@@ -24,6 +25,7 @@ class ContactFormTest extends TestCase
     public function test_contact_form_submits_successfully(): void
     {
         Mail::fake();
+        config(['mail.internal_email_recipients' => 'enquiries@example.com', 'mail.developer_address' => 'developer@example.com']);
 
         Livewire::test('contact')
             ->set('name', 'John Doe')
@@ -35,11 +37,13 @@ class ContactFormTest extends TestCase
             ->assertSet('success', true)
             ->assertHasNoErrors();
 
-        Mail::assertSent(Enquiry::class, function ($mail) {
-            return $mail->hasTo('jon_scott@me.com') &&
+        Mail::assertQueued(Enquiry::class, function (Enquiry $mail): bool {
+            return $mail->hasTo('enquiries@example.com') &&
                    $mail->name === 'John Doe' &&
                    $mail->email === 'john@example.com';
         });
+        Mail::assertQueued(Enquiry::class, 'developer@example.com');
+        Mail::assertQueued(EnquiryConfirmation::class, 'john@example.com');
     }
 
     public function test_contact_form_validation_errors(): void

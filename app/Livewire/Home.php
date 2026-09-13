@@ -7,13 +7,15 @@ use App\Models\MatchReport;
 use App\Models\NewsArticle;
 use App\Models\PinnedItem;
 use App\Models\Setting;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
 class Home extends Component
 {
-    public function render()
+    public function render(): View
     {
-        $settings = Setting::first();
+        $settings = Cache::rememberForever('settings', fn () => Setting::query()->first());
 
         $latestMatchReports = collect();
         if ($settings?->show_match_reports ?? false) {

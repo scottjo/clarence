@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Enums\UserRole;
+use App\Filament\Resources\Events\Pages\EditEvent;
 use App\Models\Event;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -18,7 +20,7 @@ class EventImageLossTest extends TestCase
     {
         Storage::fake('public');
 
-        $user = User::factory()->create();
+        $user = User::factory()->create(['roles' => [UserRole::ContentMaintainer->value]]);
         $this->actingAs($user);
 
         $event = Event::factory()->create();
@@ -32,11 +34,13 @@ class EventImageLossTest extends TestCase
 
         // Simulate Filament Edit Page
         // We use Livewire::test on the EditEvent page
-        Livewire::test(\App\Filament\Resources\Events\Pages\EditEvent::class, [
+        Livewire::test(EditEvent::class, [
             'record' => $event->getRouteKey(),
         ])
+            ->assertOk()
             ->set('data.overlay_label', 'POSTPONED')
-            ->call('save');
+            ->call('save')
+            ->assertHasNoFormErrors();
 
         $event = $event->fresh();
         $this->assertEquals('POSTPONED', $event->overlay_label);

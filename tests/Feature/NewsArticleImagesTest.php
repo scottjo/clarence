@@ -27,15 +27,17 @@ class NewsArticleImagesTest extends TestCase
         $galleryImage2 = UploadedFile::fake()->image('gallery2.jpg');
 
         $article->addMedia($titleImage)->toMediaCollection('title_image');
-        $article->addMedia($galleryImage1)->toMediaCollection('gallery');
-        $article->addMedia($galleryImage2)->toMediaCollection('gallery');
+        $gallery1 = $article->addMedia($galleryImage1)->toMediaCollection('gallery');
+        $gallery2 = $article->addMedia($galleryImage2)->toMediaCollection('gallery');
 
         Livewire::test('news-show', ['newsArticle' => $article])
             ->assertStatus(200)
             ->assertSee('title.jpg')
             ->assertSee('Gallery')
-            ->assertSee('gallery1.jpg')
-            ->assertSee('gallery2.jpg');
+            ->assertSee($gallery1->getUrl('thumb'))
+            ->assertSee($gallery2->getUrl('thumb'))
+            ->assertSee($gallery1->getUrl('large'))
+            ->assertSee($gallery2->getUrl('large'));
     }
 
     public function test_news_article_handles_fallback_image(): void
@@ -53,11 +55,11 @@ class NewsArticleImagesTest extends TestCase
         // Test NewsShow view
         Livewire::test('news-show', ['newsArticle' => $article])
             ->assertStatus(200)
-            ->assertDontSee('old-image.jpg'); // news-show doesn't have fallback anymore in my change, only title_image
+            ->assertSee($article->getFirstMediaUrl('image'));
 
         // Test NewsList view
         Livewire::test('news-list')
             ->assertStatus(200)
-            ->assertSee('old-image.jpg');
+            ->assertSee($article->getFirstMediaUrl('image'));
     }
 }

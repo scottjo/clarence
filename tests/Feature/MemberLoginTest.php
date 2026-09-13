@@ -10,7 +10,7 @@ class MemberLoginTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_member_login_button_is_visible_when_url_is_set(): void
+    public function test_members_area_uses_internal_route_when_legacy_url_is_set(): void
     {
         Setting::factory()->create([
             'member_login_url' => 'https://example.com/login',
@@ -19,12 +19,12 @@ class MemberLoginTest extends TestCase
         $response = $this->get(route('home'));
 
         $response->assertStatus(200);
-        $response->assertSee('Member Login');
-        $response->assertSee('https://example.com/login');
-        $response->assertSee('target="_blank"', false);
+        $response->assertSee('Members Area');
+        $response->assertSee('href="'.route('members').'"', false);
+        $response->assertDontSee('https://example.com/login');
     }
 
-    public function test_member_login_button_is_not_visible_when_url_is_not_set(): void
+    public function test_members_area_is_visible_without_a_legacy_url(): void
     {
         Setting::factory()->create([
             'member_login_url' => null,
@@ -33,6 +33,7 @@ class MemberLoginTest extends TestCase
         $response = $this->get(route('home'));
 
         $response->assertStatus(200);
-        $response->assertDontSee('Member Login');
+        $response->assertSee('Members Area');
+        $response->assertSee('href="'.route('members').'"', false);
     }
 }
