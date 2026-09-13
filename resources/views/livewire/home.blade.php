@@ -1,5 +1,43 @@
 <div>
     <div class="container mx-auto px-4 py-12">
+        <section
+            class="mx-auto mb-16 max-w-6xl"
+            aria-labelledby="club-video-title"
+            x-data="homeVideo"
+            @visibilitychange.document="syncPlayback()"
+        >
+            <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
+                <h2 id="club-video-title" class="text-3xl font-bold">A view of Clarence</h2>
+                <button
+                    type="button"
+                    x-cloak
+                    @click="toggle()"
+                    aria-controls="club-video"
+                    class="rounded-lg bg-blue-600 px-5 py-3 font-semibold text-white transition hover:bg-blue-700 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600"
+                    x-text="playing ? 'Pause video' : 'Play video'"
+                >Play video</button>
+            </div>
+            <video
+                id="club-video"
+                x-ref="video"
+                data-src="{{ asset('images/clarence-club.mp4') }}"
+                poster="{{ asset('images/clarence-club-poster.jpg') }}"
+                class="aspect-video w-full rounded-2xl bg-gray-900 shadow-xl"
+                width="1280"
+                height="720"
+                muted
+                loop
+                playsinline
+                preload="none"
+                aria-label="Aerial views of Clarence Bowling Club"
+                @play="playing = true"
+                @pause="playing = false"
+            ></video>
+            <noscript>
+                <p class="mt-4"><a href="{{ asset('images/clarence-club.mp4') }}" class="text-blue-600 underline">Watch the Clarence Bowling Club video</a></p>
+            </noscript>
+        </section>
+
         @if($pinnedItems->isNotEmpty())
             @foreach($pinnedItems as $item)
                 <div
