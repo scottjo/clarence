@@ -7,7 +7,7 @@
         "dev": "vite"
     },
     "devDependencies": {
-        "@tailwindcss/typography": "^0.5.19",
+        "@tailwindcss/typography": "^0.5.4",
         "@tailwindcss/vite": "^4.1.18",
         "axios": "^1.11.0",
         "concurrently": "^9.0.1",
@@ -18,5 +18,10 @@
     "allowScripts": {
         "esbuild@0.27.2": true,
         "fsevents@2.3.3": true
+    },
+    "overrides": {
+        "concurrently": {
+            "shell-quote": "1.12.0"
+        }
     }
 }
