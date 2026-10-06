@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Officers\Schemas;
 use App\Enums\OfficerRole;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
@@ -30,6 +31,9 @@ class OfficerForm
                         TextInput::make('sort_order')
                             ->numeric()
                             ->default(0),
+                        Textarea::make('biography')
+                            ->rows(6)
+                            ->columnSpanFull(),
                         Toggle::make('is_active')
                             ->label('Active')
                             ->default(true),

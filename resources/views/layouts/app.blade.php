@@ -119,6 +119,7 @@
                             <a href="{{ route('about') }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">General Info</a>
                             <a href="{{ route('about.location') }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Location</a>
                             <a href="{{ route('about.officers') }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Club Officers</a>
+                            <a href="{{ route('about.health-safety') }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Club Health &amp; Safety</a>
                             <a href="{{ route('about.facilities') }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Facilities</a>
                             <a href="{{ route('about.play-learn') }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Play & Learn</a>
                             <a href="{{ route('about.membership') }}" class="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 transition text-gray-900 dark:text-gray-100">Membership</a>
@@ -258,6 +259,7 @@
                             <a href="{{ route('about') }}" class="px-2 py-1.5 hover:text-blue-600 transition">General Info</a>
                             <a href="{{ route('about.location') }}" class="px-2 py-1.5 hover:text-blue-600 transition">Location</a>
                             <a href="{{ route('about.officers') }}" class="px-2 py-1.5 hover:text-blue-600 transition">Club Officers</a>
+                            <a href="{{ route('about.health-safety') }}" class="px-2 py-1.5 hover:text-blue-600 transition">Club Health &amp; Safety</a>
                             <a href="{{ route('about.facilities') }}" class="px-2 py-1.5 hover:text-blue-600 transition">Facilities</a>
                             <a href="{{ route('about.play-learn') }}" class="px-2 py-1.5 hover:text-blue-600 transition">Play & Learn</a>
                             <a href="{{ route('about.membership') }}" class="px-2 py-1.5 hover:text-blue-600 transition">Membership</a>

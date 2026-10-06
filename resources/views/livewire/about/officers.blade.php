@@ -6,7 +6,7 @@
             @php
                 $classification = $groupOfficers->first()->classification;
             @endphp
-            <section class="bg-gray-50/50 dark:bg-gray-900/20 rounded-2xl p-8 border border-gray-100 dark:border-gray-800">
+            <section wire:key="classification-{{ $classificationId }}" class="bg-gray-50/50 dark:bg-gray-900/20 rounded-2xl p-8 border border-gray-100 dark:border-gray-800">
                 <h2 class="text-3xl font-bold mb-8 text-gray-800 dark:text-gray-200 border-b pb-4">
                     {{ $classification?->name ?? 'Other Officers' }}
                 </h2>
@@ -27,7 +27,7 @@
                             $avatarTextColor = $classification ? $textColor : '#2563eb';
                             $avatarBorderColor = $classification ? $textColor . '40' : 'rgba(59, 130, 246, 0.2)';
                         @endphp
-                        <div id="officer-{{ $officer->id }}"
+                        <div x-data wire:key="officer-{{ $officer->id }}" id="officer-{{ $officer->id }}"
                              class="rounded-lg shadow-md p-6 flex flex-col items-center text-center scroll-mt-24 transition-colors"
                              style="background-color: {{ $bgColor }}; color: {{ $textColor }};">
                             <style>
@@ -48,6 +48,10 @@
                                     }
                                 }
                             </style>
+                            <button type="button" x-on:click="$refs.biography.showModal()"
+                                    aria-haspopup="dialog" aria-controls="biography-{{ $officer->id }}"
+                                    aria-label="Read biography of {{ $officer->name }}"
+                                    class="flex w-full flex-col items-center gap-2 rounded-lg cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600">
                             @if ($officer->hasMedia('avatar'))
                                 {{ $officer->getFirstMedia('avatar')->img('', ['class' => 'w-24 h-24 rounded-full object-cover mb-4 ring-2 ring-offset-2', 'style' => "--tw-ring-color: $textColor;", 'alt' => $officer->name]) }}
                             @else
@@ -63,6 +67,36 @@
                             @endif
                             <h3 class="text-xl font-bold">{{ $officer->name }}</h3>
                             <p class="officer-role opacity-75">{{ $officer->role->getLabel() }}</p>
+                            <span class="text-sm underline opacity-75">Read biography</span>
+                            </button>
+                            <dialog x-ref="biography" id="biography-{{ $officer->id }}"
+                                    aria-labelledby="biography-name-{{ $officer->id }}"
+                                    x-on:click="if ($event.target === $el) $el.close()"
+                                    class="fixed inset-0 m-auto max-h-[85vh] w-[calc(100%-2rem)] max-w-xl overflow-y-auto rounded-2xl bg-white p-8 text-gray-900 shadow-xl backdrop:bg-black/60 dark:bg-gray-800 dark:text-gray-100">
+                                <div class="flex flex-col gap-6 text-left">
+                                    <form method="dialog" class="flex justify-end">
+                                        <button type="submit" class="rounded-lg px-3 py-2 font-semibold hover:bg-gray-100 focus-visible:outline-2 dark:hover:bg-gray-700">Close</button>
+                                    </form>
+                                    <div class="flex flex-col items-center gap-2 text-center">
+                            @if ($officer->hasMedia('avatar'))
+                                {{ $officer->getFirstMedia('avatar')->img('', ['class' => 'w-24 h-24 rounded-full object-cover mb-4 ring-2 ring-offset-2', 'style' => "--tw-ring-color: $textColor;", 'alt' => $officer->name]) }}
+                            @else
+                                <div class="avatar-circle w-24 h-24 rounded-full flex items-center justify-center mb-4 border-2"
+                                     style="background-color: {{ $avatarBgColor }}; border-color: {{ $avatarBorderColor }};">
+                                    @php
+                                        $initials = collect(explode(' ', $officer->name))
+                                            ->map(fn($segment) => mb_substr($segment, 0, 1))
+                                            ->join('');
+                                    @endphp
+                                    <span class="avatar-text text-2xl font-bold uppercase" style="color: {{ $avatarTextColor }};">{{ $initials }}</span>
+                                </div>
+                            @endif
+                                        <h2 id="biography-name-{{ $officer->id }}" class="text-2xl font-bold">{{ $officer->name }}</h2>
+                                        <p>{{ $officer->role->getLabel() }}</p>
+                                    </div>
+                                    <div class="whitespace-pre-line break-words leading-relaxed">{{ filled($officer->biography) ? $officer->biography : 'Biography not yet available.' }}</div>
+                                </div>
+                            </dialog>
                         </div>
                     @endforeach
                 </div>

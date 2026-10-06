@@ -26,6 +26,7 @@ class OfficersPageTest extends TestCase
         Livewire::test(CreateOfficer::class)
             ->fillForm([
                 'name' => 'New Officer',
+                'biography' => 'A lifelong bowler and club volunteer.',
                 'role' => OfficerRole::President,
                 'sort_order' => 10,
                 'is_active' => true,
@@ -36,6 +37,7 @@ class OfficersPageTest extends TestCase
 
         $this->assertDatabaseHas(Officer::class, [
             'name' => 'New Officer',
+            'biography' => 'A lifelong bowler and club volunteer.',
             'role' => OfficerRole::President->value,
             'sort_order' => 10,
         ]);
@@ -82,5 +84,38 @@ class OfficersPageTest extends TestCase
         $response = $this->get(route('about.officers'));
 
         $response->assertSee('JD');
+    }
+
+    public function test_officer_cards_open_biography_dialogs_with_their_details(): void
+    {
+        $officer = Officer::factory()->create([
+            'name' => 'Jane Smith',
+            'role' => OfficerRole::President,
+            'biography' => "A club volunteer.\nEnjoys coaching beginners. <script>alert(1)</script>",
+        ]);
+
+        $response = $this->get(route('about.officers'));
+
+        $response->assertOk()
+            ->assertSee('Read biography of Jane Smith')
+            ->assertSee('aria-controls="biography-'.$officer->id.'"', false)
+            ->assertSee('x-on:click="$refs.biography.showModal()"', false)
+            ->assertSee('<dialog', false)
+            ->assertSee('Jane Smith')
+            ->assertSee('President')
+            ->assertSee('JS')
+            ->assertSee($officer->biography)
+            ->assertDontSee('<script>alert(1)</script>', false);
+    }
+
+    public function test_missing_biographies_have_a_fallback_and_inactive_biographies_are_hidden(): void
+    {
+        Officer::factory()->create(['biography' => null]);
+        Officer::factory()->inactive()->create(['biography' => 'Private inactive biography.']);
+
+        $this->get(route('about.officers'))
+            ->assertOk()
+            ->assertSee('Biography not yet available.')
+            ->assertDontSee('Private inactive biography.');
     }
 }

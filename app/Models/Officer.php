@@ -3,15 +3,17 @@
 namespace App\Models;
 
 use App\Enums\OfficerRole;
+use Database\Factories\OfficerFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Officer extends Model implements HasMedia
 {
-    /** @use HasFactory<\Database\Factories\OfficerFactory> */
+    /** @use HasFactory<OfficerFactory> */
     use HasFactory;
 
     use InteractsWithMedia;
@@ -32,6 +34,7 @@ class Officer extends Model implements HasMedia
 
     protected $fillable = [
         'name',
+        'biography',
         'role',
         'sort_order',
         'is_active',
@@ -47,7 +50,7 @@ class Officer extends Model implements HasMedia
         ];
     }
 
-    public function classification(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function classification(): BelongsTo
     {
         return $this->belongsTo(OfficerClassification::class, 'classification_id');
     }
